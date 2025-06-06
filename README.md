@@ -4,7 +4,7 @@ Acesta este un proiect web dedicat prezentării istoriei Hoardei de Aur. Site-ul
 
 Testați direct accesând linkul sau scanând codul QR de mai jos:  
 
-<a href="https://klipperboi.github.io/hoarda-de-aur/"><img src="assets/qr.png" alt="QR code" width="180"></a>
+<a href="https://klipperboi.github.io/hoarda-de-aur/"><img src="assets/qr.png" alt="QR code" width="180"></a><br>
 https://klipperboi.github.io/hoarda-de-aur
 
 

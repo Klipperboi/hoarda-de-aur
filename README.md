@@ -1,6 +1,6 @@
 # Hoarda de Aur
 
-Acesta este un proiect web dedicat prezentării istoriei Hoardei de Aur. Site-ul este construit folosind HTML, CSS și JavaScript și include mai multe secțiuni istorice, videoclipuri integrate, hărți interactive și un sistem de navigare cu sidebar.
+### Acesta este un proiect web dedicat prezentării istoriei Hoardei de Aur. Site-ul este construit folosind HTML, CSS și JavaScript și include mai multe secțiuni istorice, videoclipuri integrate, hărți interactive și un sistem de navigare cu sidebar.
 ---
 
 Testați direct accesând linkul sau scanând codul QR de mai jos:  

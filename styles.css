@@ -356,3 +356,18 @@ header h1 {
 .note-ref:hover {
   text-decoration: underline;
 }
+
+#note-tooltip {
+  position: absolute;
+  background-color: rgba(0,0,0,0.85);
+  color: white;
+  font-size: 0.85em;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 9999;
+}
+

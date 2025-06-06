@@ -1,4 +1,6 @@
-/* General */
+/* ============================
+   Stiluri generale / Reset
+   ============================ */
 body {
   font-family: "Noto Sans KR", Georgia, serif;
   text-align: center;
@@ -11,7 +13,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Container principal */
+/* ============================
+   Container principal și carduri
+   ============================ */
 .container {
   position: relative;
   background-color: #fff;
@@ -24,7 +28,10 @@ html {
   z-index: 2;
 }
 
-/* Imagini centrate */
+
+/* ============================
+   Imagini centrate și popup imagine
+   ============================ */
 img.centered-image {
   display: block;
   margin: 0 auto;
@@ -35,7 +42,6 @@ img.centered-image {
   margin-bottom: 50px;
 }
 
-/* Popup pentru imagine */
 .popup {
   display: none;
   position: fixed;
@@ -66,7 +72,9 @@ img.centered-image {
   cursor: pointer;
 }
 
-/* Text și paragrafe */
+/* ============================
+   Text și paragrafe
+   ============================ */
 .text-section {
   text-align: justify;
   line-height: 1.6;
@@ -82,7 +90,13 @@ img.centered-image {
   margin-right: 5px;
 }
 
-/* Mod dark */
+.text-section p {
+  font-size: 18px;
+}
+
+/* ============================
+   Mod Dark
+   ============================ */
 body.dark-mode {
   background-color: #333;
   color: white;
@@ -96,7 +110,9 @@ body.dark-mode .text-section {
   color: #ddd;
 }
 
-/* Sidebar */
+/* ============================
+   Sidebar (meniul lateral)
+   ============================ */
 .sidebar {
   height: 100%;
   width: 0;
@@ -116,7 +132,7 @@ body.dark-mode .text-section {
   margin: 0;
 }
 
-/* Butoane și elemente din sidebar & dropdown */
+/* Butoane și linkuri din sidebar & dropdown */
 #modeToggle,
 #toggleMap,
 #menuToggle,
@@ -200,18 +216,12 @@ body.dark-mode .text-section {
   z-index: 2000;
 }
 
+/* Titluri și infobare */
 h1 {
   font-size: 48px;
   text-transform: uppercase;
   font-weight: bold;
   text-align: left;
-  margin: 10px 0 2px;
-}
-
-header h1 {
-  font-size: 48px;
-  text-transform: uppercase;
-  font-weight: bold;
   margin: 10px 0 2px;
 }
 
@@ -222,6 +232,7 @@ header h1 {
   text-transform: uppercase;
 }
 
+/* Separator (linia orizontală) */
 .separator {
   border: none;
   border-top: 2px solid #333;
@@ -241,7 +252,9 @@ header h1 {
   margin-right: 0 !important;
 }
 
-/* Harta */
+/* ============================
+   Harta (Leaflet)
+   ============================ */
 #map {
   position: fixed;
   top: 100px;
@@ -283,43 +296,9 @@ header h1 {
   z-index: -1;
 }
 
-.text-section p {
-  font-size: 18px;
-}
-
-/* Tooltip */
-.tooltip {
-  position: relative;
-  cursor: pointer;
-  color: #ed143d;
-  font-weight: bold;
-}
-
-.tooltip::after {
-  content: attr(data-info);
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0,0,0,0.8);
-  color: white;
-  font-size: 0.8em;
-  padding: 5px 10px;
-  border-radius: 8px;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 1000;
-}
-
-.tooltip:hover::after {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Buton pentru video */
+/* ============================
+   Video toggle
+   ============================ */
 .toggleVideo {
   background-color: #333;
   color: white;
@@ -342,11 +321,15 @@ header h1 {
   text-align: center;
 }
 
+/* ============================
+   Note și tooltip pentru notă
+   ============================ */
 .note {
   color: #ed143d;
   font-weight: bold;
 }
 
+/* „(1)”, „(2)” etc. */
 .note-ref {
   color: red;
   font-weight: bold;
@@ -357,6 +340,7 @@ header h1 {
   text-decoration: underline;
 }
 
+/* Div-ul în care vom afișa textul notei la hover */
 #note-tooltip {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.9);
@@ -370,4 +354,15 @@ header h1 {
   opacity: 0;
   transition: opacity 0.15s ease;
   z-index: 9999;
+}
+
+/* Lista de note (în bibliografie) */
+.note-list {
+  text-align: left;
+  margin-top: 30px;
+  padding-left: 20px;
+}
+
+.note-list li {
+  margin-bottom: 8px;
 }

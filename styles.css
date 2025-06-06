@@ -359,15 +359,15 @@ header h1 {
 
 #note-tooltip {
   position: absolute;
-  background-color: rgba(0,0,0,0.85);
-  color: white;
-  font-size: 0.85em;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  font-size: 14px;
+  max-width: 280px;
   padding: 6px 10px;
   border-radius: 6px;
-  white-space: nowrap;
+  white-space: normal;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.15s ease;
   z-index: 9999;
 }
-

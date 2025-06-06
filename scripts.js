@@ -282,3 +282,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+
+// =======================
+// Tooltips pentru note
+// =======================
+document.querySelectorAll('.note-ref').forEach(ref => {
+  const noteNumber = ref.dataset.note;
+  const noteEntry = document.querySelector(`#note-${noteNumber}`);
+  
+  if (noteEntry) {
+    const noteText = noteEntry.textContent;
+    
+    // Tooltip as title (basic)
+    ref.setAttribute('title', noteText);
+
+    // On click: scroll to note
+    ref.addEventListener('click', () => {
+      noteEntry.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+});

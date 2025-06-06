@@ -14,7 +14,15 @@ Acesta este un proiect web dedicat prezentării istoriei Hoardei de Aur. Site-ul
 
 
 ## Changelog
-| Versiune | Data       | Modificări principale                             |
-|----------|------------|---------------------------------------------------|
-| v0.2     | 2025-06-06 | Adăugat salvare automată pentru dark/light mode  |
-| v0.1     | 2025-02-08 | Structura inițială (harta, video, text modular, particule, sidebar)
+
+| Versiune | Modificări principale |
+|----------|------------------------|
+| **1.0.0 – Faza Județeană** |  
+- Prima versiune stabilă, folosită la faza județeană.  
+- Caracteristici:  
+  - **Secțiuni text dinamice:** Textul este încărcat din fișierul `text.txt` și este împărțit în secțiuni (Prolog, Kulikovo etc).  
+  - **Videoclipuri YouTube integrate:** Fiecare secțiune video poate fi afișată sau ascunsă printr-un buton.  
+  - **Hărți interactive:** Leaflet afișează locațiile istorice relevante.  
+  - **Efect de particule:** `particles.js` creează un fundal animat.  
+  - **Mod light/dark:** Trecere manuală între teme.  
+  - **Sidebar cu cuprins:** Navigare rapidă între secțiuni.

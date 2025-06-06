@@ -16,6 +16,9 @@ TBA
 
 ## Changelog
 
+**1.0.1**
+- păstrare mod + progres în pagină (status utilizator)
+
 **1.0.0 – Faza Județeană**  
 Prima versiune stabilă, folosită la faza județeană.
 

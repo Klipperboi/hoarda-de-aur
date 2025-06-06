@@ -1,7 +1,13 @@
 # Hoarda de Aur
-https://klipperboi.github.io/hoarda-de-aur/
 
 Acesta este un proiect web dedicat prezentării istoriei Hoardei de Aur. Site-ul este construit folosind HTML, CSS și JavaScript și include mai multe secțiuni istorice, videoclipuri integrate, hărți interactive și un sistem de navigare cu sidebar.
+
+Testeză direct, accesând linkul sau scanând codul qr de mai jos:
+
+https://klipperboi.github.io/hoarda-de-aur/
+
+![QR Code](assets/qr.png)
+
 
 ## Caracteristici
 TBA

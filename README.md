@@ -10,7 +10,7 @@ TBA
 
 ## Changelog
 
-## 1.0.0 – *Faza Județeană*
+### **1.0.0 – *Faza Județeană***
 
 Prima versiune stabilă, folosită la faza județeană.
 

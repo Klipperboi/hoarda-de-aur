@@ -11,27 +11,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
   let isSidebarOpen = false;
 
-  // Definirea locațiilor pentru secțiuni (pentru Leaflet)
+  // Definirea locațiilor pentru secțiuni (inclusiv "note")
   const locations = {
     prolog:       { coords: [46,     105], msg: "Prolog – 1206 - 1380, Mongolia" },
     kulikovo:     { coords: [54,      39], msg: "Kulikovo – 8 Septembrie, Rusia" },
     kalka:        { coords: [48,      37], msg: "Kalka - 31 Mai 1223, Ucraina" },
     tokhtamysh:   { coords: [46,      48], msg: "Tokhtamysh - 2 Ianuarie 1381, Astrakhan" },
     moscova:      { coords: [55,      37], msg: "Asediul - 23 August 1382, Moscova" },
-    razboi:       { coords: [43,      45], msg: "Războiul - 1 Ianuarie 1386, M-ții Caucaz" },
+    razboi:       { coords: [43,      45], msg: "Războiul - 1 Ianuarie 1386, Munții Caucaz" },
     kondurcha:    { coords: [54.5,   52.0], msg: "Kondurcha - 18 Iunie 1391, Rusia" },
     terek:        { coords: [43.5402, 45.1698], msg: "Terek - 15 Aprilie 1395, Caucaz" },
     vorskla:      { coords: [50,      35], msg: "Vorskla - 12 August 1399, Ucraina" },
     declin:       { coords: [60,     105], msg: "Declin - 1 Ianuarie 1406, Siberia" },
     dezintegrare: { coords: [46,      48], msg: "Dezintegrare - 1 Ianuarie 1419, Astrakhan" },
-    lipnic:       { coords: [53,      17], msg: "Lipnic - 20 August 1469, Polonia" },
+    lipnic:       { coords: [53,      17], msg: "Lipnic - 20 August 1470, Polonia" },
     sfarsit:      { coords: [54.6778, 36.2865], msg: "Sfârșit - 8 August 1480, Râul Ugra" },
     ultimul:      { coords: [54.8985, 23.9036], msg: "Ultimul Khan - 1 Ianuarie 1502, Kaunas" },
     principal:    { coords: [48,      42] },
-    bibliografie: { coords: [44,      41] }
+    bibliografie: { coords: [44,      41] },
+    note:         { coords: [44,      41] }
   };
 
-  /*** 1. Gestionarea meniului lateral ***/
+  /* ============================
+       Funcții modulare
+  ============================ */
+
+  // 1. Gestionare meniu lateral
   function initSidebar() {
     menuToggle.addEventListener("click", function(event) {
       event.stopPropagation();
@@ -52,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  /*** 2. Inițializare particule (light / dark) ***/
+  // 2. Încărcare particule (light/dark)
   function loadParticles(mode) {
     particlesJSBackground.innerHTML = "";
     const lineColor = (mode === "dark") ? "#ffffff" : "#555";
@@ -100,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
     particlesJS("particles-js", config);
   }
 
-  /*** 3. Pop-up pentru imagini ***/
+  // 3. Inițializare popup pentru imagini
   function initImagePopups() {
     const images = document.querySelectorAll("img.popup-enabled");
     images.forEach(img => {
@@ -135,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  /*** 4. Inițializare Leaflet și sincronizare cu secțiuni ***/
+  // 4. Inițializare hartă Leaflet
   function initMap() {
     const map = L.map("map").setView([45.9432, 24.9668], 4);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -151,6 +156,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
 
+    // Activează stilul "link-ului" curent în meniu
     function updateActiveLink(activeId) {
       document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
         if (link.dataset.loc === activeId) {
@@ -161,6 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
 
+    // Click pe un link din meniu → scroll + popup pe hartă
     document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
       link.addEventListener("click", function(e) {
         e.preventDefault();
@@ -179,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     const observerOptions = { root: null, threshold: 0.5 };
-    const observerCallback = entries => {
+    const observerCallback = (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const id = entry.target.id;
@@ -210,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  /*** 5. Încarcă text.txt și injectează conținutul în secțiuni ***/
+  // 5. Încarcă conținutul din text.txt și injectează-l în secțiuni + principal
   function initTextSections() {
     fetch("text.txt")
       .then(response => {
@@ -223,41 +230,51 @@ document.addEventListener("DOMContentLoaded", function() {
         while ((match = regex.exec(text)) !== null) {
           const sectionId = match[1].trim();
           const content = match[2].trim();
-          const sectionElement = document.getElementById(sectionId);
-          if (sectionElement) {
-            let contentElement = sectionElement.querySelector(".section-content p");
-            if (!contentElement) contentElement = sectionElement;
-            contentElement.innerHTML = content;
+
+          if (sectionId === "principal") {
+            // pentru "principal", injectăm direct în <p id="principal">
+            const principalP = document.getElementById("principal");
+            if (principalP) {
+              principalP.innerHTML = content;
+            }
+          } else {
+            // altfel, căutăm <div class="section-content"> în secțiunea respectivă
+            const sectionElement = document.getElementById(sectionId);
+            if (sectionElement) {
+              let container = sectionElement.querySelector(".section-content");
+              if (container) {
+                container.innerHTML = content;
+              }
+            }
           }
         }
-        // După ce am terminat de inserat <span class="note-ref">…</span> și <li id="note-X">…</li>,
-        // inițializează tooltips-urile
+        // După ce am injectat textul (inclusiv <li id="note-X">…), inițializăm tooltip-urile
         initNoteTooltips();
       })
       .catch(error => console.error("Eroare la procesarea text.txt:", error));
   }
 
-  /*** 6. Inițializează tooltip-urile pentru referințele la note ***/
+  // 6. Inițializează tooltips și scroll la click pe <span class="note-ref" data-note="X">
   function initNoteTooltips() {
     const tooltipDiv = document.getElementById("note-tooltip");
     if (!tooltipDiv) return;
-    tooltipDiv.style.opacity = "0"; // ascunde inițial
+    tooltipDiv.style.opacity = "0";
 
     document.querySelectorAll(".note-ref").forEach(ref => {
       const noteNum = ref.dataset.note;
-      const noteTarget = document.getElementById("note-" + noteNum);
+      const noteTarget = document.getElementById(`note-${noteNum}`);
       if (!noteTarget) return;
 
-      // Mouse peste textul de notă
+      // La mouseenter: afișează conținutul notei în tooltip
       ref.addEventListener("mouseenter", e => {
         const noteText = noteTarget.textContent.trim();
         tooltipDiv.textContent = noteText;
         tooltipDiv.style.opacity = "1";
       });
 
-      // Urmărește cursorul pentru poziționare
+      // La mousemove: poziționează tooltip lângă cursor
       ref.addEventListener("mousemove", e => {
-        const padding = 6;
+        const padding = 8;
         let x = e.pageX + padding;
         let y = e.pageY - tooltipDiv.offsetHeight - padding;
 
@@ -272,16 +289,21 @@ document.addEventListener("DOMContentLoaded", function() {
         tooltipDiv.style.top = y + "px";
       });
 
-      // Când iese cursorul de pe element
+      // La mouseleave: ascunde tooltip
       ref.addEventListener("mouseleave", () => {
         tooltipDiv.style.opacity = "0";
+      });
+
+      // La click: scroll către nota respectivă
+      ref.addEventListener("click", () => {
+        noteTarget.scrollIntoView({ behavior: "smooth" });
       });
     });
   }
 
-  /* ====================================
-        Inițializări la încărcare (DOM)
-  ==================================== */
+  /* ========================================
+       Inițializări la încărcarea paginii
+  ======================================== */
   initSidebar();
   loadParticles("light");
   particlesJSBackground.style.backgroundColor = "#f4f4f4";
@@ -289,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function() {
   initMap();
   initTextSections();
 
-  // Salvează modul light/dark în localStorage
+  // 7. Salvează preferința theme (light/dark) în localStorage
   const savedMode = localStorage.getItem("theme");
   if (savedMode === "dark") {
     document.body.classList.add("dark-mode");
@@ -310,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // Toggle pentru videoclipuri
+  // 8. Toggle videoclipuri
   document.querySelectorAll(".toggleVideo").forEach(button => {
     button.addEventListener("click", function() {
       const videoContainer = this.nextElementSibling;

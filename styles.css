@@ -347,3 +347,12 @@ header h1 {
   font-weight: bold;
 }
 
+.note-ref {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+}
+.note-ref:hover {
+  text-decoration: underline;
+}

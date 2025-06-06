@@ -356,13 +356,45 @@ h1 {
   z-index: 9999;
 }
 
-/* Lista de note (în bibliografie) */
 .note-list {
-  text-align: left;
-  margin-top: 30px;
-  padding-left: 20px;
+  list-style: none;       /* fără bullet points */
+  padding-left: 0;        /* nu vrem padding standard */
+  margin: 20px 0;         /* o mică marjă de sus/jos, la fel ca paragraf */
+  counter-reset: note-item;
 }
 
+/* Fiecare element din listă să moștenească culoarea și fontul din .text-section */
 .note-list li {
-  margin-bottom: 8px;
+  position: relative;
+  padding-left: 2em;    /* spațiu pentru număr + punct + spațiu */
+  margin-bottom: 0.5em; /* la fel ca spațierea dintre paragrafe */
+  color: inherit;       /* moștenește `color` din .text-section (dark/light) */
+  line-height: 1.6;     /* același line-height ca în .text-section */
+  font-size: 18px;      /* același font-size ca în .text-section p */
+}
+
+/* Pseudo-elementul pentru numărul notei, colorat în roșu și cu spațiu după punct */
+.note-list li::before {
+  content: counter(note-item) ".\00a0"; /* punct + non-breaking space */
+  counter-increment: note-item;
+  position: absolute;
+  left: 0;
+  color: #ed143d;       /* roșu, la fel ca tooltip-urile */
+  font-weight: bold;
+}
+
+.btn-source {
+  display: inline-block;
+  background-color: #ed143d;       /* roșu după gust */
+  color: white;                    /* text alb */
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0.6em 1.2em;            /* padding sus/jos și stânga/dreapta */
+  border-radius: 6px;              /* colțuri rotunjite */
+  transition: background-color 0.2s ease;
+}
+
+.btn-source:hover {
+  background-color: #c70f25;       /* un roșu mai închis la hover */
 }

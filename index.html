@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hoarda de Aur</title>
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <!-- Fișierul CSS propriu -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- CSS Leaflet (opțional, dacă folosești harta) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body id="home">
+  <!-- Efectul de particule în fundal (opțional) -->
+  <div id="particles-js"></div>
+  
+  <!-- Butonul "Meniu" -->
+  <button id="menuToggle" style="position: fixed; bottom: 20px; right: 20px; width: 80px; height: 40px;">Meniu</button>
+  
+  <!-- Sidebar (opțional) -->
+  <div class="sidebar" id="sidebar">
+    <button id="modeToggle">Schimbă modul</button>
+    <button id="toggleMap">Harta</button>
+    <div class="dropdown">
+      <button class="dropbtn">Cuprins</button>
+      <div class="dropdown-content">
+        <a href="#acasa" data-loc="acasa">Acasă</a>
+        <a href="#prolog" data-loc="prolog">1206 - Prolog</a>
+        <a href="#kulikovo" data-loc="kulikovo">1380 - Kulikovo</a>
+        <a href="#kalka" data-loc="kalka">1381 - Kalka</a>
+        <a href="#moscova" data-loc="moscova">1382 - Moscova</a>
+        <a href="#razboi" data-loc="razboi">1386 - Războiul</a>
+        <a href="#kondurcha" data-loc="kondurcha">1391 - Kondurcha</a>
+        <a href="#terek" data-loc="terek">1395 - Terek</a>
+        <a href="#vorskla" data-loc="vorskla">1399 - Vorskla</a>
+        <a href="#declin" data-loc="declin">1406 - Declin</a>
+        <a href="#dezintegrare" data-loc="dezintegrare">1419 - Dezintegrare</a>
+        <a href="#lipnic" data-loc="lipnic">1470 - Lipnic</a>
+        <a href="#sfarsit" data-loc="sfarsit">1480 - Sfârșitul</a>
+        <a href="#ultimul" data-loc="ultimul">1502 - Ultimul Khan</a>
+        <a href="#bibliografie" data-loc="bibliografie">Bibliografie</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Secțiune "Acasă" (pentru scroll către top) -->
+  <section id="acasa"></section>
+  
+  <!-- Containerul principal -->
+  <div class="main-container">
+    <div class="highlight-box">
+      <div class="container">
+        <h3>1380 - 1502</h3>
+        <h2 class="title-centered" style="font-size: 48px; text-align: center; font-weight: bold;">HOARDA DE AUR</h2>
+        <hr class="separator thick">
+        <h2 class="title-centered" style="font-size: 36px; text-align: center; font-weight: bold;">- DECLINUL -</h2>
+        <hr class="separator">
+        <!-- Imaginea principală -->
+        <img class="popup-enabled centered-image" src="https://i.pinimg.com/1200x/d3/9a/b3/d39ab39b644184525387f82753585ec0.jpg" alt="Hoarda de Aur">
+          
+        <!-- Secțiunea Video principală (sub prima imagine) -->
+        <div class="video-section">
+          <button class="toggleVideo">Arată Video</button>
+          <div class="videoContainer" style="display: none; margin-top: 20px;">
+            <iframe width="560" height="315"
+        src="https://www.youtube.com/embed/3eEhruOZXHA?origin=https://klipperboi.github.io"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+</iframe>
+
+          </div>
+        </div>
+          
+        <div class="text-section">
+          <section id="home"></section>
+          <p id="principal">Textul din secțiunea principală se poate actualiza din text.txt.</p>
+          
+          <!-- Secțiunea Prolog -->
+          <section id="prolog">
+            <div class="section-header">
+              <h1>Prolog</h1>
+              <hr class="separator thick">
+              <p class="info">18 August 1206, Mongolia</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Bibliografie">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Prolog se va încărca din text.txt.</p>
+            </div>
+          </section>
+          
+          <!-- Secțiunea Kulikovo -->
+          <section id="kulikovo">
+            <div class="section-header">
+              <h1>Punct de cotitură: Bătălia de la Kulikovo</h1>
+              <hr class="separator thick">
+              <p class="info">8 Septembrie 1380, Râul Don, Rusia</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo">
+            </div>
+            
+            <div class="video-section">
+              <button class="toggleVideo">Arată Video</button>
+              <div class="videoContainer" style="display: none; margin-top: 20px;">
+                <iframe width="560" height="315"
+                        src="https://www.youtube.com/embed/d4vROzoKElU?origin=https://klipperboi.github.io"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+              </div>
+            </div>
+            
+
+            <div class="section-content">
+              <p>Textul pentru Kulikovo se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Kalka -->
+          <section id="kalka">
+            <div class="section-header">
+              <h1>Bătălia de pe râul Kalka</h1>
+              <hr class="separator thick">
+              <p class="info">1 Ianuarie 1381, Râul Kalka, Ucraina</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/75/eb/08/75eb08d0087dd0246e9a6228d9864349.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Kalka se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Tokhtamysh -->
+          <section id="tokhtamysh">
+            <div class="section-header">
+              <h1>Tokhtamysh: restaurarea puterii</h1>
+              <hr class="separator thick">
+              <p class="info">2 Ianuarie 1381, Rusia</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/22/bc/3d/22bc3d0d11e16438139c5f20cdeb83e3.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Tokhtamysh se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Moscova -->
+          <section id="moscova">
+            <div class="section-header">
+              <h1>Asediul Moscovei</h1>
+              <hr class="separator thick">
+              <p class="info">23 August 1382, Rusia</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Moscova se va încărca din text.txt.</p>
+            </div>
+          </section>
+          
+          <!-- Secțiunea Razboi -->
+          <section id="razboi">
+            <div class="section-header">
+              <h1>Războiul Tokhtamysh-Timur</h1>
+              <hr class="separator thick">
+              <p class="info">1 Ianuarie 1386, M-ții Caucaz</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru război se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Kondurcha -->
+          <section id="kondurcha">
+            <div class="section-header">
+              <h1>Bătălia de pe râul Kondurcha</h1>
+              <hr class="separator thick">
+              <p class="info">18 Iunie 1391, Bulgaria</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Kondurcha se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Terek -->
+          <section id="terek">
+            <div class="section-header">
+              <h1>Bătălia de pe râul Terek</h1>
+              <hr class="separator thick">
+              <p class="info">15 Aprilie 1395</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Descrierea Pozei">
+            </div>
+
+            <!-- Secțiunea Video din Terek -->
+            <div class="video-section">
+              <button class="toggleVideo">Arată Video</button>
+              <div class="videoContainer" style="display: none; margin-top: 20px;">
+                <iframe width="560" height="315"
+                        src="https://www.youtube.com/embed/y95sYUkQJuA?origin=https://klipperboi.github.io"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+              </div>
+            </div>
+
+            <div class="section-content">
+              <p>Textul pentru Terek se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Vorskla -->
+          <section id="vorskla">
+            <div class="section-header">
+              <h1>Bătălia de pe râul Vorskla</h1>
+              <hr class="separator thick">
+              <p class="info">12 August 1399</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg/1200px-Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Vorskla se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Declin -->
+          <section id="declin">
+            <div class="section-header">
+              <h1>Declinul Hoardei De Aur</h1>
+              <hr class="separator thick">
+              <p class="info">1 Ianuarie 1406</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/2f/98/4f/2f984ff45f253bf89b54762b19c42963.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Declin se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Dezintegrare -->
+          <section id="dezintegrare">
+            <div class="section-header">
+              <h1>Dezintegrare</h1>
+              <hr class="separator thick">
+              <p class="info">1 Ianuarie 1419</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/e0/e4/48/e0e4489cb34e87d437d213a843b1b181.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Dezintegrare se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Lipnic -->
+          <section id="lipnic">
+            <div class="section-header">
+              <h1>Bătălia de la Lipnic</h1>
+              <hr class="separator thick">
+              <p class="info">20 August 1470</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/7b/b7/2c/7bb72cdef6c1b832ccd5e09b0f8e0d0d.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Lipnic se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Sfarsit -->
+          <section id="sfarsit">
+            <div class="section-header">
+              <h1>Sfârșitul asupririi mongole</h1>
+              <hr class="separator thick">
+              <p class="info">8 August 1480, Râul Ugra</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/96/93/b5/9693b53bf3b5d7549c5e017e44a05ea3.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Sfârșit se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Ultimul -->
+          <section id="ultimul">
+            <div class="section-header">
+              <h1>Ultimul Khan</h1>
+              <hr class="separator thick">
+              <p class="info">1 Ianuarie 1502, Kaunas</p>
+              <hr class="separator">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/e9/3e/ff/e93effe31b883e7df9ee30992543283b.jpg" alt="Descrierea Pozei">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Ultimul Khan se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+          <!-- Secțiunea Bibliografie -->
+          <section id="bibliografie">
+            <div class="section-header">
+              <h1>Bibliografie</h1>
+              <hr class="separator thick">
+              <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Bibliografie">
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Bibliografie se va încărca din text.txt.</p>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Containerul hărții (opțional) -->
+  <div id="map"></div>
+  
+  <!-- Popup pentru imagine -->
+  <div id="imagePopup" class="popup">
+    <span id="closePopup" class="close-btn">&times;</span>
+    <img id="popupImage" src="" alt="Zoom Image">
+  </div>
+  
+  <!-- Scripturile -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="scripts.js"></script>
+</body>
+</html>

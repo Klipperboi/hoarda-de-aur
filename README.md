@@ -18,6 +18,7 @@ TBA
 
 **1.0.1**
 - păstrare mod + progres în pagină (status utilizator)
+- adăugare "tooltip" și trimitere la secțiunea "Note" la hover resp. click pe note
 
 **1.0.0 – Faza Județeană**  
 Prima versiune stabilă, folosită la faza județeană.

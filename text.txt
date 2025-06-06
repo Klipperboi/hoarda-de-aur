@@ -112,23 +112,23 @@ De asemenea, intervenția imperiului otoman a marcat o schimbare, iar în cele d
 <b>7.</b>	Vernadsky,  George, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953.<br>
 <b>8.</b>   Imagini © HistoryMaps
 
+--note--
+
 <h3>NOTE:</h3>
 <ul class="note-list">
-  <li id="note-1"><b>1.</b> George Vernadsky, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953, p.109</li>
-  <li id="note-2"><b>2.</b> Daniel Ciucălău, <i>Hoarda de Aur și spațiul nord dunărean...</i>, p. 34</li>
-  <li id="note-3"><b>3.</b> Aurelian Sacerdoteanu, <i>Marea invazie...</i>, Editura Demiurg, 2010, p. 97</li>
-  <li id="note-4"><b>4.</b> P. Lemerle, <i>Istoria Bizanţului</i>, Bucureşti, 1998, p.126</li>
-  <li id="note-5"><b>5.</b> Daniel Ciucălău, op.cit., p.78</li>
-  <li id="note-6"><b>6.</b> V. Ciocîltan, <i>Mongolii şi Marea Neagră...</i>, Bucureşti, 1998, p.123</li>
-  <li id="note-7"><b>7.</b> Ibidem, p.179</li>
-  <li id="note-8"><b>8.</b> Gonta, Alexandru I., <i>Romanii si Hoarda de Aur 1241-1502</i>, Editura Demiurg, 2010, p.210</li>
-  <li id="note-9"><b>9.</b> Aurelian Sacerdoteanu, op. cit., p.177</li>
-  <li id="note-10"><b>10.</b> Ibidem, p.181</li>
-  <li id="note-11"><b>11.</b> B. D. Grecov și A.I. Iacubovschi, <i>Hoarda de Aur și decăderea ei</i>, 1953, p.221</li>
-  <li id="note-12"><b>12.</b> Ibidem, p.241</li>
-  <li id="note-13"><b>13.</b> Daniel Ciucălău, op.cit., p.178</li>
-  <li id="note-14"><b>14.</b> Ibidem, p.211</li>
+  <li id="note-1"> George Vernadsky, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953, p.109</li>
+  <li id="note-2"> Daniel Ciucălău, <i>Hoarda de Aur și spațiul nord dunărean...</i>, p. 34</li>
+  <li id="note-3"> Aurelian Sacerdoteanu, <i>Marea invazie...</i>, Editura Demiurg, 2010, p. 97</li>
+  <li id="note-4"> P. Lemerle, <i>Istoria Bizanţului</i>, Bucureşti, 1998, p.126</li>
+  <li id="note-5"> Daniel Ciucălău, op.cit., p.78</li>
+  <li id="note-6"> V. Ciocîltan, <i>Mongolii şi Marea Neagră...</i>, Bucureşti, 1998, p.123</li>
+  <li id="note-7"> Ibidem, p.179</li>
+  <li id="note-8"> Gonta, Alexandru I., <i>Romanii si Hoarda de Aur 1241-1502</i>, Editura Demiurg, 2010, p.210</li>
+  <li id="note-9"> Aurelian Sacerdoteanu, op. cit., p.177</li>
+  <li id="note-10"> Ibidem, p.181</li>
+  <li id="note-11"> B. D. Grecov și A.I. Iacubovschi, <i>Hoarda de Aur și decăderea ei</i>, 1953, p.221</li>
+  <li id="note-12"> Ibidem, p.241</li>
+  <li id="note-13"> Daniel Ciucălău, op.cit., p.178</li>
+  <li id="note-14"> Ibidem, p.211</li>
 </ul>
 
-
-<a href="https://github.com/Klipperboi/hoarda-de-aur">Cod Sursă (Github)</a>

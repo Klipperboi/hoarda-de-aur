@@ -207,36 +207,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Funcție pentru încărcarea conținutului secțiunilor din text.txt
   function initTextSections() {
-    fetch('text.txt')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Eroare la încărcarea fișierului: ${response.status}`);
+  fetch('text.txt')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Eroare la încărcarea fișierului: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => {
+      const regex = /--([\w-]+)--\s*([\s\S]*?)(?=--[\w-]+--|$)/g;
+      let match;
+      while ((match = regex.exec(text)) !== null) {
+        const sectionId = match[1].trim();
+        const content = match[2].trim();
+        const sectionElement = document.getElementById(sectionId);
+        if (sectionElement) {
+          let contentElement = sectionElement.querySelector('.section-content p');
+          if (!contentElement) contentElement = sectionElement;
+          contentElement.innerHTML = content;
         }
-        return response.text();
-      })
-      .then(text => {
-        console.log("Conținutul fișierului text.txt:", text);
-        const regex = /--([\w-]+)--\s*([\s\S]*?)(?=--[\w-]+--|$)/g;
-        let match;
-        while ((match = regex.exec(text)) !== null) {
-          const sectionId = match[1].trim();
-          const content = match[2].trim();
-          console.log(`Secțiune găsită: ${sectionId} cu conținut: ${content}`);
-          const sectionElement = document.getElementById(sectionId);
-          if (sectionElement) {
-            let contentElement = sectionElement.querySelector('.section-content p');
-            if (!contentElement) {
-              contentElement = sectionElement;
-            }
-            contentElement.innerHTML = content;
-            console.log(`Textul pentru secțiunea "${sectionId}" a fost actualizat.`);
-          } else {
-            console.warn(`Secțiunea cu id-ul "${sectionId}" nu a fost găsită în HTML.`);
-          }
+      }
+
+      // Tooltip + hyperlink activation AFTER content injected
+      document.querySelectorAll('.note-ref').forEach(ref => {
+        const noteNumber = ref.dataset.note;
+        const noteTarget = document.getElementById(`note-${noteNumber}`);
+        if (noteTarget) {
+          ref.setAttribute('title', noteTarget.textContent);
+          ref.addEventListener('click', () => {
+            noteTarget.scrollIntoView({ behavior: 'smooth' });
+          });
         }
-      })
-      .catch(error => console.error("Eroare la încărcarea sau procesarea fișierului text.txt:", error));
-  }
+      });
+
+    })
+    .catch(error => console.error("Eroare la procesarea text.txt:", error));
+}
+
 
   /* Inițializări */
   initSidebar();
@@ -281,25 +288,4 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-});
-
-
-// =======================
-// Tooltips pentru note
-// =======================
-document.querySelectorAll('.note-ref').forEach(ref => {
-  const noteNumber = ref.dataset.note;
-  const noteEntry = document.querySelector(`#note-${noteNumber}`);
-  
-  if (noteEntry) {
-    const noteText = noteEntry.textContent;
-    
-    // Tooltip as title (basic)
-    ref.setAttribute('title', noteText);
-
-    // On click: scroll to note
-    ref.addEventListener('click', () => {
-      noteEntry.scrollIntoView({ behavior: 'smooth' });
-    });
-  }
 });

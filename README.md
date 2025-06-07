@@ -19,6 +19,8 @@ TBA
 **1.0.2**
 - formatare butoane
 - formatare text (font, culoare, stil)
+- stocare poziție în pagină & buton întoarcere la ultima secțiune
+- meniu acțiuni rapide 
 
 **1.0.1**
 - păstrare mod + progres în pagină (status utilizator)

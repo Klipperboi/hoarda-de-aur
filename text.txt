@@ -102,20 +102,19 @@ De asemenea, intervenția imperiului otoman a marcat o schimbare, iar în cele d
 
 --bibliografie--
 
-<h3>BIBLIOGRAFIE:</h3>
-<b>1.</b>	Ciocîltan, V., <i>Mongolii şi Marea Neagră în secolele XIII–XIV. Contribuţia cinghizhanizilor la transformarea bazinului pontic în placă turnantă a comerţului euroasiatic</i>, Bucureşti, 1998. <br>
-<b>2.</b>	Ciucălău, Daniel, <i>Hoarda de Aur și spațiul nord dunărean la începutul statalității românești</i>, revista „Acta Moldaviae Septentrionalis”, numerele VII-VIII.<br>
-<b>3.</b>	Gonta, Alexandru I., <i>Romanii si Hoarda de Aur 1241-1502</i>, Editură Casa Editorială Demiurg, 2010. <br>
-<b>4.</b>	Grecov, B.D  și  Iacubovschi, A.I., <i>Hoara de Aur și decăderea ei</i>, Editura de Stat pentru Literatura Științifică, 1953.<br>
-<b>5.</b>	Lemerle, P., <i>Istoria Bizanţului</i>, Bucureşti, 1998<br>
-<b>6.</b>	Sacerdoteanu, Aurelian, <i>Marea invazie tatara si Sud-Estul european</i>, Editura Demiurg, 2010<br>
-<b>7.</b>	Vernadsky,  George, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953.<br>
-<b>8.</b>   Imagini © HistoryMaps
+<ul class="fancy-list">
+<li id="note-1">	Ciocîltan, V., <i>Mongolii şi Marea Neagră în secolele XIII–XIV. Contribuţia cinghizhanizilor la transformarea bazinului pontic în placă turnantă a comerţului euroasiatic</i>, Bucureşti, 1998. <br>
+<li id="note-2">	Ciucălău, Daniel, <i>Hoarda de Aur și spațiul nord dunărean la începutul statalității românești</i>, revista „Acta Moldaviae Septentrionalis”, numerele VII-VIII.<br>
+<li id="note-3">	Gonta, Alexandru I., <i>Romanii si Hoarda de Aur 1241-1502</i>, Editură Casa Editorială Demiurg, 2010. <br>
+<li id="note-4">	Grecov, B.D  și  Iacubovschi, A.I., <i>Hoara de Aur și decăderea ei</i>, Editura de Stat pentru Literatura Științifică, 1953.<br>
+<li id="note-5">	Lemerle, P., <i>Istoria Bizanţului</i>, Bucureşti, 1998<br>
+<li id="note-6"> Sacerdoteanu, Aurelian, <i>Marea invazie tatara si Sud-Estul european</i>, Editura Demiurg, 2010<br>
+<li id="note-7">	Vernadsky,  George, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953.<br>
+<li id="note-8">   Imagini © HistoryMaps
 
 --note--
 
-<h3>NOTE:</h3>
-<ul class="note-list">
+<ul class="fancy-list">
   <li id="note-1"> George Vernadsky, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953, p.109</li>
   <li id="note-2"> Daniel Ciucălău, <i>Hoarda de Aur și spațiul nord dunărean...</i>, p. 34</li>
   <li id="note-3"> Aurelian Sacerdoteanu, <i>Marea invazie...</i>, Editura Demiurg, 2010, p. 97</li>

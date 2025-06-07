@@ -18,6 +18,7 @@ TBA
 
 **1.0.2**
 - formatare butoane
+- formatare text (font, culoare, stil)
 
 **1.0.1**
 - păstrare mod + progres în pagină (status utilizator)

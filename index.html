@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hoarda de Aur</title>
@@ -77,7 +78,7 @@
         <!-- Video principal (sub prima imagine) -->
         <div class="video-section">
           <button class="toggleVideo">Arată Video</button>
-          <div class="btn-source" style="display: none; margin-top: 20px;">
+          <div class="videoContainer" style="display: none; margin-top: 20px;">
             <iframe
               width="560"
               height="315"
@@ -129,7 +130,7 @@
             </div>
             <div class="video-section">
               <button class="toggleVideo">Arată Video</button>
-              <div class="btn-source" style="display: none; margin-top: 20px;">
+              <div class="videoContainer" style="display: none; margin-top: 20px;">
                 <iframe
                   width="560"
                   height="315"
@@ -250,7 +251,7 @@
             </div>
             <div class="video-section">
               <button class="toggleVideo">Arată Video</button>
-              <div class="btn-source" style="display: none; margin-top: 20px;">
+              <div class="videoContainer" style="display: none; margin-top: 20px;">
                 <iframe
                   width="560"
                   height="315"
@@ -375,20 +376,30 @@
           </section>
 
           <!-- Bibliografie -->
-          <section id="bibliografie">
-            <div class="section-header">
-              <h1>Bibliografie</h1>
-              <hr class="separator thick" />
-              <img
-                class="centered-image popup-enabled"
-                src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg"
-                alt="Bibliografie"
-              />
-            </div>
-            <div class="section-content">
-              <p>Textul pentru Bibliografie se va încărca din text.txt.</p>
-            </div>
-          </section>
+<section id="bibliografie">
+  <div class="section-header">
+    <h1>Bibliografie</h1>
+    <hr class="separator thick" />
+    <img
+      class="centered-image popup-enabled"
+      src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg"
+      alt="Bibliografie"
+    />
+  </div>
+  <div class="section-content">
+    <ol class="fancy-list">
+      <li>Ciocîltan, V., <i>Mongolii și Marea Neagră în secolele XIII–XIV. Contribuția cinghizhanizilor la transformarea bazinului pontic în placă turnantă a comerțului euroasiatic</i>, București, 1998.</li>
+      <li>Ciucălău, Daniel, <i>Hoarda de Aur și spațiul nord dunărean la începutul statalității românești</i>, revista „Acta Moldaviae Septentrionalis”, numerele VII–VIII.</li>
+      <li>Gonta, Alexandru I., <i>Romanii si Hoarda de Aur 1241-1502</i>, Editură Casa Editorială Demiurg, 2010.</li>
+      <li>Grecov, B.D și Iacubovschi, A.I., <i>Hoara de Aur și decăderea ei</i>, Editura de Stat pentru Literatura Științifică, 1953.</li>
+      <li>Lemerle, P., <i>Istoria Bizanțului</i>, București, 1998</li>
+      <li>Sacerdoteanu, Aurelian, <i>Marea invazie tatara si Sud-Estul european</i>, Editura Demiurg, 2010</li>
+      <li>Vernadsky,  George, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953.</li>
+      <li>Imagini © HistoryMaps</li>
+    </ol>
+  </div>
+</section>
+
 
           <section id="note">
             <div class="section-header">
@@ -399,6 +410,7 @@
               <p>Textul pentru Note se va încărca din text.txt.</p>
             </div>
           </section>
+
           <div style="margin-top: 1.5em; text-align: center;">
               <a href="https://github.com/Klipperboi/hoarda-de-aur" class="btn-source" target="_blank" rel="noopener">
                   Cod Sursă (Github)

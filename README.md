@@ -16,6 +16,9 @@ TBA
 
 ## Changelog
 
+**1.0.2**
+- formatare butoane
+
 **1.0.1**
 - păstrare mod + progres în pagină (status utilizator)
 - adăugare "tooltip" și trimitere la secțiunea "Note" la hover resp. click pe note

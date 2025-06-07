@@ -1,4 +1,45 @@
 /* ============================
+   ROOT VARIABLES
+   ============================ */
+:root {
+  /* Colors */
+  --color-accent: #ed143d;
+  --color-accent-hover: #c70f25;
+  --color-bg: #f4f4f4;
+  --color-bg-dark: #333;
+  --color-bg-sidebar: #111;
+  --color-bg-sidebar-dark: #222;
+  --color-shadow: rgba(0,0,0,0.1);
+
+  --color-text: #333;
+  --color-text-dark: #ddd;
+  --color-list-number: #ed143d;
+  --color-link: #ed143d;
+  --color-link-hover: #c70f25;
+  --color-note-tooltip-bg: rgba(0, 0, 0, 0.92);
+  --color-note-tooltip-text: #fff;
+
+  /* Fonts */
+  --font-head: 'Cinzel', serif;
+  --font-body: 'Lora', serif;
+  --font-accent: 'EB Garamond', serif;
+
+  /* Button */
+  --btn-padding: 0.6em 1.2em;
+  --btn-radius: 6px;
+  --btn-font-size: 1rem;
+
+  /* Sidebar */
+  --sidebar-width: 250px;
+  --sidebar-bg: var(--color-bg-sidebar);
+  --sidebar-bg-dark: var(--color-bg-sidebar-dark);
+
+  /* Other */
+  --separator-thick: 4px solid #333;
+  --separator: 2px solid #333;
+}
+
+/* ============================
    IMPORT GOOGLE FONTS
    ============================ */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap');
@@ -10,12 +51,12 @@ html {
   scroll-behavior: smooth;
 }
 body {
-  font-family: 'Lora', serif;
+  font-family: var(--font-body);
   text-align: center;
-  background-color: #f4f4f4;
+  background-color: var(--color-bg);
   margin: 0;
   padding: 20px;
-  color: #333;
+  color: var(--color-text);
 }
 .main-container {
   min-height: 100vh;
@@ -27,7 +68,7 @@ body {
 .container {
   position: relative;
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px var(--color-shadow);
   padding: 20px;
   width: 60%;
   max-width: 800px;
@@ -36,24 +77,65 @@ body {
   z-index: 2;
 }
 
+.current-section-title {
+  color: var(--color-accent);
+  font-weight: bold;
+  position: relative;
+}
+
+.current-section-title::after {
+  content: "";
+  display: block;
+  height: 4px;
+  width: 40%;
+  background: linear-gradient(90deg, #ed143d 70%, #fff0);
+  border-radius: 2px;
+  margin-top: 8px;
+  margin-left: 0;
+  animation: pop-in-underline 0.35s cubic-bezier(.4,2,.6,1);
+}
+
+.section-title-outro::after {
+  content: "";
+  display: block;
+  height: 4px;
+  width: 40%;
+  background: linear-gradient(90deg, #ed143d 70%, #fff0);
+  border-radius: 2px;
+  margin-top: 8px;
+  margin-left: 0;
+  animation: pop-out-underline 0.35s cubic-bezier(.4,2,.6,1);
+}
+
+@keyframes pop-in-underline {
+  from { width: 0; opacity: 0; }
+  to   { width: 40%; opacity: 1; }
+}
+@keyframes pop-out-underline {
+  from { width: 40%; opacity: 1; }
+  to   { width: 0; opacity: 0; }
+}
+
+
+
 /* ============================
    TYPOGRAPHY
    ============================ */
 h1, h2, h3, .title-centered, .section-header h1 {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-head);
   font-weight: 700;
 }
 .text-section,
 .section-content p {
-  font-family: 'Lora', serif;
+  font-family: var(--font-body);
   font-size: 18px;
   text-align: justify;
   line-height: 1.6;
-  color: #333;
+  color: var(--color-text);
   margin: 20px 0;
 }
 .text-section p::first-letter {
-  color: #ed143d;
+  color: var(--color-accent);
   font-size: 36px;
   font-weight: bold;
   line-height: 0.9;
@@ -64,7 +146,7 @@ h1, h2, h3, .title-centered, .section-header h1 {
 .map-popup,
 #note-tooltip,
 .note-ref {
-  font-family: 'EB Garamond', serif;
+  font-family: var(--font-accent);
   font-style: italic;
   letter-spacing: 0.01em;
 }
@@ -92,7 +174,7 @@ h1, h2, h3, .title-centered, .section-header h1 {
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: var(--sidebar-bg);
   overflow-x: hidden;
   transition: width 0.5s, padding-top 0.5s;
   padding-top: 0;
@@ -111,7 +193,7 @@ h1, h2, h3, .title-centered, .section-header h1 {
   color: white;
   padding: 10px 15px;
   font-size: 18px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-head);
   border: none;
   cursor: pointer;
   width: 100%;
@@ -125,11 +207,11 @@ h1, h2, h3, .title-centered, .section-header h1 {
 .dropbtn:hover,
 .dropdown-content a:hover {
   color: white !important;
-  background-color: #ed143d;
+  background-color: var(--color-accent);
 }
 .dropdown-content a.active-link,
 .dropdown-content a.active-link:hover {
-  color: #ed143d !important;
+  color: var(--color-accent) !important;
   font-weight: bold;
   background-color: #333;
 }
@@ -139,7 +221,7 @@ h1, h2, h3, .title-centered, .section-header h1 {
   color: white;
   padding: 10px 15px;
   font-size: 18px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-head);
   text-align: left;
   text-decoration: none;
   transition: background 0.3s;
@@ -161,7 +243,7 @@ h1, h2, h3, .title-centered, .section-header h1 {
   transition: background 0.3s;
 }
 .dropbtn:hover {
-  background-color: #ed143d;
+  background-color: var(--color-accent);
 }
 .dropdown-content {
   display: none;
@@ -177,12 +259,12 @@ h1, h2, h3, .title-centered, .section-header h1 {
    ============================ */
 .separator {
   border: none;
-  border-top: 2px solid #333;
+  border-top: var(--separator);
   margin: 20px 0;
   width: 100%;
 }
 .separator.thick {
-  border-top: 4px solid #333;
+  border-top: var(--separator-thick);
 }
 
 /* ============================
@@ -255,35 +337,58 @@ img.centered-image {
   display: block;
 }
 .always-visible:hover {
-  background-color: #ed143d;
+  background-color: var(--color-accent);
 }
 #particles-js {
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: #f4f4f4;
+  background-color: var(--color-bg);
   z-index: -1;
+}
+
+/* ============================
+   BUTTONS
+   ============================ */
+.btn, .btn-source {
+  display: inline-block;
+  background-color: var(--color-accent);
+  color: white;
+  font-size: var(--btn-font-size);
+  font-family: var(--font-head);
+  font-weight: bold;
+  text-decoration: none;
+  padding: var(--btn-padding);
+  border-radius: var(--btn-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin: 8px 0;
+}
+
+.btn:hover, .btn-source:hover {
+  background-color: var(--color-accent-hover);
+}
+.btn-secondary {
+  background-color: #333;
+  color: white;
+}
+.btn-secondary:hover {
+  background-color: var(--color-accent);
+  color: white;
 }
 
 /* ============================
    VIDEO BUTTONS
    ============================ */
 .toggleVideo {
-  background-color: #ed143d;
-  color: white;
   padding: 12px 30px;
   font-size: 20px;
-  font-family: 'Cinzel', serif;
-  border: none;
   border-radius: 7px;
-  cursor: pointer;
-  transition: background 0.3s, box-shadow 0.2s;
   margin: 20px 0 10px 0;
-  font-weight: 700;
   box-shadow: 0 2px 10px rgba(237, 20, 61, 0.08);
 }
 .toggleVideo:hover {
-  background-color: #c70f25;
   box-shadow: 0 4px 16px rgba(237, 20, 61, 0.15);
 }
 .video-section {
@@ -293,44 +398,41 @@ img.centered-image {
 }
 
 /* ============================
-   NOTES, BIBLIOGRAFIE, ANY FANCY NUMBERED LIST
+   NOTES, BIBLIOGRAFIE, FANCY LIST
    ============================ */
 .fancy-list {
   list-style: none;
   padding-left: 0;
   margin: 20px 0;
   counter-reset: fancy-item;
-  font-family: 'Lora', serif;
+  font-family: var(--font-body);
   font-size: 1.08em;
   color: inherit;
 }
-
 .fancy-list li {
   position: relative;
   padding-left: 2em;
   margin-bottom: 0.5em;
   line-height: 1.6;
-  font-style: normal; /* so that only titles in <i> are italic */
+  font-style: normal;
 }
-
 .fancy-list li::before {
   content: counter(fancy-item) ".\00a0";
   counter-increment: fancy-item;
   position: absolute;
   left: 0;
-  color: #ed143d;
+  color: var(--color-list-number);
   font-weight: bold;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-head);
   font-size: 1em;
 }
-
 
 /* ============================
    NOTES TOOLTIP
    ============================ */
 .note-ref {
-  color: #ed143d;
-  font-family: 'EB Garamond', serif;
+  color: var(--color-accent);
+  font-family: var(--font-accent);
   font-weight: bold;
   cursor: pointer;
   position: relative;
@@ -341,9 +443,9 @@ img.centered-image {
 }
 #note-tooltip {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.92);
-  color: #fff;
-  font-family: 'EB Garamond', serif;
+  background-color: var(--color-note-tooltip-bg);
+  color: var(--color-note-tooltip-text);
+  font-family: var(--font-accent);
   font-style: italic;
   font-size: 16px;
   max-width: 320px;
@@ -357,29 +459,11 @@ img.centered-image {
 }
 
 /* ============================
-   SOURCE BUTTON
-   ============================ */
-.btn-source {
-  display: inline-block;
-  background-color: #ed143d;
-  color: white;
-  font-size: 1rem;
-  font-weight: bold;
-  text-decoration: none;
-  padding: 0.6em 1.2em;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
-}
-.btn-source:hover {
-  background-color: #c70f25;
-}
-
-/* ============================
    DARK MODE
    ============================ */
 body.dark-mode {
-  background-color: #333;
-  color: white;
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-dark);
 }
 body.dark-mode .container {
   background-color: #444;
@@ -387,5 +471,169 @@ body.dark-mode .container {
 body.dark-mode .text-section,
 body.dark-mode .fancy-list,
 body.dark-mode .section-content p {
-  color: #ddd;
+  color: var(--color-text-dark);
+}
+body.dark-mode .sidebar {
+  background-color: var(--sidebar-bg-dark);
+}
+
+/* ============================
+   RESPONSIVE (OPTIONAL, CAN EXTEND)
+   ============================ */
+@media (max-width: 900px) {
+  .container {
+    width: 90%;
+    max-width: 98vw;
+  }
+  #map {
+    width: 98vw;
+    right: 1vw;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 8px;
+    width: 100vw;
+    border-radius: 0;
+  }
+  .sidebar {
+    width: 0;
+    font-size: 15px;
+  }
+}
+
+/* ============================
+   FAB - MENIU (with morph + tooltip)
+   ============================ */
+
+.fab-container {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+}
+
+.fab-main {
+  background: var(--color-accent, #ed143d);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.13);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background 0.18s;
+  outline: none;
+  overflow: visible;
+  z-index: 2;
+}
+
+.fab-main .bar {
+  pointer-events: none;
+  position: absolute;
+  left: 16px; right: 16px;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform 0.26s cubic-bezier(.4,2,.6,1), opacity 0.18s;
+}
+.fab-main .bar:nth-child(1) { top: 18px; }
+.fab-main .bar:nth-child(2) { top: 26px; }
+.fab-main .bar:nth-child(3) { top: 34px; }
+
+/* Morph Hamburger to X */
+.fab-container.active .fab-main .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.fab-container.active .fab-main .bar:nth-child(2) {
+  opacity: 0;
+}
+.fab-container.active .fab-main .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.fab-main::after {
+  content: attr(aria-label);
+  position: absolute;
+  right: 110%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #222;
+  color: #fff;
+  padding: 4px 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.17s, right 0.22s;
+  z-index: 9999;
+  font-family: var(--font-head);
+}
+.fab-main:hover::after {
+  opacity: 1;
+  right: 115%;
+}
+
+.fab-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.fab-action {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 1.6rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.13);
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  transition: opacity 0.18s, transform 0.22s, background 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  outline: none;
+  position: relative;
+}
+.fab-action:hover {
+  background: var(--color-accent, #ed143d);
+}
+.fab-action::after {
+  content: attr(aria-label);
+  position: absolute;
+  right: 110%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #222;
+  color: #fff;
+  padding: 4px 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.17s, right 0.22s;
+  z-index: 9999;
+  font-family: var(--font-head);
+}
+.fab-action:hover::after {
+  opacity: 1;
+  right: 115%;
+}
+
+.fab-container.active .fab-actions .fab-action {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  cursor: pointer;
 }

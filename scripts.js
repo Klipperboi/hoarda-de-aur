@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-  // Referințe DOM
+  // ===========================
+  //      DOM REFERENCES
+  // ===========================
   const particlesJSBackground = document.getElementById("particles-js");
   const sidebar = document.getElementById("sidebar");
   const modeToggle = document.getElementById("modeToggle");
@@ -11,7 +13,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   let isSidebarOpen = false;
 
-  // Definirea locațiilor pentru secțiuni (inclusiv "note")
+  // ===========================
+  //      SECTION LOCATIONS
+  // ===========================
   const locations = {
     prolog:       { coords: [46,     105], msg: "Prolog – 1206 - 1380, Mongolia" },
     kulikovo:     { coords: [54,      39], msg: "Kulikovo – 8 Septembrie, Rusia" },
@@ -32,20 +36,20 @@ document.addEventListener("DOMContentLoaded", function() {
     note:         { coords: [44,      41] }
   };
 
-  /* ============================
-       Funcții modulare
-  ============================ */
-
-  // 1. Gestionare meniu lateral
+  // ===========================
+  //      SIDEBAR MENU
+  // ===========================
   function initSidebar() {
-    menuToggle.addEventListener("click", function(event) {
-      event.stopPropagation();
-      isSidebarOpen = !isSidebarOpen;
-      if (sidebar) {
-        sidebar.style.width = isSidebarOpen ? "250px" : "0";
-        sidebar.style.paddingTop = isSidebarOpen ? "20px" : "0";
-      }
-    });
+    if (menuToggle) {
+      menuToggle.addEventListener("click", function(event) {
+        event.stopPropagation();
+        isSidebarOpen = !isSidebarOpen;
+        if (sidebar) {
+          sidebar.style.width = isSidebarOpen ? "250px" : "0";
+          sidebar.style.paddingTop = isSidebarOpen ? "20px" : "0";
+        }
+      });
+    }
 
     const dropbtn = document.querySelector(".dropbtn");
     const dropdownContent = document.querySelector(".dropdown-content");
@@ -57,7 +61,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  // 2. Încărcare particule (light/dark)
+  // ===========================
+  //      PARTICLES
+  // ===========================
   function loadParticles(mode) {
     particlesJSBackground.innerHTML = "";
     const lineColor = (mode === "dark") ? "#ffffff" : "#555";
@@ -105,7 +111,9 @@ document.addEventListener("DOMContentLoaded", function() {
     particlesJS("particles-js", config);
   }
 
-  // 3. Inițializare popup pentru imagini
+  // ===========================
+  //      IMAGE POPUPS
+  // ===========================
   function initImagePopups() {
     const images = document.querySelectorAll("img.popup-enabled");
     images.forEach(img => {
@@ -140,7 +148,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  // 4. Inițializare hartă Leaflet
+  // ===========================
+  //      LEAFLET MAP
+  // ===========================
   function initMap() {
     const map = L.map("map").setView([45.9432, 24.9668], 4);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -156,7 +166,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
 
-    // Activează stilul "link-ului" curent în meniu
     function updateActiveLink(activeId) {
       document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
         if (link.dataset.loc === activeId) {
@@ -167,7 +176,6 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
 
-    // Click pe un link din meniu → scroll + popup pe hartă
     document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
       link.addEventListener("click", function(e) {
         e.preventDefault();
@@ -206,18 +214,22 @@ document.addEventListener("DOMContentLoaded", function() {
       obs.observe(section);
     });
 
-    toggleMapBtn.addEventListener("click", () => {
-      const mapContainer = document.getElementById("map");
-      if (!mapContainer.style.display || mapContainer.style.display === "none") {
-        mapContainer.style.display = "block";
-        setTimeout(() => map.invalidateSize(), 100);
-      } else {
-        mapContainer.style.display = "none";
-      }
-    });
+    if (toggleMapBtn) {
+      toggleMapBtn.addEventListener("click", () => {
+        const mapContainer = document.getElementById("map");
+        if (!mapContainer.style.display || mapContainer.style.display === "none") {
+          mapContainer.style.display = "block";
+          setTimeout(() => map.invalidateSize(), 100);
+        } else {
+          mapContainer.style.display = "none";
+        }
+      });
+    }
   }
 
-  // 5. Încarcă conținutul din text.txt și injectează-l în secțiuni + principal
+  // ===========================
+  //      LOAD MAIN TEXT
+  // ===========================
   function initTextSections() {
     fetch("text.txt")
       .then(response => {
@@ -232,13 +244,11 @@ document.addEventListener("DOMContentLoaded", function() {
           const content = match[2].trim();
 
           if (sectionId === "principal") {
-            // pentru "principal", injectăm direct în <p id="principal">
             const principalP = document.getElementById("principal");
             if (principalP) {
               principalP.innerHTML = content;
             }
           } else {
-            // altfel, căutăm <div class="section-content"> în secțiunea respectivă
             const sectionElement = document.getElementById(sectionId);
             if (sectionElement) {
               let container = sectionElement.querySelector(".section-content");
@@ -248,13 +258,15 @@ document.addEventListener("DOMContentLoaded", function() {
             }
           }
         }
-        // După ce am injectat textul (inclusiv <li id="note-X">…), inițializăm tooltip-urile
+        // After injecting, setup tooltips
         initNoteTooltips();
       })
       .catch(error => console.error("Eroare la procesarea text.txt:", error));
   }
 
-  // 6. Inițializează tooltips și scroll la click pe <span class="note-ref" data-note="X">
+  // ===========================
+  //      NOTES TOOLTIPS
+  // ===========================
   function initNoteTooltips() {
     const tooltipDiv = document.getElementById("note-tooltip");
     if (!tooltipDiv) return;
@@ -265,14 +277,12 @@ document.addEventListener("DOMContentLoaded", function() {
       const noteTarget = document.getElementById(`note-${noteNum}`);
       if (!noteTarget) return;
 
-      // La mouseenter: afișează conținutul notei în tooltip
       ref.addEventListener("mouseenter", e => {
         const noteText = noteTarget.textContent.trim();
         tooltipDiv.textContent = noteText;
         tooltipDiv.style.opacity = "1";
       });
 
-      // La mousemove: poziționează tooltip lângă cursor
       ref.addEventListener("mousemove", e => {
         const padding = 8;
         let x = e.pageX + padding;
@@ -289,21 +299,26 @@ document.addEventListener("DOMContentLoaded", function() {
         tooltipDiv.style.top = y + "px";
       });
 
-      // La mouseleave: ascunde tooltip
       ref.addEventListener("mouseleave", () => {
         tooltipDiv.style.opacity = "0";
       });
 
-      // La click: scroll către nota respectivă
-      ref.addEventListener("click", () => {
-        noteTarget.scrollIntoView({ behavior: "smooth" });
+      // 🚨 Fixed: Save, delay, then scroll to note!
+      ref.addEventListener("click", function(e) {
+        e.preventDefault();
+        saveCurrentSectionAsLast();
+        observerPaused = true;
+        setTimeout(() => {
+          observerPaused = false;
+          noteTarget.scrollIntoView({ behavior: "smooth" });
+        }, 100);
       });
     });
   }
 
-  /* ========================================
-       Inițializări la încărcarea paginii
-  ======================================== */
+  // ===========================
+  //      THEME & MISC
+  // ===========================
   initSidebar();
   loadParticles("light");
   particlesJSBackground.style.backgroundColor = "#f4f4f4";
@@ -311,7 +326,6 @@ document.addEventListener("DOMContentLoaded", function() {
   initMap();
   initTextSections();
 
-  // 7. Salvează preferința theme (light/dark) în localStorage
   const savedMode = localStorage.getItem("theme");
   if (savedMode === "dark") {
     document.body.classList.add("dark-mode");
@@ -332,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // 8. Toggle videoclipuri
+  // Video toggle
   document.querySelectorAll(".toggleVideo").forEach(button => {
     button.addEventListener("click", function() {
       const videoContainer = this.nextElementSibling;
@@ -346,4 +360,177 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   });
+
+  // ===========================
+  //         FAB SETUP
+  // ===========================
+  const fabMain = document.getElementById('fabMain');
+  const fabContainer = document.querySelector('.fab-container');
+  const fabActions = document.querySelectorAll('.fab-action');
+  const fabTop = document.getElementById('fabTop');
+  const fabLast = document.getElementById('fabLast');
+  const fabMeniu = document.getElementById('fabMeniu');
+  const AUTO_CLOSE_FAB = false;
+
+  fabMain.addEventListener('click', function(e) {
+    e.stopPropagation();
+    fabContainer.classList.toggle('active');
+  });
+
+  if (AUTO_CLOSE_FAB) {
+    document.addEventListener('click', function(e) {
+      if (!fabContainer.contains(e.target)) {
+        fabContainer.classList.remove('active');
+      }
+    });
+    fabActions.forEach(btn => {
+      btn.addEventListener('click', () => {
+        fabContainer.classList.remove('active');
+      });
+    });
+  }
+
+  fabTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  fabLast.addEventListener('click', () => {
+    if (lastSavedSectionId) {
+      const lastSection = document.getElementById(lastSavedSectionId);
+      if (lastSection) {
+        lastSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
+  fabMeniu.addEventListener('click', () => {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) {
+      const isOpen = sidebar.style.width === '250px';
+      sidebar.style.width = isOpen ? '0' : '250px';
+      sidebar.style.paddingTop = isOpen ? '0' : '20px';
+    }
+  });
+
+  // ===========================
+  //     SECTION TRACKER LOGIC
+  // ===========================
+  let currentSectionId = null;
+  let lastSavedSectionId = null;
+  let observer = null;
+  let observerPaused = false;
+
+  // Stats for nerds: floating panel, top right
+  const statsDiv = document.createElement('div');
+  statsDiv.id = "section-stats-indicator";
+  statsDiv.style.position = "fixed";
+  statsDiv.style.top = "10px";
+  statsDiv.style.right = "22px";
+  statsDiv.style.background = "#222";
+  statsDiv.style.color = "#fff";
+  statsDiv.style.padding = "7px 18px";
+  statsDiv.style.borderRadius = "10px";
+  statsDiv.style.fontFamily = "monospace";
+  statsDiv.style.fontSize = "15px";
+  statsDiv.style.zIndex = "3002";
+  statsDiv.style.opacity = "0.82";
+  statsDiv.style.pointerEvents = "none";
+  statsDiv.style.userSelect = "none";
+  statsDiv.innerHTML = `
+    <div>Current section: <span id="stats-current">?</span></div>
+    <div>Last saved: <span id="stats-last">?</span></div>
+  `;
+  document.body.appendChild(statsDiv);
+
+  function updateStatsPanel() {
+    document.getElementById('stats-current').textContent = currentSectionId || "?";
+    document.getElementById('stats-last').textContent = lastSavedSectionId || "-";
+  }
+
+  function setupSectionTracking() {
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+  observer = new IntersectionObserver((entries) => {
+    if (observerPaused) return;
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        currentSectionId = entry.target.id;
+        updateStatsPanel();
+        highlightCurrentSectionTitle(currentSectionId);  // <-- add this line!
+      }
+    });
+  }, { threshold: 0.5 });
+  sections.forEach(section => observer.observe(section));
+}
+setupSectionTracking();
+
+
+  function highlightCurrentSectionTitle(sectionId) {
+  document.querySelectorAll('section[id] h1').forEach(h => {
+    h.classList.remove('current-section-title');
+  });
+  if (!sectionId) return;
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+  const h1 = section.querySelector('h1');
+  if (h1) h1.classList.add('current-section-title');
+}
+
+  // ========== SAVE LOGIC FOR JUMPS ==========
+  function saveCurrentSectionAsLast() {
+    lastSavedSectionId = currentSectionId;
+    updateStatsPanel();
+  }
+
+  // Attach to all TOC/menu links
+  document.querySelectorAll('.dropdown-content a[data-loc]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      saveCurrentSectionAsLast();
+      observerPaused = true;
+      setTimeout(() => { observerPaused = false; }, 400);
+      // Your scroll/jump logic is handled elsewhere
+    });
+  });
+
+  // Notes are handled in initNoteTooltips for perfect timing (see above)
+
 });
+
+let previousSectionId = null;
+
+function highlightCurrentSectionTitle(sectionId) {
+  // Remove highlight from all h1
+  document.querySelectorAll('section[id] h1').forEach(h => {
+    h.classList.remove('current-section-title');
+    // Remove the outro AFTER animation, not instantly
+    if (h.classList.contains('section-title-outro')) {
+      h.classList.remove('section-title-outro');
+    }
+  });
+
+  // Outro on previous
+  if (previousSectionId) {
+    const prevSection = document.getElementById(previousSectionId);
+    if (prevSection) {
+      const prevH1 = prevSection.querySelector('h1');
+      if (prevH1) {
+        prevH1.classList.remove('current-section-title');
+        prevH1.classList.add('section-title-outro');
+        // Remove the class after the animation (350ms)
+        setTimeout(() => prevH1.classList.remove('section-title-outro'), 400);
+      }
+    }
+  }
+
+  // Highlight new one
+  if (sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const h1 = section.querySelector('h1');
+      if (h1) h1.classList.add('current-section-title');
+    }
+  }
+  previousSectionId = sectionId;
+}
+

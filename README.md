@@ -19,6 +19,8 @@ TBA
 **1.0.3**
 - refacere stocare poziție în pagină
 - "stats for nerds"
+- reimplementare & cizelare hartă:
+  - tranziție între poziții
 
 **1.0.2**
 - formatare butoane

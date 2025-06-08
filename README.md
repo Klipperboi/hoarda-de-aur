@@ -16,6 +16,10 @@ TBA
 
 ## Changelog
 
+**1.0.3**
+- refacere stocare poziție în pagină
+- "stats for nerds"
+
 **1.0.2**
 - formatare butoane
 - formatare text (font, culoare, stil)

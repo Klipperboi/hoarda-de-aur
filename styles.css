@@ -1,8 +1,5 @@
-/* ============================
-   ROOT VARIABLES
-   ============================ */
 :root {
-  /* Colors */
+  /* MAIN COLORS */
   --color-accent: #ed143d;
   --color-accent-hover: #c70f25;
   --color-bg: #f4f4f4;
@@ -19,37 +16,30 @@
   --color-note-tooltip-bg: rgba(0, 0, 0, 0.92);
   --color-note-tooltip-text: #fff;
 
-  /* Fonts */
+  /* FONTS */
   --font-head: 'Cinzel', serif;
   --font-body: 'Lora', serif;
   --font-accent: 'EB Garamond', serif;
+  --flag-size: 2.15em;
 
-  /* Button */
+  /* BUTTONS */
   --btn-padding: 0.6em 1.2em;
   --btn-radius: 6px;
   --btn-font-size: 1rem;
 
-  /* Sidebar */
+  /* SIDEBAR */
   --sidebar-width: 250px;
   --sidebar-bg: var(--color-bg-sidebar);
   --sidebar-bg-dark: var(--color-bg-sidebar-dark);
 
-  /* Other */
+  /* SEPARATORS */
   --separator-thick: 4px solid #333;
   --separator: 2px solid #333;
 }
 
-/* ============================
-   IMPORT GOOGLE FONTS
-   ============================ */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap');
 
-/* ============================
-   RESET & BASE
-   ============================ */
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-body);
   text-align: center;
@@ -58,69 +48,147 @@ body {
   padding: 20px;
   color: var(--color-text);
 }
-.main-container {
-  min-height: 100vh;
-}
+.main-container { min-height: 100vh; }
 
-/* ============================
-   CONTAINER & LAYOUT
-   ============================ */
 .container {
   position: relative;
   background-color: #fff;
   box-shadow: 0 0 10px var(--color-shadow);
-  padding: 20px;
-  width: 60%;
-  max-width: 800px;
+  padding: 50px;
+  width: 120%;
+  max-width: 860px;
   margin: 20px auto;
   border-radius: 10px;
   z-index: 2;
 }
 
-.current-section-title {
+/* ===========================
+   INLINE FLAG + TITLE (MODERN)
+   =========================== */
+.section-header.flag-inline-header {
+  display: flex;
+  align-items: center;
+  gap: 0.56em;       /* tweak gap for perfect flag/title alignment */
+  text-align: left;
+  margin-bottom: 0;
+  padding-left: 0;
+  position: relative;
+}
+
+/* --- FLAG ICON --- */
+.section-link-flag {
+  font-size: var(--flag-size, 2.1em);
+  color: var(--color-accent, #ed143d);
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  transition: opacity 0.18s, color 0.18s, transform 0.13s;
+  vertical-align: middle;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+}
+.section-link-flag::before {
+  content: "⚐";
+  display: inline-block;
+  transition: content 0.18s;
+}
+.section-link-flag.filled::before,
+.section-link-flag:hover::before {
+  content: "⚑";
+}
+/* Show flag only when section is active or hovered */
+.section-header.flag-inline-header .title-text.current-section-title + .section-link-flag,
+.section-header.flag-inline-header .section-link-flag.active,
+.section-header.flag-inline-header .section-link-flag:focus,
+.section-header.flag-inline-header .section-link-flag:hover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1.13) rotate(-7deg);
+}
+.section-header.flag-inline-header .section-link-flag.inactive {
+  opacity: 0.34;
+  pointer-events: none;
+}
+
+/* --- Tooltip --- */
+.section-link-flag[title]:hover::after, .section-link-flag[title]:focus::after {
+  content: attr(title);
+  position: absolute;
+  left: 50%;
+  bottom: 120%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  padding: 4px 13px;
+  border-radius: 7px;
+  font-size: 1rem;
+  white-space: nowrap;
+  z-index: 19;
+  opacity: 0.96;
+  pointer-events: none;
+  margin-top: -7px;
+}
+
+/* --- H1 TITLE --- */
+.section-header.flag-inline-header h1 {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  display: block;
+  font-family: var(--font-head);
+  font-size: 2.15em;
+  font-weight: 700;
+  position: relative;
+  text-align: left;
+}
+.title-text {
+  color: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  position: relative;
+  transition: color 0.18s;
+  cursor: pointer;
+}
+
+.title-text.current-section-title {
+  display: inline-block;
   color: var(--color-accent);
   font-weight: bold;
   position: relative;
 }
-
-.current-section-title::after {
+.title-text.current-section-title::after {
   content: "";
   display: block;
   height: 4px;
-  width: 40%;
+  width: 120%;   /* Extend the underline */
   background: linear-gradient(90deg, #ed143d 70%, #fff0);
   border-radius: 2px;
   margin-top: 8px;
-  margin-left: 0;
+  margin-left: 0;  /* No shifting, keep left-aligned */
   animation: pop-in-underline 0.35s cubic-bezier(.4,2,.6,1);
 }
-
-.section-title-outro::after {
-  content: "";
-  display: block;
-  height: 4px;
-  width: 40%;
-  background: linear-gradient(90deg, #ed143d 70%, #fff0);
-  border-radius: 2px;
-  margin-top: 8px;
-  margin-left: 0;
-  animation: pop-out-underline 0.35s cubic-bezier(.4,2,.6,1);
-}
-
 @keyframes pop-in-underline {
   from { width: 0; opacity: 0; }
-  to   { width: 40%; opacity: 1; }
-}
-@keyframes pop-out-underline {
-  from { width: 40%; opacity: 1; }
-  to   { width: 0; opacity: 0; }
+  to   { width: 120%; opacity: 1; }
 }
 
 
 
-/* ============================
-   TYPOGRAPHY
-   ============================ */
+/* Date and place (info) below title */
+.section-header + .info {
+  margin-left: 0;
+  margin-top: 0.6em;
+  font-size: 1.08em;
+  text-align: left;
+}
+
+/* ===========================
+   TYPOGRAPHY (GENERAL)
+   =========================== */
 h1, h2, h3, .title-centered, .section-header h1 {
   font-family: var(--font-head);
   font-weight: 700;
@@ -164,9 +232,9 @@ h1, h2, h3, .title-centered, .section-header h1 {
   margin-right: 0 !important;
 }
 
-/* ============================
-   SIDEBAR & MENU
-   ============================ */
+/* ===========================
+   SIDEBAR & MENU (TRIMMED)
+   =========================== */
 .sidebar {
   height: 100%;
   width: 0;
@@ -254,9 +322,9 @@ h1, h2, h3, .title-centered, .section-header h1 {
   z-index: 2000;
 }
 
-/* ============================
+/* ===========================
    SEPARATOR
-   ============================ */
+   =========================== */
 .separator {
   border: none;
   border-top: var(--separator);
@@ -267,9 +335,9 @@ h1, h2, h3, .title-centered, .section-header h1 {
   border-top: var(--separator-thick);
 }
 
-/* ============================
+/* ===========================
    IMAGES & POPUP
-   ============================ */
+   =========================== */
 img.centered-image {
   display: block;
   margin: 0 auto 50px auto;
@@ -306,9 +374,9 @@ img.centered-image {
   cursor: pointer;
 }
 
-/* ============================
-   MAP (LEAFLET)
-   ============================ */
+/* ===========================
+   LEAFLET MAP (TRIMMED)
+   =========================== */
 #map {
   position: fixed;
   top: 100px;
@@ -336,9 +404,7 @@ img.centered-image {
   transition: background 0.3s;
   display: block;
 }
-.always-visible:hover {
-  background-color: var(--color-accent);
-}
+.always-visible:hover { background-color: var(--color-accent); }
 #particles-js {
   position: fixed;
   width: 100%;
@@ -347,9 +413,9 @@ img.centered-image {
   z-index: -1;
 }
 
-/* ============================
+/* ===========================
    BUTTONS
-   ============================ */
+   =========================== */
 .btn, .btn-source {
   display: inline-block;
   background-color: var(--color-accent);
@@ -365,10 +431,7 @@ img.centered-image {
   transition: background-color 0.2s ease;
   margin: 8px 0;
 }
-
-.btn:hover, .btn-source:hover {
-  background-color: var(--color-accent-hover);
-}
+.btn:hover, .btn-source:hover { background-color: var(--color-accent-hover); }
 .btn-secondary {
   background-color: #333;
   color: white;
@@ -378,9 +441,9 @@ img.centered-image {
   color: white;
 }
 
-/* ============================
-   VIDEO BUTTONS
-   ============================ */
+/* ===========================
+   VIDEO SECTION & BUTTONS
+   =========================== */
 .toggleVideo {
   padding: 12px 30px;
   font-size: 20px;
@@ -397,9 +460,9 @@ img.centered-image {
   text-align: center;
 }
 
-/* ============================
-   NOTES, BIBLIOGRAFIE, FANCY LIST
-   ============================ */
+/* ===========================
+   BIBLIOGRAPHY & NOTE LISTS
+   =========================== */
 .fancy-list {
   list-style: none;
   padding-left: 0;
@@ -427,9 +490,9 @@ img.centered-image {
   font-size: 1em;
 }
 
-/* ============================
-   NOTES TOOLTIP
-   ============================ */
+/* ===========================
+   NOTE TOOLTIP
+   =========================== */
 .note-ref {
   color: var(--color-accent);
   font-family: var(--font-accent);
@@ -438,9 +501,7 @@ img.centered-image {
   position: relative;
   font-style: italic;
 }
-.note-ref:hover {
-  text-decoration: underline;
-}
+.note-ref:hover { text-decoration: underline; }
 #note-tooltip {
   position: absolute;
   background-color: var(--color-note-tooltip-bg);
@@ -458,37 +519,26 @@ img.centered-image {
   z-index: 9999;
 }
 
-/* ============================
+/* ===========================
    DARK MODE
-   ============================ */
-body.dark-mode {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-dark);
-}
-body.dark-mode .container {
-  background-color: #444;
-}
+   =========================== */
+body.dark-mode { background-color: var(--color-bg-dark); color: var(--color-text-dark);}
+body.dark-mode .container { background-color: #444;}
 body.dark-mode .text-section,
 body.dark-mode .fancy-list,
-body.dark-mode .section-content p {
-  color: var(--color-text-dark);
-}
-body.dark-mode .sidebar {
-  background-color: var(--sidebar-bg-dark);
-}
+body.dark-mode .section-content p { color: var(--color-text-dark);}
+body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
 
-/* ============================
-   RESPONSIVE (OPTIONAL, CAN EXTEND)
-   ============================ */
+/* ===========================
+   RESPONSIVE
+   =========================== */
 @media (max-width: 900px) {
   .container {
     width: 90%;
     max-width: 98vw;
+    padding-left: 3.5em;
   }
-  #map {
-    width: 98vw;
-    right: 1vw;
-  }
+  #map { width: 98vw; right: 1vw;}
 }
 @media (max-width: 600px) {
   .container {
@@ -496,16 +546,12 @@ body.dark-mode .sidebar {
     width: 100vw;
     border-radius: 0;
   }
-  .sidebar {
-    width: 0;
-    font-size: 15px;
-  }
+  .sidebar { width: 0; font-size: 15px;}
 }
 
-/* ============================
-   FAB - MENIU (with morph + tooltip)
-   ============================ */
-
+/* ===========================
+   FLOATING ACTION BUTTON (TRIMMED)
+   =========================== */
 .fab-container {
   position: fixed;
   bottom: 32px;
@@ -515,7 +561,6 @@ body.dark-mode .sidebar {
   flex-direction: column-reverse;
   align-items: flex-end;
 }
-
 .fab-main {
   background: var(--color-accent, #ed143d);
   color: #fff;
@@ -534,7 +579,6 @@ body.dark-mode .sidebar {
   overflow: visible;
   z-index: 2;
 }
-
 .fab-main .bar {
   pointer-events: none;
   position: absolute;
@@ -544,21 +588,16 @@ body.dark-mode .sidebar {
   border-radius: 2px;
   transition: transform 0.26s cubic-bezier(.4,2,.6,1), opacity 0.18s;
 }
-.fab-main .bar:nth-child(1) { top: 18px; }
-.fab-main .bar:nth-child(2) { top: 26px; }
-.fab-main .bar:nth-child(3) { top: 34px; }
-
-/* Morph Hamburger to X */
+.fab-main .bar:nth-child(1) { top: 18px;}
+.fab-main .bar:nth-child(2) { top: 26px;}
+.fab-main .bar:nth-child(3) { top: 34px;}
 .fab-container.active .fab-main .bar:nth-child(1) {
   transform: translateY(8px) rotate(45deg);
 }
-.fab-container.active .fab-main .bar:nth-child(2) {
-  opacity: 0;
-}
+.fab-container.active .fab-main .bar:nth-child(2) { opacity: 0; }
 .fab-container.active .fab-main .bar:nth-child(3) {
   transform: translateY(-8px) rotate(-45deg);
 }
-
 .fab-main::after {
   content: attr(aria-label);
   position: absolute;
@@ -577,18 +616,13 @@ body.dark-mode .sidebar {
   z-index: 9999;
   font-family: var(--font-head);
 }
-.fab-main:hover::after {
-  opacity: 1;
-  right: 115%;
-}
-
+.fab-main:hover::after { opacity: 1; right: 115%;}
 .fab-actions {
   display: flex;
   flex-direction: column;
   gap: 14px;
   margin-bottom: 10px;
 }
-
 .fab-action {
   background: #222;
   color: #fff;
@@ -605,9 +639,7 @@ body.dark-mode .sidebar {
   outline: none;
   position: relative;
 }
-.fab-action:hover {
-  background: var(--color-accent, #ed143d);
-}
+.fab-action:hover { background: var(--color-accent, #ed143d);}
 .fab-action::after {
   content: attr(aria-label);
   position: absolute;
@@ -626,11 +658,7 @@ body.dark-mode .sidebar {
   z-index: 9999;
   font-family: var(--font-head);
 }
-.fab-action:hover::after {
-  opacity: 1;
-  right: 115%;
-}
-
+.fab-action:hover::after { opacity: 1; right: 115%;}
 .fab-container.active .fab-actions .fab-action {
   opacity: 1;
   transform: translateY(0) scale(1);

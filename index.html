@@ -9,16 +9,17 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
-
+<body>
   <div id="note-tooltip"></div>
   <div id="particles-js"></div>
 
+  <!-- SIDEBAR / MENU -->
   <div class="sidebar" id="sidebar">
-    <button id="modeToggle" class="btn">Schimbă modul</button>
-    <button id="toggleMap" class="btn">Harta</button>
-    <div class="dropdown">
-      <button class="dropbtn">Cuprins</button>
-      <div class="dropdown-content">
+    <div class="sidebar-top">
+      <button class="menu-btn" id="sidebarSettings">⚙️ Setări</button>
+      <button class="menu-btn" id="sidebarTips">💡 Tips</button>
+      <button class="menu-btn dropbtn" id="sidebarToc">Cuprins</button>
+      <div class="dropdown-content" id="tocDropdown">
         <a href="#acasa" data-loc="acasa">Acasă</a>
         <a href="#prolog" data-loc="prolog">1206 – Prolog</a>
         <a href="#kulikovo" data-loc="kulikovo">1380 – Kulikovo</a>
@@ -38,8 +39,11 @@
         <a href="#note" data-loc="note">Note</a>
       </div>
     </div>
+    <div class="sidebar-map">
+      <div id="map"></div>
+    </div>
   </div>
-
+  
   <section id="acasa"></section>
 
   <div class="main-container">
@@ -344,13 +348,13 @@
 </section>
 
 
-  <div id="map"></div>
-
+   <!-- IMAGE POPUP MODAL -->
   <div id="imagePopup" class="popup">
     <span id="closePopup" class="close-btn">&times;</span>
     <img id="popupImage" src="" alt="Zoom Image" />
   </div>
 
+  <!-- FLOATING ACTION BUTTONS (other quick actions) -->
   <div class="fab-container">
     <button id="fabMain" class="fab-main" aria-label="Acțiuni rapide">
       <span class="bar"></span>
@@ -366,6 +370,7 @@
     </div>
   </div>
 
+  <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="scripts.js"></script>

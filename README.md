@@ -19,8 +19,10 @@ TBA
 **1.0.3**
 - refacere stocare poziție în pagină
 - "stats for nerds"
+- editare meniu
 - reimplementare & cizelare hartă:
   - tranziție între poziții
+  - repoziționare în meniu
 
 **1.0.2**
 - formatare butoane

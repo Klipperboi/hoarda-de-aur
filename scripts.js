@@ -1,5 +1,5 @@
 /* ============================
-   CONSTANTE & REFERINȚE
+   CONSTANTS & REFERENCES
    ============================ */
 const SECTION_HIGHLIGHT_CLASS = "current-section-title";
 const FLAG_ACTIVE_CLASS = "active";
@@ -8,29 +8,34 @@ let currentSectionId = null;
 let observerPaused = false;
 
 /* ============================
-   SIDEBAR & DROPDOWN
+   SIDEBAR & DROPDOWN MENU
    ============================ */
 function initSidebar() {
   const sidebar = document.getElementById("sidebar");
-  const menuToggle = document.getElementById("menuToggle");
-  let isSidebarOpen = false;
+  const sidebarToc = document.getElementById("sidebarToc");
+  const tocDropdown = document.getElementById("tocDropdown");
 
-  if (menuToggle) {
-    menuToggle.addEventListener("click", function(event) {
-      event.stopPropagation();
-      isSidebarOpen = !isSidebarOpen;
-      if (sidebar) {
-        sidebar.style.width = isSidebarOpen ? "250px" : "0";
-        sidebar.style.paddingTop = isSidebarOpen ? "20px" : "0";
-      }
-    });
+  // Sidebar open/close (toggle .open class)
+  function toggleSidebar() {
+    sidebar.classList.toggle("open");
+    // Hide TOC dropdown if closing sidebar
+    if (!sidebar.classList.contains("open") && tocDropdown) {
+      tocDropdown.style.display = "none";
+    }
   }
-  const dropbtn = document.querySelector(".dropbtn");
-  const dropdownContent = document.querySelector(".dropdown-content");
-  if (dropbtn && dropdownContent) {
-    dropbtn.addEventListener("click", function(event) {
+
+  window.toggleSidebar = toggleSidebar;
+
+  // TOC toggle inside sidebar
+  if (sidebarToc && tocDropdown) {
+    sidebarToc.addEventListener("click", function(event) {
       event.stopPropagation();
-      dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+      if (tocDropdown.style.display === "block") {
+        tocDropdown.style.display = "none";
+      } else {
+        tocDropdown.style.display = "block";
+        sidebar.classList.add("open");
+      }
     });
   }
 }
@@ -88,13 +93,11 @@ function loadParticles(mode) {
 }
 
 /* ============================
-   WRAP TITLU + FLAG (AUTOMAT)
+   SECTION FLAGS (automatic)
    ============================ */
 function setupSectionTitlesAndFlags() {
   document.querySelectorAll('.section-header.flag-float-header').forEach(header => {
-    // If already has flag, skip
     if (!header.querySelector('.section-link-flag')) {
-      // Create flag anchor
       const flag = document.createElement('a');
       flag.className = 'section-link-flag';
       flag.setAttribute('href', '#');
@@ -107,26 +110,21 @@ function setupSectionTitlesAndFlags() {
 }
 
 /* ============================
-   FLAG CLICK, HOVER, TOOLTIP
+   FLAGS: Click/hover/tooltip
    ============================ */
 function initFlagClickEvents() {
-  // Toggle flag icon on hover/active
   document.querySelectorAll('.section-link-flag').forEach(flag => {
     const flagIcon = flag.querySelector('.flag-icon');
     flag.onmouseenter = () => flagIcon.textContent = flagIcon.getAttribute('data-filled');
     flag.onmouseleave = () => {
-      // If this is active (saved), show filled, else outline
       if (flag.classList.contains(FLAG_ACTIVE_CLASS)) {
         flagIcon.textContent = flagIcon.getAttribute('data-filled');
       } else {
         flagIcon.textContent = flagIcon.getAttribute('data-outline');
       }
     };
-    // Tooltip (native title attr, but could add custom)
     flag.onfocus = flag.onmouseenter;
     flag.onblur = flag.onmouseleave;
-
-    // Save section on click
     flag.onclick = (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -134,7 +132,6 @@ function initFlagClickEvents() {
       if (section) saveCurrentSectionAsLast(section.id);
     };
   });
-  // (optional) Save also by clicking title
   document.querySelectorAll('.title-text').forEach(title => {
     title.onclick = (e) => {
       const section = title.closest('section');
@@ -145,13 +142,11 @@ function initFlagClickEvents() {
 
 function saveCurrentSectionAsLast(id = null) {
   lastSavedSectionId = id || currentSectionId;
-  // Clear all active flags
   document.querySelectorAll('.section-link-flag').forEach(flag => {
     flag.classList.remove(FLAG_ACTIVE_CLASS);
     const icon = flag.querySelector('.flag-icon');
     if (icon) icon.textContent = icon.getAttribute('data-outline');
   });
-  // Mark the right flag as active, filled
   if (lastSavedSectionId) {
     const section = document.getElementById(lastSavedSectionId);
     if (section) {
@@ -160,7 +155,7 @@ function saveCurrentSectionAsLast(id = null) {
       if (flag) {
         flag.classList.add(FLAG_ACTIVE_CLASS);
         if (icon) icon.textContent = icon.getAttribute('data-filled');
-        setTimeout(() => flag.classList.remove(FLAG_ACTIVE_CLASS), 700); // visual blink
+        setTimeout(() => flag.classList.remove(FLAG_ACTIVE_CLASS), 700);
       }
     }
   }
@@ -168,7 +163,7 @@ function saveCurrentSectionAsLast(id = null) {
 }
 
 /* ============================
-   Highlight titlu & flag vizibil doar la highlight
+   Highlight current section title
    ============================ */
 function highlightCurrentSectionTitle(sectionId) {
   document.querySelectorAll('.title-text').forEach(span => {
@@ -184,7 +179,7 @@ function highlightCurrentSectionTitle(sectionId) {
 }
 
 /* ============================
-   POPUP IMAGINI
+   IMAGE POPUPS
    ============================ */
 function initImagePopups() {
   const popup = document.getElementById("imagePopup");
@@ -221,9 +216,10 @@ function initImagePopups() {
 }
 
 /* ============================
-   HARTĂ (Leaflet)
+   LEAFLET MAP (with TOC sync)
    ============================ */
 function initMap() {
+  // Map positions (edit as needed)
   const locations = {
     prolog:       { coords: [46,     105], msg: "Prolog – 1206 - 1380, Mongolia" },
     kulikovo:     { coords: [54,      39], msg: "Kulikovo – 8 Septembrie, Rusia" },
@@ -240,9 +236,13 @@ function initMap() {
     sfarsit:      { coords: [54.6778, 36.2865], msg: "Sfârșit - 8 August 1480, Râul Ugra" },
     ultimul:      { coords: [54.8985, 23.9036], msg: "Ultimul Khan - 1 Ianuarie 1502, Kaunas" },
     principal:    { coords: [48,      42] },
-    bibliografie: { coords: [44,      41] },
-    note:         { coords: [44,      41] }
+    // bibliografie: { coords: [44,      41] },
+    // note:         { coords: [44,      41] }
   };
+
+  // You can make these configurable
+  const mapFlyZoom = 6;
+  const mapFlyAnim = { animate: true, duration: 1.15, easeLinearity: 0.27 };
 
   const map = L.map("map").setView([45.9432, 24.9668], 4);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -273,11 +273,12 @@ function initMap() {
       e.preventDefault();
       const locKey = this.dataset.loc;
       updateActiveLink(locKey);
+      saveCurrentSectionAsLast(locKey); // <--- Save last
 
       if (locKey === "acasa") {
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else if (locations[locKey]) {
-        map.setView(locations[locKey].coords, 6);
+        map.flyTo(locations[locKey].coords, mapFlyZoom, mapFlyAnim);
         mapMarkers[locKey].openPopup();
         const section = document.getElementById(locKey);
         if (section) section.scrollIntoView({ behavior: "smooth" });
@@ -285,13 +286,14 @@ function initMap() {
     });
   });
 
+  // Observer: auto-fly when visible
   const observerOptions = { root: null, threshold: 0.5 };
   const observerCallback = (entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const id = entry.target.id;
         if (locations[id]) {
-          map.setView(locations[id].coords, 6);
+          map.flyTo(locations[id].coords, mapFlyZoom, mapFlyAnim);
           mapMarkers[id].openPopup();
           updateActiveLink(id);
         } else {
@@ -300,24 +302,11 @@ function initMap() {
       }
     });
   };
-
   document.querySelectorAll("section[id]").forEach(section => {
     const obs = new IntersectionObserver(observerCallback, observerOptions);
     obs.observe(section);
   });
-
-  const toggleMapBtn = document.getElementById("toggleMap");
-  if (toggleMapBtn) {
-    toggleMapBtn.addEventListener("click", () => {
-      const mapContainer = document.getElementById("map");
-      if (!mapContainer.style.display || mapContainer.style.display === "none") {
-        mapContainer.style.display = "block";
-        setTimeout(() => map.invalidateSize(), 100);
-      } else {
-        mapContainer.style.display = "none";
-      }
-    });
-  }
+  window._leafletMap = map;
 }
 
 /* ============================
@@ -335,7 +324,6 @@ function initTextSections() {
       while ((match = regex.exec(text)) !== null) {
         const sectionId = match[1].trim();
         const content = match[2].trim();
-
         if (sectionId === "principal") {
           const principalP = document.getElementById("principal");
           if (principalP) {
@@ -365,12 +353,11 @@ function initAllTooltips() {
   const tooltipDiv = document.getElementById("note-tooltip");
   if (!tooltipDiv) return;
 
-  // Clean up old handlers (safety)
   document.querySelectorAll('.note-ref, .title-text').forEach(el => {
     el.onmouseenter = el.onmousemove = el.onmouseleave = null;
   });
 
-  // Tooltips for notes
+  // Notes
   document.querySelectorAll(".note-ref").forEach(ref => {
     const noteNum = ref.dataset.note;
     const noteTarget = document.getElementById(`note-${noteNum}`);
@@ -404,8 +391,7 @@ function initAllTooltips() {
       }, 100);
     };
   });
-
-  // Tooltips for titles
+  // Title tooltips
   document.querySelectorAll('.title-text').forEach(title => {
     title.onmouseenter = function() {
       tooltipDiv.textContent = "Salvează această secțiune";
@@ -428,15 +414,12 @@ function initAllTooltips() {
   });
 }
 
-
-
 /* ============================
    THEME TOGGLE (dark/light)
    ============================ */
 function initThemeToggle() {
   const particlesJSBackground = document.getElementById("particles-js");
   const modeToggle = document.getElementById("modeToggle");
-
   const savedMode = localStorage.getItem("theme");
   if (savedMode === "dark") {
     document.body.classList.add("dark-mode");
@@ -447,7 +430,6 @@ function initThemeToggle() {
     if (particlesJSBackground) particlesJSBackground.style.backgroundColor = "#f4f4f4";
     loadParticles("light");
   }
-
   if (modeToggle) {
     modeToggle.addEventListener("click", function() {
       const isDark = document.body.classList.toggle("dark-mode");
@@ -508,15 +490,13 @@ function initFab() {
   }
 
   fabTop.addEventListener('click', () => {
-  // If already at top (scrollY == 0), save acasa, else save the current section
-  if (window.scrollY < 5 || currentSectionId === 'acasa') {
-    saveCurrentSectionAsLast('acasa');
-  } else {
-    saveCurrentSectionAsLast(currentSectionId);
-  }
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-
+    if (window.scrollY < 5 || currentSectionId === 'acasa') {
+      saveCurrentSectionAsLast('acasa');
+    } else {
+      saveCurrentSectionAsLast(currentSectionId);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
   fabLast.addEventListener('click', () => {
     if (lastSavedSectionId) {
@@ -529,13 +509,9 @@ function initFab() {
     }
   });
 
-  fabMeniu && fabMeniu.addEventListener('click', () => {
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar) {
-      const isOpen = sidebar.style.width === '250px';
-      sidebar.style.width = isOpen ? '0' : '250px';
-      sidebar.style.paddingTop = isOpen ? '0' : '20px';
-    }
+  fabMeniu && fabMeniu.addEventListener('click', function(event) {
+    event.stopPropagation();
+    window.toggleSidebar && window.toggleSidebar();
   });
 }
 
@@ -595,7 +571,7 @@ function initVideoToggle() {
 document.addEventListener("DOMContentLoaded", function() {
   setupSectionTitlesAndFlags();
   initFlagClickEvents();
-  highlightCurrentSectionTitle(); // inițial, niciuna
+  highlightCurrentSectionTitle(); // initially none
   initSidebar();
   loadParticles("light");
   initImagePopups();

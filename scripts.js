@@ -508,8 +508,15 @@ function initFab() {
   }
 
   fabTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  // If already at top (scrollY == 0), save acasa, else save the current section
+  if (window.scrollY < 5 || currentSectionId === 'acasa') {
+    saveCurrentSectionAsLast('acasa');
+  } else {
+    saveCurrentSectionAsLast(currentSectionId);
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 
   fabLast.addEventListener('click', () => {
     if (lastSavedSectionId) {

@@ -101,33 +101,32 @@ hanul Hanatului Crimeei, a dus la foamete în rândul forțelor lui Sheikh Ahmed
 De asemenea, intervenția imperiului otoman a marcat o schimbare, iar în cele din urmă, puterea a fost consolidată de marele ducat al moscovei.
 
 --bibliografie--
-
-<ul class="fancy-list">
-<li id="note-1">	Ciocîltan, V., <i>Mongolii şi Marea Neagră în secolele XIII–XIV. Contribuţia cinghizhanizilor la transformarea bazinului pontic în placă turnantă a comerţului euroasiatic</i>, Bucureşti, 1998. <br>
-<li id="note-2">	Ciucălău, Daniel, <i>Hoarda de Aur și spațiul nord dunărean la începutul statalității românești</i>, revista „Acta Moldaviae Septentrionalis”, numerele VII-VIII.<br>
-<li id="note-3">	Gonta, Alexandru I., <i>Romanii si Hoarda de Aur 1241-1502</i>, Editură Casa Editorială Demiurg, 2010. <br>
-<li id="note-4">	Grecov, B.D  și  Iacubovschi, A.I., <i>Hoara de Aur și decăderea ei</i>, Editura de Stat pentru Literatura Științifică, 1953.<br>
-<li id="note-5">	Lemerle, P., <i>Istoria Bizanţului</i>, Bucureşti, 1998<br>
-<li id="note-6"> Sacerdoteanu, Aurelian, <i>Marea invazie tatara si Sud-Estul european</i>, Editura Demiurg, 2010<br>
-<li id="note-7">	Vernadsky,  George, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953.<br>
-<li id="note-8">   Imagini © HistoryMaps
+<ol class="fancy-list">
+  <li>Ciocîltan, V., <i>Mongolii și Marea Neagră în secolele XIII–XIV. Contribuția cinghizhanizilor la transformarea bazinului pontic în placă turnantă a comerțului euroasiatic</i>, București, 1998.</li>
+  <li>Ciucălău, Daniel, <i>Hoarda de Aur și spațiul nord dunărean la începutul statalității românești</i>, revista „Acta Moldaviae Septentrionalis”, numerele VII–VIII.</li>
+  <li>Gonta, Alexandru I., <i>Romanii si Hoarda de Aur 1241-1502</i>, Editură Casa Editorială Demiurg, 2010.</li>
+  <li>Grecov, B.D și Iacubovschi, A.I., <i>Hoara de Aur și decăderea ei</i>, Editura de Stat pentru Literatura Științifică, 1953.</li>
+  <li>Lemerle, P., <i>Istoria Bizanțului</i>, București, 1998</li>
+  <li>Sacerdoteanu, Aurelian, <i>Marea invazie tatara si Sud-Estul european</i>, Editura Demiurg, 2010</li>
+  <li>Vernadsky,  George, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953.</li>
+  <li>Imagini © HistoryMaps</li>
+</ol>
 
 --note--
-
-<ul class="fancy-list">
-  <li id="note-1"> George Vernadsky, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953, p.109</li>
-  <li id="note-2"> Daniel Ciucălău, <i>Hoarda de Aur și spațiul nord dunărean...</i>, p. 34</li>
-  <li id="note-3"> Aurelian Sacerdoteanu, <i>Marea invazie...</i>, Editura Demiurg, 2010, p. 97</li>
-  <li id="note-4"> P. Lemerle, <i>Istoria Bizanţului</i>, Bucureşti, 1998, p.126</li>
-  <li id="note-5"> Daniel Ciucălău, op.cit., p.78</li>
-  <li id="note-6"> V. Ciocîltan, <i>Mongolii şi Marea Neagră...</i>, Bucureşti, 1998, p.123</li>
-  <li id="note-7"> Ibidem, p.179</li>
-  <li id="note-8"> Gonta, Alexandru I., <i>Romanii si Hoarda de Aur 1241-1502</i>, Editura Demiurg, 2010, p.210</li>
-  <li id="note-9"> Aurelian Sacerdoteanu, op. cit., p.177</li>
-  <li id="note-10"> Ibidem, p.181</li>
-  <li id="note-11"> B. D. Grecov și A.I. Iacubovschi, <i>Hoarda de Aur și decăderea ei</i>, 1953, p.221</li>
-  <li id="note-12"> Ibidem, p.241</li>
-  <li id="note-13"> Daniel Ciucălău, op.cit., p.178</li>
-  <li id="note-14"> Ibidem, p.211</li>
-</ul>
+<ol class="fancy-list">
+  <li id="note-1">George Vernadsky, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953, p.109</li>
+  <li id="note-2">Daniel Ciucălău, <i>Hoarda de Aur și spațiul nord dunărean...</i>, p. 34</li>
+  <li id="note-3">Aurelian Sacerdoteanu, <i>Marea invazie...</i>, Editura Demiurg, 2010, p. 97</li>
+  <li id="note-4">P. Lemerle, <i>Istoria Bizanțului</i>, București, 1998, p.126</li>
+  <li id="note-5">Daniel Ciucălău, op.cit., p.78</li>
+  <li id="note-6">V. Ciocîltan, <i>Mongolii și Marea Neagră...</i>, București, 1998, p.123</li>
+  <li id="note-7">Ibidem, p.179</li>
+  <li id="note-8">Gonta, Alexandru I., <i>Romanii si Hoarda de Aur 1241-1502</i>, Editura Demiurg, 2010, p.210</li>
+  <li id="note-9">Aurelian Sacerdoteanu, op. cit., p.177</li>
+  <li id="note-10">Ibidem, p.181</li>
+  <li id="note-11">B. D. Grecov și A.I. Iacubovschi, <i>Hoarda de Aur și decăderea ei</i>, 1953, p.221</li>
+  <li id="note-12">Ibidem, p.241</li>
+  <li id="note-13">Daniel Ciucălău, op.cit., p.178</li>
+  <li id="note-14">Ibidem, p.211</li>
+</ol>
 

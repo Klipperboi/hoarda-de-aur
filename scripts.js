@@ -1,6 +1,3 @@
-/* ============================
-   CONSTANTS & REFERENCES
-   ============================ */
 const SECTION_HIGHLIGHT_CLASS = "current-section-title";
 const FLAG_ACTIVE_CLASS = "active";
 let lastSavedSectionId = null;
@@ -32,25 +29,14 @@ const mapFlyAnim = { animate: true, duration: 1.15, easeLinearity: 0.27 };
 let map = null;
 let mapMarkers = {};
 
-/* ============================
-   SMART SMOOTH SCROLL JUMP
-   ============================ */
-/**
- * Smoothly scrolls to a section, but only highlights/updates start and destination, not all in-between.
- * Also updates map, TOC, flags, stats, etc. once after scroll ends.
- */
+/* SMART SMOOTH SCROLL JUMP */
 function smartSmoothJumpToSection(targetId) {
   observerPaused = true;
-
   const section = document.getElementById(targetId);
   if (!section) return;
-
-  // Get exact top position (add offset for fixed header if you use one!)
   const targetY = section.getBoundingClientRect().top + window.scrollY;
-
   window.scrollTo({ top: targetY, behavior: "smooth" });
 
-  // Debounce scroll end
   let lastCheck = null;
   function onScroll() {
     if (Math.abs(window.scrollY - targetY) < 3) {
@@ -61,7 +47,6 @@ function smartSmoothJumpToSection(targetId) {
         highlightCurrentSectionTitle(currentSectionId);
         updateStatsPanel();
         updateActiveLink(currentSectionId);
-        // Only fly map for real content
         if (
           locations[currentSectionId] &&
           currentSectionId !== "bibliografie" &&
@@ -72,7 +57,6 @@ function smartSmoothJumpToSection(targetId) {
         }
       }, 70);
     } else {
-      // If user interrupts scroll, fallback after 550ms
       if (!lastCheck) lastCheck = Date.now();
       if (Date.now() - lastCheck > 550) {
         window.removeEventListener('scroll', onScroll);
@@ -83,9 +67,7 @@ function smartSmoothJumpToSection(targetId) {
   window.addEventListener('scroll', onScroll);
 }
 
-/* ============================
-   SIDEBAR & DROPDOWN MENU
-   ============================ */
+/* SIDEBAR & DROPDOWN MENU */
 function initSidebar() {
   const sidebar = document.getElementById("sidebar");
   const sidebarToc = document.getElementById("sidebarToc");
@@ -98,6 +80,14 @@ function initSidebar() {
     }
   }
   window.toggleSidebar = toggleSidebar;
+
+  // For a dedicated sidebar menu button (if present)
+  const sidebarMenuBtn = document.getElementById("sidebarMenu");
+  if (sidebarMenuBtn) {
+    sidebarMenuBtn.addEventListener("click", function() {
+      toggleSidebar();
+    });
+  }
 
   if (sidebarToc && tocDropdown) {
     sidebarToc.addEventListener("click", function(event) {
@@ -112,18 +102,17 @@ function initSidebar() {
   }
 }
 
-/* ============================
-   PARTICLES (background)
-   ============================ */
+/* PARTICLES (background) */
 function loadParticles(mode) {
   const particlesJSBackground = document.getElementById("particles-js");
   if (!particlesJSBackground) return;
   particlesJSBackground.innerHTML = "";
-  const lineColor = (mode === "dark") ? "#ffffff" : "#555";
+  const accent = getComputedStyle(document.body).getPropertyValue('--color-accent').trim();
+  const lineColor = (mode === "dark") ? "#fff" : "#555";
   const config = {
     particles: {
       number: { value: 80, density: { enable: true, value_area: 800 } },
-      color: { value: "#ed143d" },
+      color: { value: accent },
       shape: { type: "circle", stroke: { width: 0, color: "#000000" } },
       opacity: { value: 0.5, anim: { enable: false } },
       size: { value: 3, random: true, anim: { enable: false } },
@@ -164,9 +153,7 @@ function loadParticles(mode) {
   particlesJS("particles-js", config);
 }
 
-/* ============================
-   SECTION FLAGS (automatic)
-   ============================ */
+/* SECTION FLAGS (automatic) */
 function setupSectionTitlesAndFlags() {
   document.querySelectorAll('.section-header.flag-float-header').forEach(header => {
     if (!header.querySelector('.section-link-flag')) {
@@ -181,9 +168,7 @@ function setupSectionTitlesAndFlags() {
   });
 }
 
-/* ============================
-   FLAGS: Click/hover/tooltip
-   ============================ */
+/* FLAGS: Click/hover/tooltip */
 function initFlagClickEvents() {
   document.querySelectorAll('.section-link-flag').forEach(flag => {
     const flagIcon = flag.querySelector('.flag-icon');
@@ -234,9 +219,6 @@ function saveCurrentSectionAsLast(id = null) {
   updateStatsPanel();
 }
 
-/* ============================
-   Highlight current section title
-   ============================ */
 function highlightCurrentSectionTitle(sectionId) {
   document.querySelectorAll('.title-text').forEach(span => {
     span.classList.remove(SECTION_HIGHLIGHT_CLASS);
@@ -250,9 +232,7 @@ function highlightCurrentSectionTitle(sectionId) {
   }
 }
 
-/* ============================
-   IMAGE POPUPS
-   ============================ */
+/* IMAGE POPUPS */
 function initImagePopups() {
   const popup = document.getElementById("imagePopup");
   const popupImage = document.getElementById("popupImage");
@@ -287,9 +267,7 @@ function initImagePopups() {
   }
 }
 
-/* ============================
-   LEAFLET MAP (with TOC sync)
-   ============================ */
+/* LEAFLET MAP (with TOC sync) */
 function initMap() {
   map = L.map("map").setView([45.9432, 24.9668], 4);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -356,9 +334,7 @@ function initMap() {
   window._leafletMap = map;
 }
 
-/* ============================
-   TEXT PRINCIPAL din text.txt
-   ============================ */
+/* TEXT PRINCIPAL din text.txt */
 function initTextSections() {
   fetch("text.txt")
     .then(response => {
@@ -393,9 +369,7 @@ function initTextSections() {
     .catch(error => console.error("Eroare la procesarea text.txt:", error));
 }
 
-/* ============================
-   NOTE TOOLTIP (and smooth jump)
-   ============================ */
+/* NOTE TOOLTIP (and smooth jump) */
 function initAllTooltips() {
   const tooltipDiv = document.getElementById("note-tooltip");
   if (!tooltipDiv) return;
@@ -430,7 +404,6 @@ function initAllTooltips() {
     ref.onclick = function(e) {
       e.preventDefault();
       saveCurrentSectionAsLast();
-      // Jump to the section containing this note
       const section = noteTarget.closest("section");
       if (section) smartSmoothJumpToSection(section.id);
     };
@@ -457,9 +430,7 @@ function initAllTooltips() {
   });
 }
 
-/* ============================
-   THEME TOGGLE (dark/light)
-   ============================ */
+/* THEME TOGGLE (dark/light) */
 function initThemeToggle() {
   const particlesJSBackground = document.getElementById("particles-js");
   const modeToggle = document.getElementById("modeToggle");
@@ -484,9 +455,7 @@ function initThemeToggle() {
   }
 }
 
-/* ============================
-   SECTION TRACKING (observer)
-   ============================ */
+/* SECTION TRACKING (observer) */
 function setupSectionTracking() {
   const sections = Array.from(document.querySelectorAll('section[id]'));
   const observer = new IntersectionObserver((entries) => {
@@ -502,9 +471,7 @@ function setupSectionTracking() {
   sections.forEach(section => observer.observe(section));
 }
 
-/* ============================
-   FAB BUTTONS (floating actions)
-   ============================ */
+/* FAB BUTTONS (floating actions) */
 function initFab() {
   const fabMain = document.getElementById('fabMain');
   const fabContainer = document.querySelector('.fab-container');
@@ -514,7 +481,7 @@ function initFab() {
   const fabMeniu = document.getElementById('fabMeniu');
   const AUTO_CLOSE_FAB = false;
 
-  fabMain.addEventListener('click', function(e) {
+  fabMain && fabMain.addEventListener('click', function(e) {
     e.stopPropagation();
     fabContainer.classList.toggle('active');
   });
@@ -532,7 +499,7 @@ function initFab() {
     });
   }
 
-  fabTop.addEventListener('click', () => {
+  fabTop && fabTop.addEventListener('click', () => {
     if (window.scrollY < 5 || currentSectionId === 'acasa') {
       saveCurrentSectionAsLast('acasa');
       smartSmoothJumpToSection('acasa');
@@ -542,7 +509,7 @@ function initFab() {
     }
   });
 
-  fabLast.addEventListener('click', () => {
+  fabLast && fabLast.addEventListener('click', () => {
     if (lastSavedSectionId) {
       smartSmoothJumpToSection(lastSavedSectionId);
     } else {
@@ -556,9 +523,7 @@ function initFab() {
   });
 }
 
-/* ============================
-   PANEL STATS (top right)
-   ============================ */
+/* PANEL STATS (top right) */
 function updateStatsPanel() {
   let statsDiv = document.getElementById('section-stats-indicator');
   if (!statsDiv) {
@@ -587,9 +552,7 @@ function updateStatsPanel() {
   document.getElementById('stats-last').textContent = lastSavedSectionId || "-";
 }
 
-/* ============================
-   VIDEO TOGGLE
-   ============================ */
+/* VIDEO TOGGLE */
 function initVideoToggle() {
   document.querySelectorAll(".toggleVideo").forEach(button => {
     button.addEventListener("click", function() {
@@ -604,17 +567,34 @@ function initVideoToggle() {
       }
     });
   });
+  window.addEventListener('scroll', function() {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('scroll-bar').style.width = progress + '%';
+});
+
+function updateProgressBar() {
+  const bar = document.getElementById("page-progress-bar");
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight ? (scrollTop / docHeight) : 0;
+  bar.style.width = (progress * 100) + "%";
+}
+window.addEventListener("scroll", updateProgressBar);
+window.addEventListener("resize", updateProgressBar);
+document.addEventListener("DOMContentLoaded", updateProgressBar);
+
+
 }
 
-/* ============================
-   INIT GLOBAL
-   ============================ */
+/* INIT GLOBAL */
 document.addEventListener("DOMContentLoaded", function() {
   setupSectionTitlesAndFlags();
   initFlagClickEvents();
   highlightCurrentSectionTitle();
   initSidebar();
-  loadParticles("light");
+  loadParticles(document.body.classList.contains("dark-mode") ? "dark" : "light");
   initImagePopups();
   initMap();
   initTextSections();

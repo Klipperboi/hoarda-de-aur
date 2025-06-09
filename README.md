@@ -15,6 +15,17 @@ Testați direct accesând linkul sau scanând codul QR de mai jos:
 TBA
 
 ## Changelog
+
+**1.0.5**
+- hyperlink titlu
+- distanță titlu - top bar
+- pop-up setări - stil, highlight
+    - mod
+    - debug panel
+    - particule
+- refacere sistem hartă
+- highlight litere secțiune text
+
 **1.0.4**
 - stil diferit mod luminos/întunecat
 - bară progres

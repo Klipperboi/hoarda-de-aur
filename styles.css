@@ -3,6 +3,7 @@
   --color-accent-hover: #c70f25;
   --color-bg: #f4f4f4;
   --color-bg-dark: #333;
+  --color-bg-particles: #f4f4f4;
   --color-bg-sidebar: #111;
   --color-bg-sidebar-dark: #222;
   --color-shadow: rgba(0,0,0,0.1);
@@ -33,6 +34,25 @@
   --separator: 2px solid #333;
 }
 
+/* === DUAL COLOR PALETTE FOR DARK MODE === */
+body.dark-mode {
+  --color-accent: #ac7d0c;
+  --color-accent-hover: #d7ac3c;
+  --color-bg: #232325;
+  --color-bg-dark: #232325;
+  --color-bg-sidebar: #181818;
+  --color-bg-sidebar-dark: #232325;
+  --color-shadow: rgba(0,0,0,0.45);
+  --color-bg-particles: #313131;
+  --color-text: #e2e2e2;
+  --color-text-dark: #e2e2e2;
+  --color-list-number: #ac7d0c;
+  --color-link: #ac7d0c;
+  --color-link-hover: #d7ac3c;
+  --color-note-tooltip-bg: rgba(20, 20, 10, 0.98);
+  --color-note-tooltip-text: #fff;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap');
 
 html { scroll-behavior: smooth; }
@@ -41,9 +61,15 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   margin: 0;
-  padding: 20px;
   text-align: center;
 }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .main-container { min-height: 100vh; }
 .container {
   position: relative;
@@ -63,7 +89,7 @@ body {
   top: 0; left: 0; height: 100vh;
   width: 0;
   background: #181818ee;
-  box-shadow: 0 6px 30px rgba(0,0,0,0.26), 0 1.5px 0 #ed143d;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.26), 0 1.5px 0 var(--color-accent);
   color: #fff;
   overflow: hidden;
   display: flex;
@@ -249,7 +275,7 @@ body {
   display: block;
   height: 4px;
   width: 120%;
-  background: linear-gradient(90deg, #ed143d 70%, #fff0);
+  background: linear-gradient(90deg, var(--color-accent) 70%, #fff0);
   border-radius: 2px;
   margin-top: 8px;
   margin-left: 0;
@@ -386,7 +412,7 @@ img.centered-image {
 }
 .btn:hover, .btn-source:hover { background-color: var(--color-accent-hover); }
 .btn-secondary {
-  background-color: #333;
+  background-color: #515151;
   color: white;
 }
 .btn-secondary:hover {
@@ -629,8 +655,90 @@ body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
 
 #particles-js {
   position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: var(--color-bg);
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-bg-particles);
   z-index: -1;
+  top: 2px;
 }
+
+body {
+  background: (--color-bg-particles) !important;
+}
+
+html {
+  background: transparent !important;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* REMOVE height: 100vh and width: 100vw! */
+  /* Don't force overflow-x: hidden unless you know you need it. */
+}
+
+/* Section divider (gold degrade) */
+.section-divider {
+  height: 3px;
+  width: 100%;
+  margin: 22px 0 10px 0;
+  border: none;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent, #ed143d) 0%,
+    #d7ac3c 65%,
+    #fff0 100%
+  );
+  border-radius: 2px;
+  opacity: 0.93;
+  transition: background 0.4s;
+}
+body.dark-mode .section-divider {
+  background: linear-gradient(
+    90deg,
+    var(--color-accent, #ac7d0c) 0%,
+    #d7ac3c 75%,
+    #fff0 100%
+  );
+  opacity: 0.82;
+}
+
+#page-progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 4px;
+  width: 0;
+  z-index: 4000;
+  background: var(--color-accent, #ed143d);
+  border-radius: 0 6px 6px 0;
+  pointer-events: none;
+  overflow: visible;
+  transition: width 0.25s cubic-bezier(.4,2,.6,1);
+  /* The line below is new! */
+  box-shadow:
+    0 2px 8px #ed143d55, /* your old shadow */
+    0 10px 25px 4px var(--color-accent, #ed143d); /* neon glow below */
+}
+#page-progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0;
+  height: 100%;
+  width: 48px; /* Length of fade */
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, #fff0, var(--color-accent, #ed143d) 40%, transparent 100%);
+  opacity: 0.45;
+  z-index: 1;
+  /* fade will show only at the bar's end */
+}
+body.dark-mode #page-progress-bar {
+  background: var(--color-accent, #ac7d0c);
+  box-shadow:
+    0 2px 10px #d7ac3c44,
+    0 12px 40px 4px var(--color-accent, #ac7d0c);
+}
+body.dark-mode #page-progress-bar::after {
+  background: linear-gradient(90deg, transparent, #fff0, var(--color-accent, #ac7d0c) 40%, transparent 100%);
+}
+

@@ -84,6 +84,8 @@ html, body {
 }
 
 /* SIDEBAR & MENU */
+/* Sidebar base */
+/* SIDEBAR & MENU */
 .sidebar {
   position: fixed;
   top: 0; left: 0; height: 100vh;
@@ -119,6 +121,8 @@ html, body {
   box-shadow: 0 -2px 14px 0 #ed143d15 inset;
   display: flex; justify-content: center; align-items: flex-end;
 }
+
+
 
 /* Unified Menu Buttons */
 .menu-btn, .dropbtn {
@@ -184,7 +188,6 @@ html, body {
   color: var(--color-accent);
   border-left: 3.5px solid var(--color-accent);
 }
-
 
 /* =======================
    INLINE FLAG + TITLE
@@ -302,13 +305,7 @@ h1, h2, h3, .title-centered, .section-header h1 {
   color: var(--color-text);
   margin: 20px 0;
 }
-.text-section p::first-letter {
-  color: var(--color-accent);
-  font-size: 36px;
-  font-weight: bold;
-  line-height: 0.9;
-  margin-right: 5px;
-}
+
 .section-header .info,
 .date-place,
 .map-popup,
@@ -512,14 +509,31 @@ body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
    RESPONSIVE
    =========================== */
 @media (max-width: 1400px) {
-  .sidebar.open { width: 99vw; }
-  #map { width: 99vw; min-width: 180px; height: 230px; }
+  .sidebar.open {
+    width: 99vw;
+    min-width: 0;
+  }
+  #map {
+    width: 99vw !important;
+    min-width: 180px !important;
+    height: 230px !important;
+  }
 }
 @media (max-width: 800px) {
-  .sidebar.open { width: 100vw; min-width: 0; }
-  #map { width: 98vw; min-width: 100px; height: 170px; }
-  .sidebar { font-size: 15px; }
+  .sidebar.open {
+    width: 100vw;
+    min-width: 0;
+  }
+  #map {
+    width: 98vw !important;
+    min-width: 100px !important;
+    height: 170px !important;
+  }
+  .sidebar {
+    font-size: 15px;
+  }
 }
+
 
 /* ===========================
    FLOATING ACTION BUTTON
@@ -528,10 +542,14 @@ body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
   position: fixed;
   bottom: 32px;
   right: 32px;
-  z-index: 1200;
+  z-index: 99999; /* very high to be above everything */
   display: flex;
   flex-direction: column-reverse;
   align-items: flex-end;
+}
+.fab-main, .fab-action {
+  z-index: 99999; /* ensure buttons themselves are on top */
+  position: relative; /* keep layering within container */
 }
 .fab-main {
   background: var(--color-accent, #ed143d);
@@ -663,7 +681,7 @@ body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
 }
 
 body {
-  background: (--color-bg-particles) !important;
+  background: var(--color-bg-particles) !important;
 }
 
 html {
@@ -742,3 +760,162 @@ body.dark-mode #page-progress-bar::after {
   background: linear-gradient(90deg, transparent, #fff0, var(--color-accent, #ac7d0c) 40%, transparent 100%);
 }
 
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4000;
+}
+
+.settings-popup {
+  background-color: #2f2f2f;
+  border: 3px solid var(--color-accent);
+  border-radius: 12px;
+  width: 90vw;
+  max-width: 720px;
+  max-height: 80vh;
+  padding: 24px 32px 32px 32px;
+  box-shadow: 0 0 24px var(--color-accent);
+  overflow-y: auto;
+  color: #eee;
+  position: relative;
+  font-family: var(--font-body);
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 2rem;
+  background: transparent;
+  border: none;
+  color: var(--color-accent);
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: var(--color-accent-hover);
+  outline: none;
+}
+
+.settings-group {
+  margin: 20px 0;
+  font-size: 1.1rem;
+  font-family: var(--font-body);
+  color: #eee;
+  text-transform: capitalize;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Hide default checkbox */
+.settings-group input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* Custom slider */
+.settings-group label {
+  position: relative;
+  padding-left: 50px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+/* The slider background */
+.settings-group label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 22px;
+  background-color: #444; /* grey when OFF */
+  border-radius: 11px;
+  transition: background-color 0.3s ease;
+}
+
+/* The sliding circle */
+.settings-group label::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  background-color: var(--color-accent); /* gold when OFF */
+  border-radius: 50%;
+  transition: left 0.3s ease, background-color 0.3s ease;
+}
+
+/* Checked state */
+.settings-group input[type="checkbox"]:checked + label::before {
+  background-color: var(--color-accent); /* gold when ON */
+}
+
+.settings-group input[type="checkbox"]:checked + label::after {
+  left: 20px;
+  background-color: #444; /* grey when ON */
+}
+
+.settings-group label {
+  position: relative;
+  padding-left: 50px;
+  cursor: pointer;
+  display: inline-block;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  border-radius: 8px;
+  padding: 8px 12px 8px 50px; /* vertical and horizontal padding */
+}
+
+.settings-group label:hover {
+  background-color: rgba(var(--color-accent-rgb), 0.15); /* 15% opacity of accent */
+  color: var(--color-accent);
+}
+
+#section-stats-indicator {
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  user-select: none;
+  pointer-events: none;
+}
+
+#section-stats-indicator div {
+  margin-bottom: 6px;
+  color: var(--color-text-dark);
+}
+
+body.dark-mode #section-stats-indicator div {
+  color: var(--color-text);
+}
+
+.drop-cap {
+  float: left;
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 0.5;
+  margin-right: 3px;
+  color: var(--color-accent);
+  font-family: var(--font-head);
+  user-select: text;
+}
+
+#declin-title.highlight-accent {
+  color: var(--color-accent);
+  font-weight: bold;
+  transition: color 0.3s ease;
+}

@@ -1,6 +1,4 @@
-<span class="tooltip" data-info="explicatie">cuvant</span>
-
---principal--
+--acasa--
 Hoarda de Aur a fost inițial un hanat mongol și ulterior turcizat, înființat în secolul al XIII-lea și originar ca sectorul de nord-vest al Imperiului Mongol.
 Odată cu fragmentarea Imperiului Mongol după 1259, acesta a devenit un hanat separat funcțional. Este cunoscut și sub numele de Kipchak Khanate sau ca Ulusul lui Jochi <span class="note-ref" data-note="1">(1)</span>. 
 După moartea lui Batu Khan (fondatorul Hoardei de Aur) în 1255, dinastia sa a înflorit timp de un secol întreg, până în 1359, deși intrigile lui Nogai au instigat

@@ -85,7 +85,6 @@ html, body {
 
 /* SIDEBAR & MENU */
 /* Sidebar base */
-/* SIDEBAR & MENU */
 .sidebar {
   position: fixed;
   top: 0; left: 0; height: 100vh;
@@ -122,7 +121,68 @@ html, body {
   display: flex; justify-content: center; align-items: flex-end;
 }
 
+/* Dark mode sidebar enhancements */
+body.dark-mode .sidebar {
+  background-color: var(--sidebar-bg-dark);
+  border-right: 2.5px solid var(--color-accent);
+  box-shadow: 0 6px 30px rgba(0,0,0,0.6), 0 1.5px 0 var(--color-accent);
+  color: var(--color-text-dark);
+}
 
+/* Dark mode sidebar buttons */
+body.dark-mode .menu-btn,
+body.dark-mode .dropbtn {
+  background-color: #252525;
+  color: var(--color-text-dark);
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark-mode .menu-btn:hover,
+body.dark-mode .dropbtn:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+/* Dark mode dropdown menu */
+body.dark-mode .dropdown-content {
+  background-color: #222;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.7);
+  color: var(--color-text-dark);
+}
+
+/* Dark mode dropdown links */
+body.dark-mode .dropdown-content a {
+  color: var(--color-text-dark);
+  background: none;
+  border-left: 3.5px solid transparent;
+  transition: background 0.22s cubic-bezier(.4,2,.6,1),
+              color 0.15s,
+              border-left 0.18s;
+}
+
+body.dark-mode .dropdown-content a.active-link,
+body.dark-mode .dropdown-content a.active-link:hover {
+  color: var(--color-accent);
+  background: #333;
+  border-left: 3.5px solid var(--color-accent);
+}
+
+body.dark-mode .dropdown-content a:hover:not(.active-link) {
+  background: #282828;
+  color: var(--color-accent);
+  border-left: 3.5px solid var(--color-accent);
+}
+
+/* Scrollbar for sidebar in dark mode (optional) */
+body.dark-mode .sidebar-top::-webkit-scrollbar {
+  width: 8px;
+}
+body.dark-mode .sidebar-top::-webkit-scrollbar-thumb {
+  background-color: var(--color-accent);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
 
 /* Unified Menu Buttons */
 .menu-btn, .dropbtn {
@@ -534,7 +594,6 @@ body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
   }
 }
 
-
 /* ===========================
    FLOATING ACTION BUTTON
    =========================== */
@@ -759,7 +818,6 @@ body.dark-mode #page-progress-bar {
 body.dark-mode #page-progress-bar::after {
   background: linear-gradient(90deg, transparent, #fff0, var(--color-accent, #ac7d0c) 40%, transparent 100%);
 }
-
 
 .modal-overlay {
   position: fixed;

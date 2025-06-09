@@ -125,6 +125,7 @@ body {
   border-radius: 8px;
   margin-top: 0;
 }
+
 .dropdown-content a {
   display: block;
   color: #fff;
@@ -135,8 +136,14 @@ body {
   font-family: var(--font-head);
   text-align: left;
   background: none;
-  transition: background 0.3s;
+  border-left: 3.5px solid transparent;
+  transition: 
+    background 0.22s cubic-bezier(.4,2,.6,1),
+    color 0.15s,
+    border-left 0.18s;
 }
+
+/* Active link styles */
 .dropdown-content a.active-link,
 .dropdown-content a.active-link:hover {
   color: var(--color-accent) !important;
@@ -144,6 +151,14 @@ body {
   background: #232326;
   border-left: 3.5px solid var(--color-accent);
 }
+
+/* Hover, but not active */
+.dropdown-content a:hover:not(.active-link) {
+  background: #28282b;
+  color: var(--color-accent);
+  border-left: 3.5px solid var(--color-accent);
+}
+
 
 /* =======================
    INLINE FLAG + TITLE

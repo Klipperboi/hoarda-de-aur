@@ -3,23 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <div id="scroll-bar"></div>
   <title>Hoarda de Aur</title>
   <link rel="icon" href="assets/favicon.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
+  <div id="scroll-bar"></div>
   <div id="page-progress-bar"></div>
   <div id="note-tooltip"></div>
   <div id="particles-js"></div>
 
-  <!-- SIDEBAR / MENU -->
+  <!-- Sidebar / Menu -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-top">
-      <button class="menu-btn" id="sidebarSettings">⚙️ Setări</button>
-      <button class="menu-btn" id="sidebarTips">💡 Tips</button>
+      <button class="menu-btn" id="sidebarSettings">⚙ Setări</button>
       <button class="menu-btn dropbtn" id="sidebarToc">Cuprins</button>
       <div class="dropdown-content" id="tocDropdown">
         <a href="#acasa" data-loc="acasa">Acasă</a>
@@ -45,28 +44,17 @@
       <div id="map"></div>
     </div>
   </div>
-  
-  <section id="acasa"></section>
 
   <div class="main-container">
     <div class="highlight-box">
       <div class="container">
         <h3>1380 – 1502</h3>
-        <h2 class="title-centered" style="font-size: 48px; text-align: center; font-weight: bold;">
-          HOARDA DE AUR
-        </h2>
+        <h2 class="title-centered" style="font-size: 48px; text-align: center; font-weight: bold;">HOARDA DE AUR</h2>
         <hr class="separator thick" />
-        <h2 class="title-centered" style="font-size: 36px; text-align: center; font-weight: bold;">
-          – DECLINUL –
-        </h2>
+        <h2 id="declin-title" class="title-centered" style="font-size: 36px; text-align: center; font-weight: bold;">– DECLINUL –</h2>
         <hr class="separator" />
-
-        <img
-          class="popup-enabled centered-image"
-          src="https://i.pinimg.com/1200x/d3/9a/b3/d39ab39b644184525387f82753585ec0.jpg"
-          alt="Hoarda de Aur"
-        />
-
+        <img class="popup-enabled centered-image" src="https://i.pinimg.com/1200x/d3/9a/b3/d39ab39b644184525387f82753585ec0.jpg" alt="Hoarda de Aur" />
+        
         <div class="video-section">
           <button class="btn toggleVideo">Arată Video</button>
           <div class="videoContainer" style="display: none; margin-top: 20px;">
@@ -82,35 +70,35 @@
         </div>
 
         <div class="text-section">
+          <!-- Main Section -->
+          <section id="acasa">
+            <div class="section-content" id="principal">
+              <!-- Text dynamically loaded from text.txt -->
+              <p>Textul din secțiunea principală se va actualiza din text.txt.</p>
+            </div>
+          </section>
 
-          <section id="acasa"></section>
-          <p id="principal">Textul din secțiunea principală se va actualiza din text.txt.</p>
-
-          <!-- PROLOG -->
+          <!-- Prolog Section -->
           <section id="prolog">
             <div class="section-header flex-header">
               <h1><span class="title-text">Prolog</span></h1>
               <p class="info">18 August 1206, Mongolia</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg"
-              alt="Imagine Prolog" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Imagine Prolog" />
             <div class="section-content">
               <p>Textul pentru Prolog se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- KULIKOVO -->
+          <!-- Kulikovo Section -->
           <section id="kulikovo">
             <div class="section-header flex-header">
               <h1><span class="title-text">Punct de cotitură: Bătălia de la Kulikovo</span></h1>
               <p class="info">8 Septembrie 1380, Râul Don, Rusia</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg"
-              alt="Bătălia de la Kulikovo" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo" />
             <div class="video-section">
               <button class="btn toggleVideo">Arată Video</button>
               <div class="videoContainer" style="display: none; margin-top: 20px;">
@@ -129,91 +117,79 @@
             </div>
           </section>
 
-          <!-- KALKA -->
+          <!-- Kalka Section -->
           <section id="kalka">
             <div class="section-header flex-header">
               <h1><span class="title-text">Bătălia de pe râul Kalka</span></h1>
               <p class="info">1 Ianuarie 1381, Râul Kalka, Ucraina</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/75/eb/08/75eb08d0087dd0246e9a6228d9864349.jpg"
-              alt="Bătălia de pe râul Kalka" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/75/eb/08/75eb08d0087dd0246e9a6228d9864349.jpg" alt="Bătălia de pe râul Kalka" />
             <div class="section-content">
               <p>Textul pentru Kalka se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- TOKHTAMYSH -->
+          <!-- Tokhtamysh Section -->
           <section id="tokhtamysh">
             <div class="section-header flex-header">
               <h1><span class="title-text">Tokhtamysh: restaurarea puterii</span></h1>
               <p class="info">2 Ianuarie 1381, Rusia</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/22/bc/3d/22bc3d0d11e16438139c5f20cdeb83e3.jpg"
-              alt="Tokhtamysh" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/22/bc/3d/22bc3d0d11e16438139c5f20cdeb83e3.jpg" alt="Tokhtamysh" />
             <div class="section-content">
               <p>Textul pentru Tokhtamysh se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- MOSCOVA -->
+          <!-- Moscova Section -->
           <section id="moscova">
             <div class="section-header flex-header">
               <h1><span class="title-text">Asediul Moscovei</span></h1>
               <p class="info">23 August 1382, Rusia</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg"
-              alt="Asediul Moscovei" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg" alt="Asediul Moscovei" />
             <div class="section-content">
               <p>Textul pentru Moscova se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- RĂZBOIUL -->
+          <!-- Razboi Section -->
           <section id="razboi">
             <div class="section-header flex-header">
               <h1><span class="title-text">Războiul Tokhtamysh–Timur</span></h1>
               <p class="info">1 Ianuarie 1386, Munții Caucaz</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg"
-              alt="Războiul Tokhtamysh–Timur" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg" alt="Războiul Tokhtamysh–Timur" />
             <div class="section-content">
               <p>Textul pentru Război se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- KONDURCHA -->
+          <!-- Kondurcha Section -->
           <section id="kondurcha">
             <div class="section-header flex-header">
               <h1><span class="title-text">Bătălia de pe râul Kondurcha</span></h1>
               <p class="info">18 Iunie 1391, Bulgaria</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg"
-              alt="Bătălia de pe râul Kondurcha" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg" alt="Bătălia de pe râul Kondurcha" />
             <div class="section-content">
               <p>Textul pentru Kondurcha se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- TEREK -->
+          <!-- Terek Section -->
           <section id="terek">
             <div class="section-header flex-header">
               <h1><span class="title-text">Bătălia de pe râul Terek</span></h1>
               <p class="info">15 Aprilie 1395</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg"
-              alt="Bătălia de pe râul Terek" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Bătălia de pe râul Terek" />
             <div class="video-section">
               <button class="btn toggleVideo">Arată Video</button>
               <div class="videoContainer" style="display: none; margin-top: 20px;">
@@ -232,131 +208,125 @@
             </div>
           </section>
 
-          <!-- VORSKLA -->
+          <!-- Vorskla Section -->
           <section id="vorskla">
             <div class="section-header flex-header">
               <h1><span class="title-text">Bătălia de pe râul Vorskla</span></h1>
               <p class="info">12 August 1399</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
+            <img
+              class="centered-image popup-enabled"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg/1200px-Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg"
-              alt="Bătălia de pe râul Vorskla" />
+              alt="Bătălia de pe râul Vorskla"
+            />
             <div class="section-content">
               <p>Textul pentru Vorskla se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- DECLIN -->
+          <!-- Declin Section -->
           <section id="declin">
             <div class="section-header flex-header">
               <h1><span class="title-text">Declinul Hoardei De Aur</span></h1>
               <p class="info">1 Ianuarie 1406</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/2f/98/4f/2f984ff45f253bf89b54762b19c42963.jpg"
-              alt="Declinul Hoardei De Aur" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/2f/98/4f/2f984ff45f253bf89b54762b19c42963.jpg" alt="Declinul Hoardei De Aur" />
             <div class="section-content">
               <p>Textul pentru Declin se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- DEZINTEGRARE -->
+          <!-- Dezintegrare Section -->
           <section id="dezintegrare">
             <div class="section-header flex-header">
               <h1><span class="title-text">Dezintegrare</span></h1>
               <p class="info">1 Ianuarie 1419</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/e0/e4/48/e0e4489cb34e87d437d213a843b1b181.jpg"
-              alt="Dezintegrare" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/e0/e4/48/e0e4489cb34e87d437d213a843b1b181.jpg" alt="Dezintegrare" />
             <div class="section-content">
               <p>Textul pentru Dezintegrare se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- LIPNIC -->
+          <!-- Lipnic Section -->
           <section id="lipnic">
             <div class="section-header flex-header">
               <h1><span class="title-text">Bătălia de la Lipnic</span></h1>
               <p class="info">20 August 1470</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/7b/b7/2c/7bb72cdef6c1b832ccd5e09b0f8e0d0d.jpg"
-              alt="Bătălia de la Lipnic" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/7b/b7/2c/7bb72cdef6c1b832ccd5e09b0f8e0d0d.jpg" alt="Bătălia de la Lipnic" />
             <div class="section-content">
               <p>Textul pentru Lipnic se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- SFARSIT -->
+          <!-- Sfarsit Section -->
           <section id="sfarsit">
             <div class="section-header flex-header">
               <h1><span class="title-text">Sfârșitul asupririi mongole</span></h1>
               <p class="info">8 August 1480, Râul Ugra</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/96/93/b5/9693b53bf3b5d7549c5e017e44a05ea3.jpg"
-              alt="Sfârșitul asupririi mongole" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/96/93/b5/9693b53bf3b5d7549c5e017e44a05ea3.jpg" alt="Sfârșitul asupririi mongole" />
             <div class="section-content">
               <p>Textul pentru Sfârșit se va încărca din text.txt.</p>
             </div>
           </section>
 
-          <!-- ULTIMUL KHAN -->
+          <!-- Ultimul Khan Section -->
           <section id="ultimul">
             <div class="section-header flex-header">
               <h1><span class="title-text">Ultimul Khan</span></h1>
               <p class="info">1 Ianuarie 1502, Kaunas</p>
             </div>
             <hr class="separator" />
-            <img class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/e9/3e/ff/e93effe31b883e7df9ee30992543283b.jpg"
-              alt="Ultimul Khan" />
+            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/e9/3e/ff/e93effe31b883e7df9ee30992543283b.jpg" alt="Ultimul Khan" />
             <div class="section-content">
               <p>Textul pentru Ultimul Khan se va încărca din text.txt.</p>
             </div>
           </section>
 
-<!-- Bibliografie -->
-<section id="bibliografie">
-  <div class="section-header flex-header">
-    <h1><span class="title-text">Bibliografie</span></h1>
-  </div>
-  <img
-    class="centered-image popup-enabled"
-    src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg"
-    alt="Bibliografie"
-  />
-  <div class="section-content">
-    <!-- content from text.txt will be loaded here -->
-    <p>Textul pentru Bibliografie se va încărca din text.txt.</p>
-  </div>
-</section>
+          <!-- Bibliografie Section -->
+          <section id="bibliografie">
+            <div class="section-header flex-header">
+              <h1><span class="title-text">Bibliografie</span></h1>
+            </div>
+            <img
+              class="centered-image popup-enabled"
+              src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg"
+              alt="Bibliografie"
+            />
+            <div class="section-content">
+              <p>Textul pentru Bibliografie se va încărca din text.txt.</p>
+            </div>
+          </section>
 
-<!-- NOTE -->
-<section id="note">
-  <div class="section-header flex-header">
-    <h1><span class="title-text">Note</span></h1>
-  </div>
-  <div class="section-content">
-    <!-- content from text.txt will be loaded here -->
-    <p>Textul pentru Note se va încărca din text.txt.</p>
-  </div>
-</section>
+          <!-- Note Section -->
+          <section id="note">
+            <div class="section-header flex-header">
+              <h1><span class="title-text">Note</span></h1>
+            </div>
+            <div class="section-content">
+              <p>Textul pentru Note se va încărca din text.txt.</p>
+            </div>
+          </section>
 
+        </div> <!-- End text-section -->
+      </div> <!-- End container -->
+    </div> <!-- End highlight-box -->
+  </div> <!-- End main-container -->
 
-   <!-- IMAGE POPUP MODAL -->
+  <!-- Image Popup Modal -->
   <div id="imagePopup" class="popup">
     <span id="closePopup" class="close-btn">&times;</span>
     <img id="popupImage" src="" alt="Zoom Image" />
   </div>
 
-  <!-- FLOATING ACTION BUTTONS (other quick actions) -->
+  <!-- Floating Action Buttons -->
   <div class="fab-container">
     <button id="fabMain" class="fab-main" aria-label="Acțiuni rapide">
       <span class="bar"></span>
@@ -364,7 +334,6 @@
       <span class="bar"></span>
     </button>
     <div class="fab-actions" id="fabActions">
-      <button class="fab-action" id="fabTips" aria-label="Tips/Help">💡</button>
       <button class="fab-action" id="fabTop" aria-label="Sus">↑</button>
       <button class="fab-action" id="fabLast" aria-label="Înapoi">←</button>
       <button class="fab-action" id="fabSettings" aria-label="Setări">⚙</button>
@@ -372,7 +341,29 @@
     </div>
   </div>
 
-  <!-- SCRIPTS -->
+  <!-- Settings Popup Modal -->
+  <div id="settingsOverlay" class="modal-overlay" style="display:none;">
+    <div id="settingsPopup" class="settings-popup" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <button id="closeSettingsBtn" class="close-btn" aria-label="Close Settings">&times;</button>
+      <h2 id="settingsTitle" tabindex="0">Setări</h2>
+      <div class="settings-content">
+        <div class="settings-group">
+          <input type="checkbox" id="themeToggle" />
+          <label for="themeToggle">Dark Mode</label>
+        </div>
+        <div class="settings-group">
+          <input type="checkbox" id="debugToggle" />
+          <label for="debugToggle">Show Debug Panel</label>
+        </div>
+        <div class="settings-group">
+          <input type="checkbox" id="particlesToggle" />
+          <label for="particlesToggle">Show Particles</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="scripts.js"></script>

@@ -7,6 +7,82 @@ let lastSavedSectionId = null;
 let currentSectionId = null;
 let observerPaused = false;
 
+// Locations, map, mapMarkers, zoom/anim config are hoisted for global use!
+const locations = {
+  prolog:       { coords: [46,     105], msg: "Prolog – 1206 - 1380, Mongolia" },
+  kulikovo:     { coords: [54,      39], msg: "Kulikovo – 8 Septembrie, Rusia" },
+  kalka:        { coords: [48,      37], msg: "Kalka - 31 Mai 1223, Ucraina" },
+  tokhtamysh:   { coords: [46,      48], msg: "Tokhtamysh - 2 Ianuarie 1381, Astrakhan" },
+  moscova:      { coords: [55,      37], msg: "Asediul - 23 August 1382, Moscova" },
+  razboi:       { coords: [43,      45], msg: "Războiul - 1 Ianuarie 1386, Munții Caucaz" },
+  kondurcha:    { coords: [54.5,   52.0], msg: "Kondurcha - 18 Iunie 1391, Rusia" },
+  terek:        { coords: [43.5402, 45.1698], msg: "Terek - 15 Aprilie 1395, Caucaz" },
+  vorskla:      { coords: [50,      35], msg: "Vorskla - 12 August 1399, Ucraina" },
+  declin:       { coords: [60,     105], msg: "Declin - 1 Ianuarie 1406, Siberia" },
+  dezintegrare: { coords: [46,      48], msg: "Dezintegrare - 1 Ianuarie 1419, Astrakhan" },
+  lipnic:       { coords: [53,      17], msg: "Lipnic - 20 August 1470, Polonia" },
+  sfarsit:      { coords: [54.6778, 36.2865], msg: "Sfârșit - 8 August 1480, Râul Ugra" },
+  ultimul:      { coords: [54.8985, 23.9036], msg: "Ultimul Khan - 1 Ianuarie 1502, Kaunas" },
+  principal:    { coords: [48,      42] },
+  bibliografie: { coords: [44,      41] },
+  note:         { coords: [44,      41] }
+};
+const mapFlyZoom = 6;
+const mapFlyAnim = { animate: true, duration: 1.15, easeLinearity: 0.27 };
+let map = null;
+let mapMarkers = {};
+
+/* ============================
+   SMART SMOOTH SCROLL JUMP
+   ============================ */
+/**
+ * Smoothly scrolls to a section, but only highlights/updates start and destination, not all in-between.
+ * Also updates map, TOC, flags, stats, etc. once after scroll ends.
+ */
+function smartSmoothJumpToSection(targetId) {
+  observerPaused = true;
+
+  const section = document.getElementById(targetId);
+  if (!section) return;
+
+  // Get exact top position (add offset for fixed header if you use one!)
+  const targetY = section.getBoundingClientRect().top + window.scrollY;
+
+  window.scrollTo({ top: targetY, behavior: "smooth" });
+
+  // Debounce scroll end
+  let lastCheck = null;
+  function onScroll() {
+    if (Math.abs(window.scrollY - targetY) < 3) {
+      window.removeEventListener('scroll', onScroll);
+      setTimeout(() => {
+        observerPaused = false;
+        currentSectionId = targetId;
+        highlightCurrentSectionTitle(currentSectionId);
+        updateStatsPanel();
+        updateActiveLink(currentSectionId);
+        // Only fly map for real content
+        if (
+          locations[currentSectionId] &&
+          currentSectionId !== "bibliografie" &&
+          currentSectionId !== "note"
+        ) {
+          map.flyTo(locations[currentSectionId].coords, mapFlyZoom, mapFlyAnim);
+          mapMarkers[currentSectionId].openPopup();
+        }
+      }, 70);
+    } else {
+      // If user interrupts scroll, fallback after 550ms
+      if (!lastCheck) lastCheck = Date.now();
+      if (Date.now() - lastCheck > 550) {
+        window.removeEventListener('scroll', onScroll);
+        observerPaused = false;
+      }
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+}
+
 /* ============================
    SIDEBAR & DROPDOWN MENU
    ============================ */
@@ -15,18 +91,14 @@ function initSidebar() {
   const sidebarToc = document.getElementById("sidebarToc");
   const tocDropdown = document.getElementById("tocDropdown");
 
-  // Sidebar open/close (toggle .open class)
   function toggleSidebar() {
     sidebar.classList.toggle("open");
-    // Hide TOC dropdown if closing sidebar
     if (!sidebar.classList.contains("open") && tocDropdown) {
       tocDropdown.style.display = "none";
     }
   }
-
   window.toggleSidebar = toggleSidebar;
 
-  // TOC toggle inside sidebar
   if (sidebarToc && tocDropdown) {
     sidebarToc.addEventListener("click", function(event) {
       event.stopPropagation();
@@ -41,7 +113,7 @@ function initSidebar() {
 }
 
 /* ============================
-   PARTICULE (background)
+   PARTICLES (background)
    ============================ */
 function loadParticles(mode) {
   const particlesJSBackground = document.getElementById("particles-js");
@@ -219,37 +291,12 @@ function initImagePopups() {
    LEAFLET MAP (with TOC sync)
    ============================ */
 function initMap() {
-  // Map positions (edit as needed)
-  const locations = {
-    prolog:       { coords: [46,     105], msg: "Prolog – 1206 - 1380, Mongolia" },
-    kulikovo:     { coords: [54,      39], msg: "Kulikovo – 8 Septembrie, Rusia" },
-    kalka:        { coords: [48,      37], msg: "Kalka - 31 Mai 1223, Ucraina" },
-    tokhtamysh:   { coords: [46,      48], msg: "Tokhtamysh - 2 Ianuarie 1381, Astrakhan" },
-    moscova:      { coords: [55,      37], msg: "Asediul - 23 August 1382, Moscova" },
-    razboi:       { coords: [43,      45], msg: "Războiul - 1 Ianuarie 1386, Munții Caucaz" },
-    kondurcha:    { coords: [54.5,   52.0], msg: "Kondurcha - 18 Iunie 1391, Rusia" },
-    terek:        { coords: [43.5402, 45.1698], msg: "Terek - 15 Aprilie 1395, Caucaz" },
-    vorskla:      { coords: [50,      35], msg: "Vorskla - 12 August 1399, Ucraina" },
-    declin:       { coords: [60,     105], msg: "Declin - 1 Ianuarie 1406, Siberia" },
-    dezintegrare: { coords: [46,      48], msg: "Dezintegrare - 1 Ianuarie 1419, Astrakhan" },
-    lipnic:       { coords: [53,      17], msg: "Lipnic - 20 August 1470, Polonia" },
-    sfarsit:      { coords: [54.6778, 36.2865], msg: "Sfârșit - 8 August 1480, Râul Ugra" },
-    ultimul:      { coords: [54.8985, 23.9036], msg: "Ultimul Khan - 1 Ianuarie 1502, Kaunas" },
-    principal:    { coords: [48,      42] },
-    // bibliografie: { coords: [44,      41] },
-    // note:         { coords: [44,      41] }
-  };
-
-  // You can make these configurable
-  const mapFlyZoom = 6;
-  const mapFlyAnim = { animate: true, duration: 1.15, easeLinearity: 0.27 };
-
-  const map = L.map("map").setView([45.9432, 24.9668], 4);
+  map = L.map("map").setView([45.9432, 24.9668], 4);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
-  const mapMarkers = {};
+  mapMarkers = {};
   for (const key in locations) {
     if (locations.hasOwnProperty(key)) {
       const loc = locations[key];
@@ -267,21 +314,20 @@ function initMap() {
       }
     });
   }
+  window.updateActiveLink = updateActiveLink;
 
+  // TOC link jump: use smartSmoothJumpToSection
   document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
     link.addEventListener("click", function(e) {
       e.preventDefault();
       const locKey = this.dataset.loc;
       updateActiveLink(locKey);
-      saveCurrentSectionAsLast(locKey); // <--- Save last
+      saveCurrentSectionAsLast(locKey);
 
       if (locKey === "acasa") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        smartSmoothJumpToSection("acasa");
       } else if (locations[locKey]) {
-        map.flyTo(locations[locKey].coords, mapFlyZoom, mapFlyAnim);
-        mapMarkers[locKey].openPopup();
-        const section = document.getElementById(locKey);
-        if (section) section.scrollIntoView({ behavior: "smooth" });
+        smartSmoothJumpToSection(locKey);
       }
     });
   });
@@ -289,23 +335,24 @@ function initMap() {
   // Observer: auto-fly when visible
   const observerOptions = { root: null, threshold: 0.5 };
   const observerCallback = (entries) => {
+    if (observerPaused) return;
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const id = entry.target.id;
-        if (locations[id]) {
+        if (locations[id] && id !== "bibliografie" && id !== "note") {
           map.flyTo(locations[id].coords, mapFlyZoom, mapFlyAnim);
           mapMarkers[id].openPopup();
-          updateActiveLink(id);
-        } else {
-          updateActiveLink("");
         }
+        updateActiveLink(id);
       }
     });
   };
+
   document.querySelectorAll("section[id]").forEach(section => {
     const obs = new IntersectionObserver(observerCallback, observerOptions);
     obs.observe(section);
   });
+
   window._leafletMap = map;
 }
 
@@ -347,7 +394,7 @@ function initTextSections() {
 }
 
 /* ============================
-   NOTE TOOLTIP
+   NOTE TOOLTIP (and smooth jump)
    ============================ */
 function initAllTooltips() {
   const tooltipDiv = document.getElementById("note-tooltip");
@@ -357,7 +404,6 @@ function initAllTooltips() {
     el.onmouseenter = el.onmousemove = el.onmouseleave = null;
   });
 
-  // Notes
   document.querySelectorAll(".note-ref").forEach(ref => {
     const noteNum = ref.dataset.note;
     const noteTarget = document.getElementById(`note-${noteNum}`);
@@ -384,14 +430,11 @@ function initAllTooltips() {
     ref.onclick = function(e) {
       e.preventDefault();
       saveCurrentSectionAsLast();
-      observerPaused = true;
-      setTimeout(() => {
-        observerPaused = false;
-        noteTarget.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      // Jump to the section containing this note
+      const section = noteTarget.closest("section");
+      if (section) smartSmoothJumpToSection(section.id);
     };
   });
-  // Title tooltips
   document.querySelectorAll('.title-text').forEach(title => {
     title.onmouseenter = function() {
       tooltipDiv.textContent = "Salvează această secțiune";
@@ -492,20 +535,18 @@ function initFab() {
   fabTop.addEventListener('click', () => {
     if (window.scrollY < 5 || currentSectionId === 'acasa') {
       saveCurrentSectionAsLast('acasa');
+      smartSmoothJumpToSection('acasa');
     } else {
       saveCurrentSectionAsLast(currentSectionId);
+      smartSmoothJumpToSection('acasa');
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
   fabLast.addEventListener('click', () => {
     if (lastSavedSectionId) {
-      const lastSection = document.getElementById(lastSavedSectionId);
-      if (lastSection) {
-        lastSection.scrollIntoView({ behavior: 'smooth' });
-      }
+      smartSmoothJumpToSection(lastSavedSectionId);
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      smartSmoothJumpToSection('acasa');
     }
   });
 
@@ -571,7 +612,7 @@ function initVideoToggle() {
 document.addEventListener("DOMContentLoaded", function() {
   setupSectionTitlesAndFlags();
   initFlagClickEvents();
-  highlightCurrentSectionTitle(); // initially none
+  highlightCurrentSectionTitle();
   initSidebar();
   loadParticles("light");
   initImagePopups();

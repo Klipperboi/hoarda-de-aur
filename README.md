@@ -20,6 +20,7 @@ TBA
 - refacere stocare poziție în pagină
 - "stats for nerds"
 - editare meniu
+- refacere sistem highlight & setare start și destinație la click
 - reimplementare & cizelare hartă:
   - tranziție între poziții
   - repoziționare în meniu

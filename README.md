@@ -15,6 +15,10 @@ Testați direct accesând linkul sau scanând codul QR de mai jos:
 TBA
 
 ## Changelog
+**1.0.4**
+- stil diferit mod luminos/întunecat
+- bară progres
+- refacere sistem particule + canvas
 
 **1.0.3**
 - refacere stocare poziție în pagină

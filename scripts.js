@@ -80,10 +80,10 @@ function initSidebar() {
     if (!sidebar.classList.contains("open") && tocDropdown) {
       tocDropdown.style.display = "none";
     }
+    updateStatsPanel(); // <-- Refresh sidebar status in debug panel on toggle
   }
   window.toggleSidebar = toggleSidebar;
 
-  // For a dedicated sidebar menu button (if present)
   const sidebarMenuBtn = document.getElementById("sidebarMenu");
   if (sidebarMenuBtn) {
     sidebarMenuBtn.addEventListener("click", function() {
@@ -99,6 +99,7 @@ function initSidebar() {
       } else {
         tocDropdown.style.display = "block";
         sidebar.classList.add("open");
+        updateStatsPanel(); // Also update when opening TOC dropdown
       }
     });
   }
@@ -307,7 +308,6 @@ function initMap() {
   for (const key in locations) {
     if (locations.hasOwnProperty(key)) {
       const loc = locations[key];
-      // Disable autoPan to prevent map jump when popup opens
       const marker = L.marker(loc.coords).addTo(map).bindPopup(loc.msg || "", { autoPan: false });
       mapMarkers[key] = marker;
     }
@@ -385,7 +385,6 @@ function initTextSections() {
           if (sectionElement) {
             let container = sectionElement.querySelector(".section-content");
             if (container) {
-              // If content doesn't already contain <p> tags, wrap it in <p>
               if (!content.trim().startsWith('<p')) {
                 container.innerHTML = `<p>${content}</p>`;
               } else {
@@ -395,7 +394,6 @@ function initTextSections() {
           }
         }
       }
-      // Apply drop caps after content loaded
       applyDropCapToSections();
       initAllTooltips();
       setupTitleClicks();
@@ -523,17 +521,20 @@ function initFab() {
   fabMain && fabMain.addEventListener('click', function(e) {
     e.stopPropagation();
     fabContainer.classList.toggle('active');
+    updateStatsPanel(); // Update FAB status display on toggle
   });
 
   if (AUTO_CLOSE_FAB) {
     document.addEventListener('click', function(e) {
       if (!fabContainer.contains(e.target)) {
         fabContainer.classList.remove('active');
+        updateStatsPanel(); // Update FAB status display if closed by outside click
       }
     });
     fabActions.forEach(btn => {
       btn.addEventListener('click', () => {
         fabContainer.classList.remove('active');
+        updateStatsPanel();
       });
     });
   }
@@ -581,7 +582,7 @@ function updateStatsPanel() {
     statsDiv.style.opacity = "0.85";
     statsDiv.style.pointerEvents = "none";
     statsDiv.style.userSelect = "none";
-    statsDiv.style.minWidth = "180px";
+    statsDiv.style.minWidth = "200px";
     statsDiv.innerHTML = `
       <div>Current section: <span id="stats-current">?</span></div>
       <div>Last saved: <span id="stats-last">?</span></div>
@@ -589,10 +590,11 @@ function updateStatsPanel() {
       <div>Dark mode: <span id="stats-darkmode">?</span></div>
       <div>Debug panel: <span id="stats-debugpanel">?</span></div>
       <div>Particles: <span id="stats-particles">?</span></div>
+      <div>FAB Status: <span id="stats-fab">?</span></div>
+      <div>Sidebar: <span id="stats-sidebar">?</span></div>
     `;
     document.body.appendChild(statsDiv);
 
-    // Update display size on resize
     window.addEventListener('resize', updateStatsPanel);
   }
 
@@ -607,6 +609,14 @@ function updateStatsPanel() {
   document.getElementById('stats-debugpanel').textContent = debugPanelEnabled ? "Enabled" : "Disabled";
 
   document.getElementById('stats-particles').textContent = particlesVisible ? "Enabled" : "Disabled";
+
+  const fabContainer = document.querySelector('.fab-container');
+  const fabActive = fabContainer && fabContainer.classList.contains('active');
+  document.getElementById('stats-fab').textContent = fabActive ? "Open" : "Closed";
+
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOpen = sidebar && sidebar.classList.contains('open');
+  document.getElementById('stats-sidebar').textContent = sidebarOpen ? "Open" : "Closed";
 
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 }
@@ -752,17 +762,17 @@ function initSettingsControls() {
 window.toggleSidebar = function() {
   const sidebar = document.getElementById("sidebar");
   sidebar.classList.toggle("open");
-  
+
   if (!sidebar.classList.contains("open") && tocDropdown) {
     tocDropdown.style.display = "none";
   }
-  
-  // Refresh map so it redraws properly with new size/layout
+
   if (window._leafletMap) {
     window._leafletMap.invalidateSize();
   }
-};
 
+  updateStatsPanel(); // Ensure sidebar status updates in debug panel
+};
 
 /* INIT GLOBAL */
 document.addEventListener("DOMContentLoaded", function() {
@@ -771,10 +781,10 @@ document.addEventListener("DOMContentLoaded", function() {
   loadParticles(document.body.classList.contains("dark-mode") ? "dark" : "light");
   initImagePopups();
   initMap();
-  initTextSections();  // loads text AND applies drop caps inside
+  initTextSections();
   initAllTooltips();
   initThemeToggle();
-  initParticlesToggle();  // new toggle init
+  initParticlesToggle();
   setupSectionTracking();
   initFab();
   updateStatsPanel();

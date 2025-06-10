@@ -44,7 +44,7 @@ TBA
 - formatare butoane
 - formatare text (font, culoare, stil)
 - stocare poziție în pagină & buton întoarcere la ultima secțiune
-- meniu acțiuni rapide 
+- meniu acțiuni rapide (FAB - Floating Action Buttons)
 
 **1.0.1**
 - păstrare mod + progres în pagină (status utilizator)

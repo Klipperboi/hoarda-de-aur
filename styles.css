@@ -4,14 +4,15 @@
   --color-bg: #f4f4f4;
   --color-bg-dark: #333;
   --color-bg-particles: #f4f4f4;
-  --color-bg-sidebar: #111;--color-bg-sidebar-dark: rgba(24, 24, 24, 0.93);
+  --color-bg-sidebar: #111;
+  --color-bg-sidebar-dark: #222;
   --color-shadow: rgba(0,0,0,0.1);
-  --color-accent-transparent: rgba(237, 20, 61, 0.27);
-  --color-accent-rgb: 237, 20, 61; 
-
 
   --color-text: #333;
   --color-text-dark: #ddd;
+  --color-list-number: #ed143d;
+  --color-link: #ed143d;
+  --color-link-hover: #c70f25;
   --color-note-tooltip-bg: rgba(0, 0, 0, 0.92);
   --color-note-tooltip-text: #fff;
 
@@ -31,6 +32,10 @@
 
   --separator-thick: 4px solid #333;
   --separator: 2px solid #333;
+
+  --settings-align-gap: 30px;           /* How far from the red line */
+  --settings-toggle-width: 44px;       /* Toggle width */
+  --settings-dropdown-width: 180px;    /* Set to your actual dropdown width */
 }
 
 /* === DUAL COLOR PALETTE FOR DARK MODE === */
@@ -45,10 +50,11 @@ body.dark-mode {
   --color-bg-particles: #313131;
   --color-text: #e2e2e2;
   --color-text-dark: #e2e2e2;
+  --color-list-number: #ac7d0c;
+  --color-link: #ac7d0c;
+  --color-link-hover: #d7ac3c;
   --color-note-tooltip-bg: rgba(20, 20, 10, 0.98);
   --color-note-tooltip-text: #fff;
-  --color-accent-transparent: rgba(172, 125, 12, 0.27);
-  --color-accent-rgb: 172, 125, 12;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap');
@@ -82,8 +88,6 @@ html, body {
 }
 
 /* SIDEBAR & MENU */
-/* Sidebar base */
-/* SIDEBAR & MENU */
 .sidebar {
   position: fixed;
   top: 0; left: 0; height: 100vh;
@@ -94,7 +98,7 @@ html, body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  z-index: 2001;
+  z-index: 5001 !important;
   transition: width 0.42s cubic-bezier(.52,2,.33,1);
   border-right: 2.5px solid var(--color-accent);
 }
@@ -115,12 +119,10 @@ html, body {
   flex: 0 0 auto;
   padding: 16px 12px 18px 12px;
   background: rgba(0,0,0,0.12);
-  border-top: 1.5px solid var(--color-accent-transparent);
+  border-top: 1.5px solid color-mix(in srgb, var(--color-accent) 60%, transparent);
   box-shadow: 0 -2px 14px 0 #ed143d15 inset;
   display: flex; justify-content: center; align-items: flex-end;
 }
-
-
 
 /* Unified Menu Buttons */
 .menu-btn, .dropbtn {
@@ -186,6 +188,7 @@ html, body {
   color: var(--color-accent);
   border-left: 3.5px solid var(--color-accent);
 }
+
 
 /* =======================
    INLINE FLAG + TITLE
@@ -303,7 +306,13 @@ h1, h2, h3, .title-centered, .section-header h1 {
   color: var(--color-text);
   margin: 20px 0;
 }
-
+.text-section p::first-letter {
+  color: var(--color-accent);
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 0.9;
+  margin-right: 5px;
+}
 .section-header .info,
 .date-place,
 .map-popup,
@@ -375,18 +384,16 @@ img.centered-image {
   max-width: 98vw;
   height: 350px;
   border-radius: 13px;
-  border: 2.5px solid var(--color-accent);box-shadow:
-    0 2px 18px rgba(var(--color-accent-rgb), 0.09),
-    0 0 0 2.5px #fff inset;
+  border: 2.5px solid var(--color-accent);
+  box-shadow: 0 2px 18px #ed143d18, 0 0 0 2.5px #fff inset;
   opacity: 0.97; transition: box-shadow 0.22s;
   outline: none;
   background: #222;
   display: block;
   margin: 0 auto;
 }
-#map:focus, #map:hover {box-shadow:
-    0 4px 22px rgba(var(--color-accent-rgb), 0.22),
-    0 0 0 2.5px #fff inset;
+#map:focus, #map:hover {
+  box-shadow: 0 4px 22px #ed143d38, 0 0 0 2.5px #fff inset;
 }
 
 /* ===========================
@@ -460,7 +467,7 @@ img.centered-image {
   counter-increment: fancy-item;
   position: absolute;
   left: 0;
-  color: var(--color-accent);
+  color: var(--color-list-number);
   font-weight: bold;
   font-family: var(--font-head);
   font-size: 1em;
@@ -509,31 +516,14 @@ body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
    RESPONSIVE
    =========================== */
 @media (max-width: 1400px) {
-  .sidebar.open {
-    width: 99vw;
-    min-width: 0;
-  }
-  #map {
-    width: 99vw !important;
-    min-width: 180px !important;
-    height: 230px !important;
-  }
+  .sidebar.open { width: 99vw; }
+  #map { width: 99vw; min-width: 180px; height: 230px; }
 }
 @media (max-width: 800px) {
-  .sidebar.open {
-    width: 100vw;
-    min-width: 0;
-  }
-  #map {
-    width: 98vw !important;
-    min-width: 100px !important;
-    height: 170px !important;
-  }
-  .sidebar {
-    font-size: 15px;
-  }
+  .sidebar.open { width: 100vw; min-width: 0; }
+  #map { width: 98vw; min-width: 100px; height: 170px; }
+  .sidebar { font-size: 15px; }
 }
-
 
 /* ===========================
    FLOATING ACTION BUTTON
@@ -542,14 +532,10 @@ body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
   position: fixed;
   bottom: 32px;
   right: 32px;
-  z-index: 99999; /* very high to be above everything */
+  z-index: 5001 !important;
   display: flex;
   flex-direction: column-reverse;
   align-items: flex-end;
-}
-.fab-main, .fab-action {
-  z-index: 99999; /* ensure buttons themselves are on top */
-  position: relative; /* keep layering within container */
 }
 .fab-main {
   background: var(--color-accent, #ed143d);
@@ -681,7 +667,7 @@ body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
 }
 
 body {
-  background: var(--color-bg-particles) !important;
+  background: (--color-bg-particles) !important;
 }
 
 html {
@@ -760,176 +746,14 @@ body.dark-mode #page-progress-bar::after {
   background: linear-gradient(90deg, transparent, #fff0, var(--color-accent, #ac7d0c) 40%, transparent 100%);
 }
 
-
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.55);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 4000;
-}
-
-.settings-popup {
-  background-color: #2f2f2f;
-  border: 3px solid var(--color-accent);
-  border-radius: 12px;
-  width: 90vw;
-  max-width: 720px;
-  max-height: 80vh;
-  padding: 24px 32px 32px 32px;
-  box-shadow: 0 0 24px var(--color-accent);
-  overflow-y: auto;
-  color: #eee;
-  position: relative;
-  font-family: var(--font-body);
-}
-
-.close-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 2rem;
-  background: transparent;
-  border: none;
-  color: var(--color-accent);
-  cursor: pointer;
-  font-weight: bold;
-  line-height: 1;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-  color: var(--color-accent-hover);
-  outline: none;
-}
-
-.settings-group {
-  margin: 20px 0;
-  font-size: 1.1rem;
-  font-family: var(--font-body);
-  color: #eee;
-  text-transform: capitalize;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* Hide default checkbox */
-.settings-group input[type="checkbox"] {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute;
-}
-
-/* Custom slider */
-.settings-group label {
-  position: relative;
-  padding-left: 50px;
-  cursor: pointer;
-  display: inline-block;
-}
-
-/* The slider background */
-.settings-group label::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 22px;
-  background-color: #444; /* grey when OFF */
-  border-radius: 11px;
-  transition: background-color 0.3s ease;
-}
-
-/* The sliding circle */
-.settings-group label::after {
-  content: "";
-  position: absolute;
-  left: 2px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  background-color: var(--color-accent); /* gold when OFF */
-  border-radius: 50%;
-  transition: left 0.3s ease, background-color 0.3s ease;
-}
-
-/* Checked state */
-.settings-group input[type="checkbox"]:checked + label::before {
-  background-color: var(--color-accent); /* gold when ON */
-}
-
-.settings-group input[type="checkbox"]:checked + label::after {
-  left: 20px;
-  background-color: #444; /* grey when ON */
-}
-
-.settings-group label {
-  position: relative;
-  padding-left: 50px;
-  cursor: pointer;
-  display: inline-block;
-  transition: color 0.3s ease, background-color 0.3s ease;
-  border-radius: 8px;
-  padding: 8px 12px 8px 50px; /* vertical and horizontal padding */
-}
-
-.settings-group label:hover {
-  background-color: rgba(var(--color-accent-rgb), 0.15); /* 15% opacity of accent */
-  color: var(--color-accent);
-}
-
-#section-stats-indicator {
-  line-height: 1.35;
-  letter-spacing: 0.02em;
-  user-select: none;
-  pointer-events: none;
-}
-
-#section-stats-indicator div {
-  margin-bottom: 6px;
-  color: var(--color-text-dark);
-}
-
-body.dark-mode #section-stats-indicator div {
-  color: var(--color-text);
-}
-
-.drop-cap {
-  float: left;
-  font-size: 36px;
-  font-weight: bold;
-  line-height: 0.5;
-  margin-right: 3px;
-  color: var(--color-accent);
-  font-family: var(--font-head);
-  user-select: text;
-}
-
-#declin-title.highlight-accent {
-  color: var(--color-accent);
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-/* VIDEO */
-
 .videoContainer {
   border: 3px solid var(--color-accent);
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(var(--color-accent-rgb), 0.35);
   padding: 8px;
-  max-width: 560px; /* match your iframe width */
-  margin: 20px auto; /* center with vertical spacing */
-  background-color: var(--color-bg); /* optional: background behind border */
+  max-width: 560px;
+  margin: 20px auto;
+  background-color: var(--color-bg);
   transition: box-shadow 0.3s ease;
 }
 
@@ -937,11 +761,244 @@ body.dark-mode #section-stats-indicator div {
   display: block;
   border-radius: 8px;
   width: 100%;
-  height: 315px; /* keep YouTube embed default aspect */
-  box-shadow: none; /* avoid double shadows */
+  height: 315px;
+  box-shadow: none;
 }
 
-/* Optional: subtle glow on hover */
 .videoContainer:hover {
   box-shadow: 0 6px 25px rgba(var(--color-accent-rgb), 0.55);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 4000;
+}
+.modal-overlay[style*="display: flex"] {
+  display: flex;
+}
+
+/* Settings Popup */
+.settings-popup {
+  background-color: #2f2f2f;
+  border: 3px solid var(--color-accent, #ed143d);
+  border-radius: 12px;
+  width: 90vw;
+  max-width: 720px;
+  max-height: 80vh;
+  padding: 24px 32px 32px 32px;
+  box-shadow:
+    0 0 0 3px var(--color-accent, #ed143d),
+    0 0 36px 0 var(--color-accent-hover, #edb51333);
+  overflow-y: auto;
+  color: #eee;
+  position: relative;
+  font-family: var(--font-body, 'Lora', serif);
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* Center debug line */
+.modal-center-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: red;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.95;
+  transform: translateX(-50%);
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 2rem;
+  background: transparent;
+  border: none;
+  color: var(--color-accent, #ed143d);
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 1;
+  transition: color 0.2s ease;
+  z-index: 2;
+}
+.close-btn:hover,
+.close-btn:focus {
+  color: var(--color-accent-hover, #c70f25);
+  outline: none;
+}
+
+.settings-content {
+  width: 100%;
+}
+
+.settings-labels {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  padding-left: 20px;
+  width: 100%;
+}
+
+.settings-group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+/* --- Key alignment logic here! --- */
+.settings-label {
+  flex: 0 1 auto;
+  font-size: 1.18em;
+  color: #fff;
+  user-select: none;
+  cursor: pointer;
+  text-align: left;
+  margin-right: 0;
+  width: calc(50% - 55px); /* Tweak as needed for perfect left edge alignment */
+  /* 55px leaves space for toggle + gap */
+  z-index: 2;
+  display: block;
+  line-height: 1.18;
+  padding-right: 0;
+}
+
+/* Hide the checkbox, but keep it focusable and clickable */
+.settings-checkbox {
+  opacity: 0;
+  width: 44px;
+  height: 26px;
+  margin: 0;
+  z-index: 2;
+  cursor: pointer;
+  position: absolute;
+  left: calc(50% - 3px - 44px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Toggle: always 3px left of the center line */
+.settings-toggle {
+  position: absolute;
+  left: calc(50% - var(--settings-align-gap) - var(--settings-toggle-width));
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--settings-toggle-width);
+  height: 26px;
+  background-color: #444;
+  border-radius: 15px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  z-index: 1;
+  pointer-events: none; /* toggle is not directly clickable, only via label or checkbox */
+}
+.settings-checkbox:checked + .settings-toggle {
+  background-color: var(--color-accent, #ed143d);
+}
+.settings-toggle::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-accent, #ed143d);
+  border-radius: 50%;
+  transition: left 0.3s, background-color 0.3s;
+}
+.settings-checkbox:checked + .settings-toggle::after {
+  left: 22px;
+  background-color: #444;
+}
+
+.settings-label,
+.settings-checkbox {
+  cursor: pointer;
+}
+
+.settings-toggle,
+.settings-dropdown {
+  position: absolute;
+  left: calc(50% - var(--settings-align-gap) - var(--settings-toggle-width));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.settings-dropdown {
+  position: absolute;
+  /* Align right edge to toggle's right edge */
+  left: calc(50% - var(--settings-align-gap) - var(--settings-dropdown-width));
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--settings-dropdown-width);
+  padding: 6px 12px;
+  border-radius: 7px;
+  border: 2px solid var(--color-accent, #ed143d);
+  background-color: #222;
+  color: #eee;
+  font-size: 1rem;
+  min-width: 160px;
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+  font-family: var(--font-body, 'Lora', serif);
+  z-index: 2;
+}
+
+
+.settings-dropdown:hover,
+.settings-dropdown:focus {
+  border-color: var(--color-accent-hover, #c70f25);
+  outline: none;
+}
+
+/* Modal heading */
+.settings-popup h2 {
+  font-family: var(--font-head, 'Cinzel', serif);
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 48px;
+  color: #fff;
+  letter-spacing: 1.2px;
+}
+
+/* ============================= */
+/* Dropdown styling (right side) */
+
+.settings-dropdown {
+  padding: 6px 12px;
+  border-radius: 7px;
+  border: 2px solid var(--color-accent);
+  background-color: #222;
+  color: #eee;
+  font-size: 1rem;
+  min-width: 160px;
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+  flex-shrink: 0;
+  font-family: var(--font-body);
+}
+
+.settings-dropdown:hover,
+.settings-dropdown:focus {
+  border-color: var(--color-accent-hover);
+  outline: none;
+}
+
+#section-stats-indicator {
+  z-index: 5002 !important; /* Higher than modal! */
 }

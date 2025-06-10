@@ -75,14 +75,6 @@ function initSidebar() {
   const sidebarToc = document.getElementById("sidebarToc");
   const tocDropdown = document.getElementById("tocDropdown");
 
-  function toggleSidebar() {
-    sidebar.classList.toggle("open");
-    if (!sidebar.classList.contains("open") && tocDropdown) {
-      tocDropdown.style.display = "none";
-    }
-  }
-  window.toggleSidebar = toggleSidebar;
-
   const sidebarMenuBtn = document.getElementById("sidebarMenu");
   if (sidebarMenuBtn) {
     sidebarMenuBtn.addEventListener("click", function() {
@@ -580,20 +572,19 @@ function updateStatsPanel() {
     statsDiv.style.opacity = "0.85";
     statsDiv.style.pointerEvents = "none";
     statsDiv.style.userSelect = "none";
-    statsDiv.style.minWidth = "200px";
+    statsDiv.style.minWidth = "240px";
     statsDiv.innerHTML = `
-  <div>Current section: <span id="stats-current">?</span></div>
-  <div>Last saved: <span id="stats-last">?</span></div>
-  <div>Display size: <span id="stats-display">?</span></div>
-  <div>Dark mode: <span id="stats-darkmode">?</span></div>
-  <div>Debug panel: <span id="stats-debugpanel">?</span></div>
-  <div>Particles: <span id="stats-particles">?</span></div>
-  <div>FAB Status: <span id="stats-fab">?</span></div>
-  <div>Sidebar: <span id="stats-sidebar">?</span></div>  <!-- NEW -->
-`;
-
+      <div>Current section: <span id="stats-current">?</span></div>
+      <div>Last saved: <span id="stats-last">?</span></div>
+      <div>Display size: <span id="stats-display">?</span></div>
+      <div>Dark mode: <span id="stats-darkmode">?</span></div>
+      <div>Debug panel: <span id="stats-debugpanel">?</span></div>
+      <div>Particles: <span id="stats-particles">?</span></div>
+      <div>FAB Status: <span id="stats-fab">?</span></div>
+      <div>Sidebar: <span id="stats-sidebar">?</span></div>
+      <div>Video Behaviour: <span id="stats-video-behaviour">?</span></div>
+    `;
     document.body.appendChild(statsDiv);
-
     window.addEventListener('resize', updateStatsPanel);
   }
 
@@ -609,13 +600,29 @@ function updateStatsPanel() {
 
   document.getElementById('stats-particles').textContent = particlesVisible ? "Enabled" : "Disabled";
 
-  // New: Update FAB Status
+  // FAB Status
   const fabContainer = document.querySelector('.fab-container');
   const fabActive = fabContainer && fabContainer.classList.contains('active');
   document.getElementById('stats-fab').textContent = fabActive ? "Open" : "Closed";
 
+  // Sidebar Status
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOpen = sidebar && sidebar.classList.contains('open');
+  document.getElementById('stats-sidebar').textContent = sidebarOpen ? "Open" : "Closed";
+
+  // Video Behaviour Status
+  const videoSelect = document.getElementById('videoPlaybackSelect');
+  if (videoSelect) {
+    const videoText = videoSelect.options[videoSelect.selectedIndex].text;
+    document.getElementById('stats-video-behaviour').textContent = videoText;
+  } else {
+    document.getElementById('stats-video-behaviour').textContent = "-";
+  }
+
+  // Show/hide panel depending on Debug toggle
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 }
+
 
 /* VIDEO TOGGLE */
 function initVideoToggle() {
@@ -690,6 +697,11 @@ function initSettingsPopup() {
       });
     }
   });
+  const videoPlaybackSelect = document.getElementById('videoPlaybackSelect');
+if (videoPlaybackSelect) {
+  videoPlaybackSelect.addEventListener('change', updateStatsPanel);
+}
+
 }
 
 function initSettingsControls() {
@@ -755,8 +767,10 @@ function initSettingsControls() {
     updateStatsPanel();
   });
 }
+
 window.toggleSidebar = function() {
   const sidebar = document.getElementById("sidebar");
+  const tocDropdown = document.getElementById("tocDropdown"); // <-- Add this line!
   sidebar.classList.toggle("open");
 
   if (!sidebar.classList.contains("open") && tocDropdown) {
@@ -766,7 +780,9 @@ window.toggleSidebar = function() {
   if (window._leafletMap) {
     window._leafletMap.invalidateSize();
   }
+  updateStatsPanel();
 };
+
 
 /* INIT GLOBAL */
 document.addEventListener("DOMContentLoaded", function() {

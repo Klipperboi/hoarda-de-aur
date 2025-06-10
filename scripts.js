@@ -80,7 +80,6 @@ function initSidebar() {
     if (!sidebar.classList.contains("open") && tocDropdown) {
       tocDropdown.style.display = "none";
     }
-    updateStatsPanel(); // <-- Refresh sidebar status in debug panel on toggle
   }
   window.toggleSidebar = toggleSidebar;
 
@@ -99,7 +98,6 @@ function initSidebar() {
       } else {
         tocDropdown.style.display = "block";
         sidebar.classList.add("open");
-        updateStatsPanel(); // Also update when opening TOC dropdown
       }
     });
   }
@@ -584,15 +582,16 @@ function updateStatsPanel() {
     statsDiv.style.userSelect = "none";
     statsDiv.style.minWidth = "200px";
     statsDiv.innerHTML = `
-      <div>Current section: <span id="stats-current">?</span></div>
-      <div>Last saved: <span id="stats-last">?</span></div>
-      <div>Display size: <span id="stats-display">?</span></div>
-      <div>Dark mode: <span id="stats-darkmode">?</span></div>
-      <div>Debug panel: <span id="stats-debugpanel">?</span></div>
-      <div>Particles: <span id="stats-particles">?</span></div>
-      <div>FAB Status: <span id="stats-fab">?</span></div>
-      <div>Sidebar: <span id="stats-sidebar">?</span></div>
-    `;
+  <div>Current section: <span id="stats-current">?</span></div>
+  <div>Last saved: <span id="stats-last">?</span></div>
+  <div>Display size: <span id="stats-display">?</span></div>
+  <div>Dark mode: <span id="stats-darkmode">?</span></div>
+  <div>Debug panel: <span id="stats-debugpanel">?</span></div>
+  <div>Particles: <span id="stats-particles">?</span></div>
+  <div>FAB Status: <span id="stats-fab">?</span></div>
+  <div>Sidebar: <span id="stats-sidebar">?</span></div>  <!-- NEW -->
+`;
+
     document.body.appendChild(statsDiv);
 
     window.addEventListener('resize', updateStatsPanel);
@@ -610,13 +609,10 @@ function updateStatsPanel() {
 
   document.getElementById('stats-particles').textContent = particlesVisible ? "Enabled" : "Disabled";
 
+  // New: Update FAB Status
   const fabContainer = document.querySelector('.fab-container');
   const fabActive = fabContainer && fabContainer.classList.contains('active');
   document.getElementById('stats-fab').textContent = fabActive ? "Open" : "Closed";
-
-  const sidebar = document.getElementById('sidebar');
-  const sidebarOpen = sidebar && sidebar.classList.contains('open');
-  document.getElementById('stats-sidebar').textContent = sidebarOpen ? "Open" : "Closed";
 
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 }
@@ -770,8 +766,6 @@ window.toggleSidebar = function() {
   if (window._leafletMap) {
     window._leafletMap.invalidateSize();
   }
-
-  updateStatsPanel(); // Ensure sidebar status updates in debug panel
 };
 
 /* INIT GLOBAL */

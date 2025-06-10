@@ -20,6 +20,7 @@ TBA
 - actualizare debug panel
 - actualizare palete de culori
 - frame pentru video
+- restructurare meniu setări
 
 **1.0.5**
 - hyperlink titlu

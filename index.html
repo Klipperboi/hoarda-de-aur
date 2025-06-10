@@ -48,6 +48,7 @@
   <div class="main-container">
     <div class="highlight-box">
       <div class="container">
+        <section id="top"></section>
         <h3>1380 – 1502</h3>
         <h2 class="title-centered" style="font-size: 48px; text-align: center; font-weight: bold;">HOARDA DE AUR</h2>
         <hr class="separator thick" />
@@ -320,12 +321,6 @@
     </div> <!-- End highlight-box -->
   </div> <!-- End main-container -->
 
-  <!-- Image Popup Modal -->
-  <div id="imagePopup" class="popup">
-    <span id="closePopup" class="close-btn">&times;</span>
-    <img id="popupImage" src="" alt="Zoom Image" />
-  </div>
-
   <!-- Floating Action Buttons -->
   <div class="fab-container">
     <button id="fabMain" class="fab-main" aria-label="Acțiuni rapide">
@@ -341,27 +336,42 @@
     </div>
   </div>
 
-  <!-- Settings Popup Modal -->
-  <div id="settingsOverlay" class="modal-overlay" style="display:none;">
-    <div id="settingsPopup" class="settings-popup" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
-      <button id="closeSettingsBtn" class="close-btn" aria-label="Close Settings">&times;</button>
-      <h2 id="settingsTitle" tabindex="0">Setări</h2>
-      <div class="settings-content">
+<!-- Settings Popup Modal -->
+<div id="settingsOverlay" class="modal-overlay" style="display: flex;">
+  <div id="settingsPopup" class="settings-popup" tabindex="-1">
+    <!--div class="modal-center-line"></div>-->
+    <span id="closeSettingsBtn" class="close-btn">&times;</span>
+    <h2 tabindex="0">Setări</h2>
+    <div class="settings-content">
+      <div class="settings-labels">
         <div class="settings-group">
-          <input type="checkbox" id="themeToggle" />
-          <label for="themeToggle">Dark Mode</label>
+          <label class="settings-label" for="themeToggle">Mod întunecat</label>
+          <input type="checkbox" id="themeToggle" class="settings-checkbox" />
+          <span class="settings-toggle"></span>
         </div>
         <div class="settings-group">
-          <input type="checkbox" id="debugToggle" />
-          <label for="debugToggle">Show Debug Panel</label>
+          <label class="settings-label" for="debugToggle">Show Debug Panel</label>
+          <input type="checkbox" id="debugToggle" class="settings-checkbox" />
+          <span class="settings-toggle"></span>
         </div>
         <div class="settings-group">
-          <input type="checkbox" id="particlesToggle" />
-          <label for="particlesToggle">Show Particles</label>
+          <label class="settings-label" for="particlesToggle">Show Particles</label>
+          <input type="checkbox" id="particlesToggle" class="settings-checkbox" />
+          <span class="settings-toggle"></span>
         </div>
+        <div class="settings-group">
+  <label class="settings-label" for="videoPlaybackSelect">Video</label>
+  <select id="videoPlaybackSelect" class="settings-dropdown" name="videoPlayback">
+    <option value="play">Play (default)</option>
+    <option value="pause">Pause on load</option>
+    <option value="manual">Manual control</option>
+  </select>
+</div>
+
       </div>
     </div>
   </div>
+</div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>

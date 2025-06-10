@@ -16,6 +16,10 @@ TBA
 
 ## Changelog
 
+**1.0.6**
+- actualizare debug panel
+- actualizare palete de culori
+
 **1.0.5**
 - hyperlink titlu
 - distanță titlu - top bar

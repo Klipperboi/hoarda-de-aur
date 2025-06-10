@@ -19,6 +19,7 @@ TBA
 **1.0.6**
 - actualizare debug panel
 - actualizare palete de culori
+- frame pentru video
 
 **1.0.5**
 - hyperlink titlu

@@ -919,3 +919,29 @@ body.dark-mode #section-stats-indicator div {
   font-weight: bold;
   transition: color 0.3s ease;
 }
+
+/* VIDEO */
+
+.videoContainer {
+  border: 3px solid var(--color-accent);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(var(--color-accent-rgb), 0.35);
+  padding: 8px;
+  max-width: 560px; /* match your iframe width */
+  margin: 20px auto; /* center with vertical spacing */
+  background-color: var(--color-bg); /* optional: background behind border */
+  transition: box-shadow 0.3s ease;
+}
+
+.videoContainer iframe {
+  display: block;
+  border-radius: 8px;
+  width: 100%;
+  height: 315px; /* keep YouTube embed default aspect */
+  box-shadow: none; /* avoid double shadows */
+}
+
+/* Optional: subtle glow on hover */
+.videoContainer:hover {
+  box-shadow: 0 6px 25px rgba(var(--color-accent-rgb), 0.55);
+}

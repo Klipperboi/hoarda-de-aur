@@ -17,7 +17,7 @@ TBA
 ## Changelog
 
 **1.0.7**
-- rescriere video, mp4 vs youtube
+- rescriere video, mp4 (files.garden) vs youtube
 - funcții comportament video
 
 **1.0.6**

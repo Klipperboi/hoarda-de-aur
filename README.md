@@ -21,6 +21,7 @@ TBA
 - actualizare palete de culori
 - frame pentru video
 - restructurare meniu setări
+    - organizare în coloane
 
 **1.0.5**
 - hyperlink titlu

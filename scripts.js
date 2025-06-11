@@ -1,7 +1,3 @@
-// =============================
-// HOARDA DE AUR - FULL JS
-// =============================
-
 // -------- GLOBAL VARS --------
 const SECTION_HIGHLIGHT_CLASS = "current-section-title";
 let lastSavedSectionId = null;
@@ -26,14 +22,22 @@ const locations = {
   sfarsit:      { coords: [54.6778, 36.2865], msg: "Sfârșit - 8 August 1480, Râul Ugra" },
   ultimul:      { coords: [54.8985, 23.9036], msg: "Ultimul Khan - 1 Ianuarie 1502, Kaunas" },
   principal:    { coords: [48,      42] },
-  bibliografie: { coords: [44,      41] },
-  note:         { coords: [44,      41] }
+  note:         { coords: [44, 41], msg: "Note" },
+  recomandari:  { coords: [44, 41], msg: "Recomandări" },
+  galerie:      { coords: [44, 41], msg: "Galeris" },
+  bibliografie: { coords: [44,      41], msg: "Bibliografie"},
 };
 const mapFlyZoom = 6;
 const mapFlyAnim = { animate: true, duration: 1.15, easeLinearity: 0.27 };
 let map = null;
 let mapMarkers = {};
 let particlesVisible = true;
+
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'auto'; // or 'manual' if you want to handle everything yourself
+}
+
+
 
 // -------- VIDEO TOGGLE & ADVANCED BEHAVIOUR --------
 
@@ -166,9 +170,6 @@ function setupSectionTracking() {
         // ========== Enforce Video Behaviour ==========
         if (window._enforceVideoBehaviour) window._enforceVideoBehaviour();
 
-        // === DEBUG: Log section/video for troubleshooting ===
-        console.log('[DEBUG] currentSectionId:', currentSectionId, '| videoId:', videoId, '| videoBehaviour:', getCurrentVideoBehaviour());
-
         // ======= Magic: Pause on scroll-away if needed =======
         if (
           getCurrentVideoBehaviour() === 'pause' &&
@@ -215,11 +216,8 @@ function smartSmoothJumpToSection(targetId) {
         highlightCurrentSectionTitle(currentSectionId);
         updateStatsPanel();
         updateActiveLink(currentSectionId);
-        if (
-          locations[currentSectionId] &&
-          currentSectionId !== "bibliografie" &&
-          currentSectionId !== "note"
-        ) {
+        // Only fly if the section actually has a map marker (i.e., a pin)
+        if (mapMarkers[currentSectionId]) {
           map.flyTo(locations[currentSectionId].coords, mapFlyZoom, mapFlyAnim);
           mapMarkers[currentSectionId].openPopup();
         }
@@ -234,6 +232,7 @@ function smartSmoothJumpToSection(targetId) {
   }
   window.addEventListener('scroll', onScroll);
 }
+
 
 /* SIDEBAR & DROPDOWN MENU */
 function initSidebar() {
@@ -413,25 +412,31 @@ function initImagePopups() {
   const popupImage = document.getElementById("popupImage");
   const closePopup = document.getElementById("closePopup");
   const images = document.querySelectorAll("img.popup-enabled");
+
   images.forEach(img => {
     img.addEventListener("click", function() {
-      popupImage.src = this.src;
+      if (!popup || !popupImage) return;
+      popupImage.src = this.src || this.getAttribute("data-src") || "";
       popup.style.display = "flex";
       document.body.style.overflow = "hidden";
     });
   });
+
   if (closePopup) {
     closePopup.addEventListener("click", function() {
+      if (!popup) return;
       popup.style.display = "none";
       document.body.style.overflow = "auto";
     });
   }
+
   document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && popup && popup.style.display === "flex") {
       popup.style.display = "none";
       document.body.style.overflow = "auto";
     }
   });
+
   if (popup) {
     popup.addEventListener("click", function(event) {
       if (event.target === popup) {
@@ -442,6 +447,7 @@ function initImagePopups() {
   }
 }
 
+
 /* LEAFLET MAP (with TOC sync) */
 function initMap() {
   map = L.map("map").setView([45.9432, 24.9668], 4);
@@ -449,15 +455,22 @@ function initMap() {
     attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
+  // Only add map markers for sections you want shown
   mapMarkers = {};
   for (const key in locations) {
-    if (locations.hasOwnProperty(key)) {
+    if (
+      locations.hasOwnProperty(key) &&
+      !["bibliografie", "note", "galerie", "recomandari"].includes(key)
+    ) {
       const loc = locations[key];
-      const marker = L.marker(loc.coords).addTo(map).bindPopup(loc.msg || "", { autoPan: false });
+      const marker = L.marker(loc.coords)
+        .addTo(map)
+        .bindPopup(loc.msg || "", { autoPan: false });
       mapMarkers[key] = marker;
     }
   }
 
+  // Sidebar TOC link logic
   function updateActiveLink(activeId) {
     document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
       if (link.dataset.loc === activeId) {
@@ -469,6 +482,7 @@ function initMap() {
   }
   window.updateActiveLink = updateActiveLink;
 
+  // Handle TOC clicks (no auto-jump on load, just on click)
   document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
     link.addEventListener("click", function(e) {
       e.preventDefault();
@@ -476,28 +490,33 @@ function initMap() {
       updateActiveLink(locKey);
       saveCurrentSectionAsLast(locKey);
 
-      if (locKey === "acasa") {
-        smartSmoothJumpToSection("acasa");
+      if (locKey === "top") {
+        smartSmoothJumpToSection("top");
       } else if (locations[locKey]) {
         smartSmoothJumpToSection(locKey);
       }
     });
   });
 
+  // Map follows section when visible (but only for relevant sections)
   const observerOptions = { root: null, threshold: 0.5 };
-  const observerCallback = (entries) => {
-    if (observerPaused) return;
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        if (locations[id] && id !== "bibliografie" && id !== "note") {
-          map.flyTo(locations[id].coords, mapFlyZoom, mapFlyAnim);
-          mapMarkers[id].openPopup();
-        }
-        updateActiveLink(id);
-      }
-    });
-  };
+const observerCallback = (entries) => {
+  if (observerPaused) return;
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      // Only fly to and open popup if marker exists for this section
+if (mapMarkers[id]) {
+  map.flyTo(locations[id].coords, mapFlyZoom, mapFlyAnim);
+  mapMarkers[id].openPopup();
+}
+
+
+      updateActiveLink(id);
+    }
+  });
+};
+
 
   document.querySelectorAll("section[id]").forEach(section => {
     const obs = new IntersectionObserver(observerCallback, observerOptions);
@@ -506,6 +525,7 @@ function initMap() {
 
   window._leafletMap = map;
 }
+
 
 /* TEXT PRINCIPAL din text.txt */
 function initTextSections() {
@@ -668,15 +688,16 @@ function initFab() {
     });
   }
 
-  fabTop && fabTop.addEventListener('click', () => {
-    if (window.scrollY < 5 || currentSectionId === 'acasa') {
-      saveCurrentSectionAsLast('acasa');
-      smartSmoothJumpToSection('acasa');
-    } else {
-      saveCurrentSectionAsLast(currentSectionId);
-      smartSmoothJumpToSection('acasa');
-    }
-  });
+fabTop && fabTop.addEventListener('click', () => {
+  if (window.scrollY < 5 || currentSectionId === 'top') {
+    saveCurrentSectionAsLast('top');
+    smartSmoothJumpToSection('top');
+  } else {
+    saveCurrentSectionAsLast(currentSectionId);
+    smartSmoothJumpToSection('top');
+  }
+});
+
 
   fabLast && fabLast.addEventListener('click', () => {
     if (lastSavedSectionId) {
@@ -1104,6 +1125,35 @@ function initVideoIdStealOnPlay() {
   });
 }
 
+function updateProgressBar() {
+  const bar = document.getElementById("page-progress-bar");
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight ? (scrollTop / docHeight) : 0;
+  bar.style.width = (progress * 100) + "%";
+}
+window.addEventListener("scroll", updateProgressBar);
+window.addEventListener("resize", updateProgressBar);
+document.addEventListener("DOMContentLoaded", updateProgressBar);
+
+function initGalleryTooltips() {
+  const tooltipDiv = document.getElementById("note-tooltip");
+  document.querySelectorAll('.gallery-item img').forEach(img => {
+    img.addEventListener('mouseenter', function() {
+      tooltipDiv.textContent = img.nextElementSibling.textContent;
+      tooltipDiv.style.opacity = '1';
+    });
+    img.addEventListener('mousemove', function(e) {
+      tooltipDiv.style.left = (e.pageX + 12) + "px";
+      tooltipDiv.style.top = (e.pageY - 40) + "px";
+    });
+    img.addEventListener('mouseleave', function() {
+      tooltipDiv.style.opacity = '0';
+    });
+  });
+}
+
+
 
 
 // -------- MAIN INIT --------
@@ -1124,5 +1174,6 @@ document.addEventListener("DOMContentLoaded", function() {
   initVideoIdStealOnPlay();  // <-- this does the magic
   initSettingsPopup();
   initSettingsControls();
+  initGalleryTooltips()
 });
 

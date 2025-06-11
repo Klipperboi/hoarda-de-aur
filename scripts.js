@@ -35,7 +35,9 @@ let map = null;
 let mapMarkers = {};
 let particlesVisible = true;
 
-// -------- VIDEO TOGGLE & TRACKING --------
+// -------- VIDEO TOGGLE & ADVANCED BEHAVIOUR --------
+
+let currentVideoElement = null; // Track current playing video DOM node
 
 function initVideoToggle() {
   document.querySelectorAll(".toggleVideo").forEach(button => {
@@ -63,17 +65,135 @@ function initVideoToggle() {
   });
 }
 
+// Handle videoId and remember which is playing
 function initVideoIdStealOnPlay() {
-  document.querySelectorAll('video').forEach(video => {
-    video.addEventListener('play', function() {
+  document.querySelectorAll('.videoContainer video').forEach(video => {
+    video.addEventListener('play', function () {
       const section = video.closest('section');
-      if (!section) return;
-      videoId = section.id;
-      lastSavedSectionId = section.id;
-      updateStatsPanel();
+      if (section) {
+        videoId = section.id;
+        lastSavedSectionId = section.id;
+        currentVideoElement = video;
+        updateStatsPanel();
+      }
+    });
+
+    // Optional: clear on pause (not required)
+    video.addEventListener('pause', function () {
+      // Don't clear videoId, keep last played info for debug
     });
   });
 }
+
+/**
+ * On section change: enforces the selected video behaviour
+ * Call this whenever currentSectionId changes!
+ */
+function setupVideoSectionBehaviour() {
+  let lastSectionId = null;
+  let lastVideoId = null;
+
+  function enforceVideoBehaviour() {
+    // Only if a video is playing and we have a current videoId
+    if (!currentVideoElement || !videoId) return;
+    const selected = document.getElementById('videoPlaybackSelect');
+    if (!selected) return;
+    const mode = selected.value;
+
+    // If we're still in the same section as the video, do nothing
+    if (videoId === currentSectionId) return;
+
+    // Oprește: Pause the video
+    if (mode === 'pause') {
+      currentVideoElement.pause();
+    }
+
+    // Picture in Picture: trigger PiP if supported
+    else if (mode === 'pip') {
+      // Only if not already in PiP
+      if (document.pictureInPictureElement !== currentVideoElement) {
+        if (currentVideoElement.requestPictureInPicture) {
+          currentVideoElement.requestPictureInPicture().catch(e => {
+            // Sometimes PiP fails (browser, or user denied)
+            // console.warn("PiP error", e);
+          });
+        }
+      }
+    }
+    // "Rulează în fundal": do nothing
+  }
+
+  // Listen for section change (hook into observer)
+  const observer = new MutationObserver(() => {
+    if (lastSectionId !== currentSectionId || lastVideoId !== videoId) {
+      enforceVideoBehaviour();
+      lastSectionId = currentSectionId;
+      lastVideoId = videoId;
+    }
+  });
+  observer.observe(document.body, { attributes: false, childList: false, subtree: false });
+  // Or: call enforceVideoBehaviour directly from setupSectionTracking (recommended)
+  window._enforceVideoBehaviour = enforceVideoBehaviour;
+}
+
+function requestPiPForCurrentVideo() {
+  if (videoId) {
+    const section = document.getElementById(videoId);
+    if (section) {
+      const video = section.querySelector('video');
+      if (video && video.requestPictureInPicture) {
+        if (document.pictureInPictureElement !== video) {
+          video.requestPictureInPicture().catch(() => {});
+        }
+      }
+    }
+  }
+}
+
+
+// --- Add this call inside your observer in setupSectionTracking:
+function setupSectionTracking() {
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+  const observer = new IntersectionObserver((entries) => {
+    if (observerPaused) return;
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const prevSection = currentSectionId;
+        currentSectionId = entry.target.id;
+        updateStatsPanel();
+        highlightCurrentSectionTitle(currentSectionId);
+
+        // ========== Enforce Video Behaviour ==========
+        if (window._enforceVideoBehaviour) window._enforceVideoBehaviour();
+
+        // === DEBUG: Log section/video for troubleshooting ===
+        console.log('[DEBUG] currentSectionId:', currentSectionId, '| videoId:', videoId, '| videoBehaviour:', getCurrentVideoBehaviour());
+
+        // ======= Magic: Pause on scroll-away if needed =======
+        if (
+          getCurrentVideoBehaviour() === 'pause' &&
+          videoId &&
+          videoId !== currentSectionId &&
+          prevSection !== currentSectionId
+        ) {
+          pauseCurrentVideo();
+        }
+
+        // ======= Magic: PiP on scroll-away if needed =======
+        if (
+          getCurrentVideoBehaviour() === 'pip' &&
+          videoId &&
+          videoId !== currentSectionId &&
+          prevSection !== currentSectionId
+        ) {
+          requestPiPForCurrentVideo();
+        }
+      }
+    });
+  }, { threshold: 0.5 });
+  sections.forEach(section => observer.observe(section));
+}
+
 
 
 /* SMART SMOOTH SCROLL JUMP */
@@ -516,21 +636,6 @@ function initParticlesToggle() {
   }
 }
 
-/* SECTION TRACKING (observer) */
-function setupSectionTracking() {
-  const sections = Array.from(document.querySelectorAll('section[id]'));
-  const observer = new IntersectionObserver((entries) => {
-    if (observerPaused) return;
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        currentSectionId = entry.target.id;
-        updateStatsPanel();
-        highlightCurrentSectionTitle(currentSectionId);
-      }
-    });
-  }, { threshold: 0.5 });
-  sections.forEach(section => observer.observe(section));
-}
 
 /* FAB BUTTONS (floating actions) */
 function initFab() {
@@ -604,7 +709,7 @@ function updateStatsPanel() {
     statsDiv.style.fontSize = "14px";
     statsDiv.style.zIndex = "3002";
     statsDiv.style.opacity = "0.85";
-    statsDiv.style.pointerEvents = "none";
+    statsDiv.style.pointerEvents = "auto";
     statsDiv.style.userSelect = "none";
     statsDiv.style.minWidth = "240px";
     statsDiv.innerHTML = `
@@ -658,7 +763,206 @@ function updateStatsPanel() {
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 
   document.getElementById('stats-video-id').textContent = videoId || "-";
+
+  // ------- DEV TOOLS TOGGLE (above buttons, styled right!) -------
+  let devToggleWrap = document.getElementById('devToolsToggleWrap');
+  if (!devToggleWrap) {
+    devToggleWrap = document.createElement('div');
+    devToggleWrap.id = 'devToolsToggleWrap';
+    devToggleWrap.style.marginTop = '12px';
+    devToggleWrap.style.marginBottom = '8px';
+    devToggleWrap.style.display = 'flex';
+    devToggleWrap.style.alignItems = 'center';
+    devToggleWrap.style.justifyContent = 'center';
+    // Use flex-row: label left, switch right
+    devToggleWrap.innerHTML = `
+      <label style="display:flex;align-items:center;justify-content:space-between;width:100%;font-size:15px;font-family:inherit;">
+        <span style="flex:1;text-align:center;">Dev Tools</span>
+        <input type="checkbox" id="devToolsToggle"
+          style="accent-color:#ed143d;width:20px;height:20px;margin-left:10px;outline:1.5px solid #444;border-radius:4px;cursor:pointer;">
+      </label>
+    `;
+    let firstBtn = document.getElementById('forcePiPBtn');
+    if (firstBtn) statsDiv.insertBefore(devToggleWrap, firstBtn);
+    else statsDiv.appendChild(devToggleWrap);
+  }
+
+  // Always use the current DOM version (not cached!)
+  let devToolsToggle = document.getElementById('devToolsToggle');
+  // On first run, restore from storage (or default to false)
+  let devEnabled = localStorage.getItem('devToolsEnabled');
+  if (devEnabled === null) devEnabled = false;
+  else devEnabled = devEnabled === 'true';
+  devToolsToggle.checked = devEnabled;
+
+  // When toggled, update localStorage and UI
+  devToolsToggle.onchange = function () {
+    localStorage.setItem('devToolsEnabled', devToolsToggle.checked);
+    updateDevToolsVisibility();
+  };
+
+  // ------- DEV BUTTONS -------
+  let pipBtn = document.getElementById('forcePiPBtn');
+  if (!pipBtn) {
+    pipBtn = document.createElement('button');
+    pipBtn.id = 'forcePiPBtn';
+    pipBtn.textContent = 'Picture in Picture';
+    pipBtn.style.marginTop = '6px';
+    pipBtn.style.width = '100%';
+    pipBtn.style.padding = '8px 0';
+    pipBtn.style.background = '#d00000';
+    pipBtn.style.color = '#fff';
+    pipBtn.style.border = 'none';
+    pipBtn.style.borderRadius = '7px';
+    pipBtn.style.fontWeight = 'bold';
+    pipBtn.style.fontSize = '15px';
+    pipBtn.style.cursor = 'pointer';
+    pipBtn.style.boxShadow = '0 2px 16px #d0000030';
+    pipBtn.style.pointerEvents = 'auto';
+    statsDiv.appendChild(pipBtn);
+  }
+
+  let pauseBtn = document.getElementById('forcePauseBtn');
+  if (!pauseBtn) {
+    pauseBtn = document.createElement('button');
+    pauseBtn.id = 'forcePauseBtn';
+    pauseBtn.textContent = 'Pause Video';
+    pauseBtn.style.marginTop = '7px';
+    pauseBtn.style.width = '100%';
+    pauseBtn.style.padding = '8px 0';
+    pauseBtn.style.background = '#333';
+    pauseBtn.style.color = '#fff';
+    pauseBtn.style.border = 'none';
+    pauseBtn.style.borderRadius = '7px';
+    pauseBtn.style.fontWeight = 'bold';
+    pauseBtn.style.fontSize = '15px';
+    pauseBtn.style.cursor = 'pointer';
+    pauseBtn.style.boxShadow = '0 2px 16px #2227';
+    pauseBtn.style.pointerEvents = 'auto';
+    statsDiv.appendChild(pauseBtn);
+  }
+
+  // Actually show/hide the dev buttons
+  updateDevToolsVisibility();
 }
+
+function updateDevToolsVisibility() {
+  const show = localStorage.getItem('devToolsEnabled') === 'true';
+  // Toggle dev panel buttons
+  ['forcePiPBtn', 'forcePauseBtn'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.style.display = show ? 'block' : 'none';
+  });
+
+  // Handle the debug line in the modal
+  const modal = document.getElementById('settingsPopup');
+  if (modal) {
+    let debugLine = document.getElementById('modalDebugLine');
+    if (show) {
+      if (!debugLine) {
+        debugLine = document.createElement('div');
+        debugLine.id = 'modalDebugLine';
+        debugLine.className = 'modal-center-line';
+        modal.appendChild(debugLine);
+      }
+      debugLine.style.display = 'block';
+    } else {
+      if (debugLine) debugLine.style.display = 'none';
+    }
+  }
+}
+
+
+
+// Run this once at startup so it respects the stored state on reload
+document.addEventListener('DOMContentLoaded', updateDevToolsVisibility);
+
+
+// Make sure to call updateDevToolsVisibility once at startup!
+document.addEventListener('DOMContentLoaded', () => {
+  updateDevToolsVisibility();
+});
+
+
+function toggleDevToolsPanel(show) {
+  const panel = document.getElementById('debug-tools-panel');
+  if (panel) {
+    panel.style.display = show ? 'block' : 'none';
+  }
+}
+
+// On page load, restore panel state
+document.addEventListener('DOMContentLoaded', function() {
+  const enabled = localStorage.getItem('devToolsEnabled') === 'true';
+  toggleDevToolsPanel(enabled);
+});
+
+
+// --- BUTTONS WIRING (use event delegation for robustness) ---
+document.addEventListener("DOMContentLoaded", function () {
+  document.body.addEventListener('click', function (e) {
+    // PIP BUTTON
+    if (e.target && e.target.id === 'forcePiPBtn') {
+      if (!videoId) {
+        alert("Niciun video nu este activ.");
+        return;
+      }
+      const section = document.getElementById(videoId);
+      if (!section) {
+        alert("Nu s-a găsit secțiunea video.");
+        return;
+      }
+      const video = section.querySelector('video');
+      if (!video) {
+        alert("Nu s-a găsit video-ul în secțiunea curentă.");
+        return;
+      }
+      if (video.requestPictureInPicture) {
+        video.requestPictureInPicture().catch((err) => {
+          alert("Nu am putut activa modul Picture in Picture: " + err.message);
+        });
+      } else {
+        alert("Picture in Picture nu este suportat de browserul tău.");
+      }
+    }
+
+    // PAUSE BUTTON
+    if (e.target && e.target.id === 'forcePauseBtn') {
+      if (!videoId) {
+        alert("Niciun video nu este activ.");
+        return;
+      }
+      const section = document.getElementById(videoId);
+      if (!section) {
+        alert("Nu s-a găsit secțiunea video.");
+        return;
+      }
+      const video = section.querySelector('video');
+      if (!video) {
+        alert("Nu s-a găsit video-ul în secțiunea curentă.");
+        return;
+      }
+      video.pause();
+    }
+  });
+});
+
+function pauseCurrentVideo() {
+  if (videoId) {
+    const section = document.getElementById(videoId);
+    if (section) {
+      const video = section.querySelector('video');
+      if (video) video.pause();
+    }
+  }
+}
+
+// Helper for reading dropdown value
+function getCurrentVideoBehaviour() {
+  const videoSelect = document.getElementById('videoPlaybackSelect');
+  return videoSelect ? videoSelect.value : 'play';
+}
+
 
 
 // -------- SETTINGS POPUP --------
@@ -697,13 +1001,25 @@ function initSettingsControls() {
   const themeToggle = document.getElementById('themeToggle');
   const debugToggle = document.getElementById('debugToggle');
   const particlesToggle = document.getElementById('particlesToggle');
+  const videoSelect = document.getElementById('videoPlaybackSelect');
   const savedTheme = localStorage.getItem('theme');
-  themeToggle.checked = (savedTheme === 'dark');
   const savedDebug = localStorage.getItem('debugPanelEnabled') === 'true';
-  debugToggle.checked = savedDebug;
   const savedParticles = localStorage.getItem('particlesEnabled');
-  particlesToggle.checked = savedParticles !== 'false'; // default true
+  const savedVideoBehaviour = localStorage.getItem('videoBehaviour');
 
+  // --- Restore Video Behaviour Select ---
+  if (videoSelect && savedVideoBehaviour) {
+    videoSelect.value = savedVideoBehaviour;
+  }
+  if (videoSelect) {
+    videoSelect.addEventListener('change', function() {
+      localStorage.setItem('videoBehaviour', videoSelect.value);
+      updateStatsPanel();
+    });
+  }
+
+  // --- Theme toggle ---
+  themeToggle.checked = (savedTheme === 'dark');
   if (themeToggle.checked) {
     document.body.classList.add('dark-mode');
     loadParticles('dark');
@@ -711,16 +1027,22 @@ function initSettingsControls() {
     document.body.classList.remove('dark-mode');
     loadParticles('light');
   }
+
+  // --- Particles toggle ---
+  particlesToggle.checked = savedParticles !== 'false'; // default true
   if (!particlesToggle.checked) {
     const particlesContainer = document.getElementById("particles-js");
     if (particlesContainer) particlesContainer.innerHTML = "";
   }
 
+  // --- Debug toggle ---
+  debugToggle.checked = savedDebug;
   const statsDiv = document.getElementById('section-stats-indicator');
   if (statsDiv) {
     statsDiv.style.display = debugToggle.checked ? 'block' : 'none';
   }
 
+  // --- Event listeners for toggles ---
   themeToggle.addEventListener('change', () => {
     if (themeToggle.checked) {
       document.body.classList.add('dark-mode');
@@ -753,6 +1075,7 @@ function initSettingsControls() {
     updateStatsPanel();
   });
 }
+
 
 // -------- SIDEBAR TOGGLE (UNCHANGED) --------
 window.toggleSidebar = function() {

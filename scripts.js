@@ -1,9 +1,15 @@
+// =============================
+// HOARDA DE AUR - FULL JS
+// =============================
+
+// -------- GLOBAL VARS --------
 const SECTION_HIGHLIGHT_CLASS = "current-section-title";
 let lastSavedSectionId = null;
 let currentSectionId = null;
 let observerPaused = false;
+let videoId = null;
 
-// Locations, map, mapMarkers, zoom/anim config for global use
+// MAP LOCATIONS
 const locations = {
   prolog:       { coords: [46,     105], msg: "Prolog – 1206 - 1380, Mongolia" },
   kulikovo:     { coords: [54,      39], msg: "Kulikovo – 8 Septembrie, Rusia" },
@@ -23,19 +29,59 @@ const locations = {
   bibliografie: { coords: [44,      41] },
   note:         { coords: [44,      41] }
 };
-
 const mapFlyZoom = 6;
 const mapFlyAnim = { animate: true, duration: 1.15, easeLinearity: 0.27 };
 let map = null;
 let mapMarkers = {};
-let particlesVisible = true; // track current particles visibility
+let particlesVisible = true;
+
+// -------- VIDEO TOGGLE & TRACKING --------
+
+function initVideoToggle() {
+  document.querySelectorAll(".toggleVideo").forEach(button => {
+    button.addEventListener("click", function() {
+      const videoContainer = this.nextElementSibling;
+      if (!videoContainer) return;
+
+      const video = videoContainer.querySelector("video");
+      const isHidden = videoContainer.style.display === "none" || !videoContainer.style.display;
+
+      if (isHidden) {
+        videoContainer.style.display = "block";
+        videoContainer.removeAttribute('inert');
+        this.textContent = "Ascunde Video";
+      } else {
+        videoContainer.style.display = "none";
+        videoContainer.setAttribute('inert', '');
+        this.textContent = "Arată Video";
+        if (video) {
+          video.pause();
+          video.currentTime = 0;
+        }
+      }
+    });
+  });
+}
+
+function initVideoIdStealOnPlay() {
+  document.querySelectorAll('video').forEach(video => {
+    video.addEventListener('play', function() {
+      const section = video.closest('section');
+      if (!section) return;
+      videoId = section.id;
+      lastSavedSectionId = section.id;
+      updateStatsPanel();
+    });
+  });
+}
+
 
 /* SMART SMOOTH SCROLL JUMP */
 function smartSmoothJumpToSection(targetId) {
   observerPaused = true;
   const section = document.getElementById(targetId);
   if (!section) return;
-  const offset = 15; // Adjust as needed
+  const offset = 15;
   const targetY = section.getBoundingClientRect().top + window.scrollY - offset;
   window.scrollTo({ top: targetY, behavior: "smooth" });
 
@@ -154,11 +200,10 @@ function loadParticles(mode) {
   }
 }
 
-/* Apply drop cap style to first letter of first paragraph inside each .section-content */
+/* Drop cap first letter in each .section-content */
 function applyDropCapToSections() {
   document.querySelectorAll('.section-content').forEach(container => {
     if (container.querySelector('.drop-cap')) return;
-
     const paragraphs = container.querySelectorAll('p');
     let firstParagraph = null;
     for (const p of paragraphs) {
@@ -168,7 +213,6 @@ function applyDropCapToSections() {
       }
     }
     if (!firstParagraph) return;
-
     function findFirstTextNode(node) {
       for (const child of node.childNodes) {
         if (child.nodeType === Node.TEXT_NODE) {
@@ -180,26 +224,20 @@ function applyDropCapToSections() {
       }
       return null;
     }
-
     const textNode = findFirstTextNode(firstParagraph);
     if (!textNode) return;
-
     const text = textNode.textContent;
     const firstLetterIndex = text.search(/\S/);
     if (firstLetterIndex === -1) return;
-
     const before = text.slice(0, firstLetterIndex);
     const letter = text[firstLetterIndex];
     const after = text.slice(firstLetterIndex + 1);
-
     const span = document.createElement('span');
     span.className = 'drop-cap';
     span.textContent = letter;
-
     const parent = textNode.parentNode;
     const beforeNode = document.createTextNode(before);
     const afterNode = document.createTextNode(after);
-
     parent.replaceChild(afterNode, textNode);
     parent.insertBefore(span, afterNode);
     parent.insertBefore(beforeNode, span);
@@ -211,17 +249,14 @@ function setupTitleClicks() {
   document.querySelectorAll('.title-text').forEach(titleSpan => {
     const section = titleSpan.closest('section');
     if (!section) return;
-
     const link = document.createElement('a');
     link.href = `#${section.id}`;
     link.className = 'section-title-link';
     link.style.color = 'inherit';
     link.style.textDecoration = 'none';
     link.textContent = titleSpan.textContent;
-
     titleSpan.textContent = '';
     titleSpan.appendChild(link);
-
     link.addEventListener('click', e => {
       e.preventDefault();
       smartSmoothJumpToSection(section.id);
@@ -464,7 +499,6 @@ function initParticlesToggle() {
     const particlesContainer = document.getElementById("particles-js");
     if (particlesContainer) particlesContainer.innerHTML = "";
   }
-
   if (particlesToggle) {
     particlesToggle.checked = particlesVisible;
     particlesToggle.addEventListener('change', () => {
@@ -511,14 +545,14 @@ function initFab() {
   fabMain && fabMain.addEventListener('click', function(e) {
     e.stopPropagation();
     fabContainer.classList.toggle('active');
-    updateStatsPanel(); // Update FAB status display on toggle
+    updateStatsPanel();
   });
 
   if (AUTO_CLOSE_FAB) {
     document.addEventListener('click', function(e) {
       if (!fabContainer.contains(e.target)) {
         fabContainer.classList.remove('active');
-        updateStatsPanel(); // Update FAB status display if closed by outside click
+        updateStatsPanel();
       }
     });
     fabActions.forEach(btn => {
@@ -583,6 +617,7 @@ function updateStatsPanel() {
       <div>FAB Status: <span id="stats-fab">?</span></div>
       <div>Sidebar: <span id="stats-sidebar">?</span></div>
       <div>Video Behaviour: <span id="stats-video-behaviour">?</span></div>
+      <div>Current video: <span id="stats-video-id">-</span></div>
     `;
     document.body.appendChild(statsDiv);
     window.addEventListener('resize', updateStatsPanel);
@@ -621,48 +656,16 @@ function updateStatsPanel() {
 
   // Show/hide panel depending on Debug toggle
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
+
+  document.getElementById('stats-video-id').textContent = videoId || "-";
 }
 
 
-/* VIDEO TOGGLE */
-function initVideoToggle() {
-  document.querySelectorAll(".toggleVideo").forEach(button => {
-    button.addEventListener("click", function() {
-      const videoContainer = this.nextElementSibling;
-      if (!videoContainer) return;
-      if (!videoContainer.style.display || videoContainer.style.display === "none") {
-        videoContainer.style.display = "block";
-        this.textContent = "Ascunde Video";
-      } else {
-        videoContainer.style.display = "none";
-        this.textContent = "Arată Video";
-      }
-    });
-  });
-  window.addEventListener('scroll', function() {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    document.getElementById('scroll-bar').style.width = progress + '%';
-  });
-
-  function updateProgressBar() {
-    const bar = document.getElementById("page-progress-bar");
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight ? (scrollTop / docHeight) : 0;
-    bar.style.width = (progress * 100) + "%";
-  }
-  window.addEventListener("scroll", updateProgressBar);
-  window.addEventListener("resize", updateProgressBar);
-  document.addEventListener("DOMContentLoaded", updateProgressBar);
-}
-
+// -------- SETTINGS POPUP --------
 function initSettingsPopup() {
   const overlay = document.getElementById('settingsOverlay');
   const popup = document.getElementById('settingsPopup');
   const closeBtn = document.getElementById('closeSettingsBtn');
-
   function toggleSettings() {
     if (overlay.style.display === 'flex') {
       overlay.style.display = 'none';
@@ -673,42 +676,27 @@ function initSettingsPopup() {
       popup.querySelector('h2').focus();
     }
   }
-
   closeBtn.addEventListener('click', toggleSettings);
-
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) toggleSettings();
-  });
-
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) toggleSettings(); });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay.style.display === 'flex') {
-      toggleSettings();
-    }
+    if (e.key === 'Escape' && overlay.style.display === 'flex') toggleSettings();
   });
-
   const sidebarSettingsBtn = document.getElementById('sidebarSettings');
   const fabSettingsBtn = document.getElementById('fabSettings');
-
   [sidebarSettingsBtn, fabSettingsBtn].forEach(btn => {
-    if (btn) {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleSettings();
-      });
-    }
+    if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); toggleSettings(); });
   });
   const videoPlaybackSelect = document.getElementById('videoPlaybackSelect');
-if (videoPlaybackSelect) {
-  videoPlaybackSelect.addEventListener('change', updateStatsPanel);
+  if (videoPlaybackSelect) {
+    videoPlaybackSelect.addEventListener('change', updateStatsPanel);
+  }
 }
 
-}
-
+// -------- SETTINGS CONTROLS --------
 function initSettingsControls() {
   const themeToggle = document.getElementById('themeToggle');
   const debugToggle = document.getElementById('debugToggle');
   const particlesToggle = document.getElementById('particlesToggle');
-
   const savedTheme = localStorage.getItem('theme');
   themeToggle.checked = (savedTheme === 'dark');
   const savedDebug = localStorage.getItem('debugPanelEnabled') === 'true';
@@ -748,9 +736,7 @@ function initSettingsControls() {
 
   debugToggle.addEventListener('change', () => {
     localStorage.setItem('debugPanelEnabled', debugToggle.checked);
-    if (statsDiv) {
-      statsDiv.style.display = debugToggle.checked ? 'block' : 'none';
-    }
+    if (statsDiv) statsDiv.style.display = debugToggle.checked ? 'block' : 'none';
     updateStatsPanel();
   });
 
@@ -768,23 +754,36 @@ function initSettingsControls() {
   });
 }
 
+// -------- SIDEBAR TOGGLE (UNCHANGED) --------
 window.toggleSidebar = function() {
   const sidebar = document.getElementById("sidebar");
-  const tocDropdown = document.getElementById("tocDropdown"); // <-- Add this line!
+  const tocDropdown = document.getElementById("tocDropdown");
   sidebar.classList.toggle("open");
-
   if (!sidebar.classList.contains("open") && tocDropdown) {
     tocDropdown.style.display = "none";
   }
-
   if (window._leafletMap) {
     window._leafletMap.invalidateSize();
   }
   updateStatsPanel();
 };
 
+function initVideoIdStealOnPlay() {
+  document.querySelectorAll('.videoContainer video').forEach(video => {
+    video.addEventListener('play', function () {
+      const section = video.closest('section');
+      if (section) {
+        videoId = section.id;
+        lastSavedSectionId = section.id;
+        updateStatsPanel();
+      }
+    });
+  });
+}
 
-/* INIT GLOBAL */
+
+
+// -------- MAIN INIT --------
 document.addEventListener("DOMContentLoaded", function() {
   setupTitleClicks();
   initSidebar();
@@ -799,6 +798,8 @@ document.addEventListener("DOMContentLoaded", function() {
   initFab();
   updateStatsPanel();
   initVideoToggle();
+  initVideoIdStealOnPlay();  // <-- this does the magic
   initSettingsPopup();
   initSettingsControls();
 });
+

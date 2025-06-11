@@ -1,629 +1,1166 @@
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hoarda de Aur</title>
-  <link rel="icon" href="assets/favicon.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-</head>
-<!-- Image Popup Modal -->
-<div id="imagePopup" class="popup" style="display:none;">
-  <span id="closePopup" class="close-btn">&times;</span>
-  <img id="popupImage" src="" alt="Imagine mărită" />
-</div>
+:root {
+  --color-accent: #ed143d;
+  --color-accent-hover: #c70f25;
+  --color-bg: #f4f4f4;
+  --color-bg-dark: #333;
+  --color-bg-particles: #f4f4f4;
+  --color-bg-sidebar: #111;
+  --color-bg-sidebar-dark: #222;
+  --color-shadow: rgba(0,0,0,0.1);
 
-<body>
-  <div id="scroll-bar"></div>
-  <div id="page-progress-bar"></div>
-  <div id="note-tooltip"></div>
-  <div id="particles-js"></div>
+  --color-text: #333;
+  --color-text-dark: #ddd;
+  --color-list-number: #ed143d;
+  --color-link: #ed143d;
+  --color-link-hover: #c70f25;
+  --color-note-tooltip-bg: rgba(0, 0, 0, 0.92);
+  --color-note-tooltip-text: #fff;
 
-  <!-- Sidebar / Menu (unchanged) -->
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-top">
-      <button class="menu-btn" id="sidebarSettings">⚙ Setări</button>
-      <button class="menu-btn dropbtn" id="sidebarToc">Cuprins</button>
-<div class="dropdown-content" id="tocDropdown">
-  <a href="#acasa" data-loc="acasa">Acasă</a>
-  <a href="#prolog" data-loc="prolog">1206 – Prolog</a>
-  <a href="#kulikovo" data-loc="kulikovo">1380 – Kulikovo</a>
-  <a href="#kalka" data-loc="kalka">1381 – Kalka</a>
-  <a href="#tokhtamysh" data-loc="tokhtamysh">1381 – Tokhtamysh</a>
-  <a href="#moscova" data-loc="moscova">1382 – Moscova</a>
-  <a href="#razboi" data-loc="razboi">1386 – Războiul</a>
-  <a href="#kondurcha" data-loc="kondurcha">1391 – Kondurcha</a>
-  <a href="#terek" data-loc="terek">1395 – Terek</a>
-  <a href="#vorskla" data-loc="vorskla">1399 – Vorskla</a>
-  <a href="#declin" data-loc="declin">1406 – Declin</a>
-  <a href="#dezintegrare" data-loc="dezintegrare">1419 – Dezintegrare</a>
-  <a href="#lipnic" data-loc="lipnic">1470 – Lipnic</a>
-  <a href="#sfarsit" data-loc="sfarsit">1480 – Sfârșitul</a>
-  <a href="#ultimul" data-loc="ultimul">1502 – Ultimul Khan</a>
-  <a href="#recomandari" data-loc="recomandari">Recomandări</a>
-  <a href="#galerie" data-loc="galerie">Galerie</a>
-  <a href="#bibliografie" data-loc="bibliografie">Bibliografie</a>
-  <a href="#note" data-loc="note">Note</a>
-</div>
+  --font-head: 'Cinzel', serif;
+  --font-body: 'Lora', serif;
+  --font-accent: 'EB Garamond', serif;
+  --flag-size: 2.15em;
 
-    </div>
-    <div class="sidebar-map">
-      <div id="map"></div>
-    </div>
-  </div>
+  --btn-padding: 0.6em 1.2em;
+  --btn-radius: 6px;
+  --btn-font-size: 1rem;
 
-<div class="main-container">
-  <div class="container">
+  --sidebar-width: 350px;
+  --sidebar-min-width: 10px;
+  --sidebar-bg: var(--color-bg-sidebar);
+  --sidebar-bg-dark: var(--color-bg-sidebar-dark);
 
-        <!-- Dummy landing/cover section (use or ignore as you wish) -->
-        <section id="top">
-          <!-- Optionally, move your title/art here -->
-        </section>
+  --separator-thick: 4px solid #333;
+  --separator: 2px solid #333;
 
-        <h3>1380 – 1502</h3>
-        <h2 class="title-centered" style="font-size: 48px; text-align: center; font-weight: bold;">HOARDA DE AUR</h2>
-        <hr class="separator thick" />
-        <h2 id="declin-title" class="title-centered" style="font-size: 36px; text-align: center; font-weight: bold;">– DECLINUL –</h2>
-        <hr class="separator" />
-        <img class="popup-enabled centered-image" src="https://i.pinimg.com/1200x/d3/9a/b3/d39ab39b644184525387f82753585ec0.jpg" alt="Hoarda de Aur" />
+  --settings-col-padding-1: 80px;   /* Left column: from box edge */
+  --settings-col-padding-2: 30px;   /* Right column: from center line */
+  --settings-align-gap: -120px;       /* Label to toggle spacing */
+  --settings-toggle-width: 44px;
+  --settings-dropdown-width: 180px;
+}
 
-        <div class="text-section">
+/* === DUAL COLOR PALETTE FOR DARK MODE === */
+body.dark-mode {
+  --color-accent: #ac7d0c;
+  --color-accent-hover: #d7ac3c;
+  --color-bg: #232325;
+  --color-bg-dark: #232325;
+  --color-bg-sidebar: #181818;
+  --color-bg-sidebar-dark: #232325;
+  --color-shadow: rgba(0,0,0,0.45);
+  --color-bg-particles: #313131;
+  --color-text: #e2e2e2;
+  --color-text-dark: #e2e2e2;
+  --color-list-number: #ac7d0c;
+  --color-link: #ac7d0c;
+  --color-link-hover: #d7ac3c;
+  --color-note-tooltip-bg: rgba(20, 20, 10, 0.98);
+  --color-note-tooltip-text: #fff;
+}
 
-          <!-- Main Section: VIDEO NOW INSIDE "acasa" -->
-          <section id="acasa">
-            <div class="video-section">
-              <button class="btn toggleVideo">Arată Video</button>
-              <div class="videoContainer" style="display: none; margin-top: 20px;">
-                <video
-                  id="hoardaVideo"
-                  width="560"
-                  height="315"
-                  controls
-                  poster="assets/acasa.jpg"
-                  style="border-radius:12px; background:transparent;">
-                  <source src="https://file.garden/aEmeFmK7YhOgwAtX/acasa.mp4" type="video/mp4">
-                  Browserul tău nu suportă video HTML5.
-                </video>
-              </div>
-            </div>
-            <div class="section-content" id="principal">
-              <!-- Text dynamically loaded from text.txt -->
-              <p>Textul din secțiunea principală se va actualiza din text.txt.</p>
-            </div>
-          </section>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap');
 
-          <!-- Prolog Section (unchanged) -->
-          <section id="prolog">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Prolog</span></h1>
-              <p class="info">18 August 1206, Mongolia</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Imagine Prolog" />
-            <div class="section-content">
-              <p>Textul pentru Prolog se va încărca din text.txt.</p>
-            </div>
-          </section>
-          
-<!-- Kulikovo Section -->
-<section id="kulikovo">
-  <div class="section-header flex-header">
-    <h1><span class="title-text">Punct de cotitură: Bătălia de la Kulikovo</span></h1>
-    <p class="info">8 Septembrie 1380, Râul Don, Rusia</p>
-  </div>
-  <hr class="separator" />
-  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo" />
-  <div class="video-section">
-    <button class="btn toggleVideo">Arată Video</button>
-    <div class="videoContainer" style="display: none; margin-top: 20px;">
-      <video
-        width="560"
-        height="315"
-        controls
-        poster="assets/kulikovo.jpg"
-        style="border-radius:12px; box-shadow:0 4px 15px var(--color-accent, #ed143d38); background:#111;">
-        <source src="https://file.garden/aEmeFmK7YhOgwAtX/kulikovo.mp4" type="video/mp4">
-        Browserul tău nu suportă video HTML5.
-      </video>
-    </div>
-  </div>
-  <div class="section-content">
-    <p>Textul pentru Kulikovo se va încărca din text.txt.</p>
-  </div>
-</section>
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  text-align: center;
+}
 
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-          <!-- Kalka Section -->
-          <section id="kalka">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Bătălia de pe râul Kalka</span></h1>
-              <p class="info">1 Ianuarie 1381, Râul Kalka, Ucraina</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/75/eb/08/75eb08d0087dd0246e9a6228d9864349.jpg" alt="Bătălia de pe râul Kalka" />
-            <div class="section-content">
-              <p>Textul pentru Kalka se va încărca din text.txt.</p>
-            </div>
-          </section>
+.main-container { min-height: 100vh; }
+.container {
+  position: relative;
+  background-color: #fff;
+  box-shadow: 0 0 10px var(--color-shadow);
+  padding: 50px;
+  width: 120%;
+  max-width: 860px;
+  margin: 20px auto;
+  border-radius: 10px;
+  z-index: 2;
+}
 
-          <!-- Tokhtamysh Section -->
-          <section id="tokhtamysh">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Tokhtamysh: restaurarea puterii</span></h1>
-              <p class="info">2 Ianuarie 1381, Rusia</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/22/bc/3d/22bc3d0d11e16438139c5f20cdeb83e3.jpg" alt="Tokhtamysh" />
-            <div class="section-content">
-              <p>Textul pentru Tokhtamysh se va încărca din text.txt.</p>
-            </div>
-          </section>
+/* SIDEBAR & MENU */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0; height: 100vh;
+  width: 0;
+  background: #181818ee;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.26), 0 1.5px 0 var(--color-accent);
+  color: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 5001 !important;
+  transition: width 0.42s cubic-bezier(.52,2,.33,1);
+  border-right: 2.5px solid var(--color-accent);
+}
+.sidebar.open {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-min-width);
+  max-width: 100vw;
+}
+.sidebar-top {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 28px 24px 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sidebar-map {
+  flex: 0 0 auto;
+  padding: 16px 12px 18px 12px;
+  background: rgba(0,0,0,0.12);
+  border-top: 1.5px solid color-mix(in srgb, var(--color-accent) 60%, transparent);
+  box-shadow: 0 -2px 14px 0 #ed143d15 inset;
+  display: flex; justify-content: center; align-items: flex-end;
+}
 
-          <!-- Moscova Section -->
-          <section id="moscova">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Asediul Moscovei</span></h1>
-              <p class="info">23 August 1382, Rusia</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg" alt="Asediul Moscovei" />
-            <div class="section-content">
-              <p>Textul pentru Moscova se va încărca din text.txt.</p>
-            </div>
-          </section>
+/* Unified Menu Buttons */
+.menu-btn, .dropbtn {
+  background: #252525;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 1.18em;
+  border-radius: 7px;
+  margin-bottom: 7px;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-head);
+  cursor: pointer;
+  transition: background 0.3s;
+  display: block;
+}
+.menu-btn:hover, .dropbtn:hover {
+  background: var(--color-accent);
+}
 
-          <!-- Razboi Section -->
-          <section id="razboi">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Războiul Tokhtamysh–Timur</span></h1>
-              <p class="info">1 Ianuarie 1386, Munții Caucaz</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg" alt="Războiul Tokhtamysh–Timur" />
-            <div class="section-content">
-              <p>Textul pentru Război se va încărca din text.txt.</p>
-            </div>
-          </section>
+/* TOC Dropdown */
+.dropdown-content {
+  display: none;
+  position: relative;
+  background-color: #222;
+  min-width: 100%;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  z-index: 2000;
+  border-radius: 8px;
+  margin-top: 0;
+}
 
-          <!-- Kondurcha Section -->
-          <section id="kondurcha">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Bătălia de pe râul Kondurcha</span></h1>
-              <p class="info">18 Iunie 1391, Bulgaria</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg" alt="Bătălia de pe râul Kondurcha" />
-            <div class="section-content">
-              <p>Textul pentru Kondurcha se va încărca din text.txt.</p>
-            </div>
-          </section>
+.dropdown-content a {
+  display: block;
+  color: #fff;
+  padding: 8px 18px;
+  font-size: 1.08em;
+  border-radius: 3px;
+  text-decoration: none;
+  font-family: var(--font-head);
+  text-align: left;
+  background: none;
+  border-left: 3.5px solid transparent;
+  transition: 
+    background 0.22s cubic-bezier(.4,2,.6,1),
+    color 0.15s,
+    border-left 0.18s;
+}
 
-<!-- Terek Section -->
-<section id="terek">
-  <div class="section-header flex-header">
-    <h1><span class="title-text">Bătălia de pe râul Terek</span></h1>
-    <p class="info">15 Aprilie 1395</p>
-  </div>
-  <hr class="separator" />
-  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Bătălia de pe râul Terek" />
-  <div class="video-section">
-    <button class="btn toggleVideo">Arată Video</button>
-    <div class="videoContainer" style="display: none; margin-top: 20px;">
-      <video
-        width="560"
-        height="315"
-        controls
-        poster="assets/terek.jpg"
-        style="border-radius:12px; box-shadow:0 4px 15px var(--color-accent, #ed143d38); background:#111;">
-        <source src="https://file.garden/aEmeFmK7YhOgwAtX/terek.mp4" type="video/mp4">
-        Browserul tău nu suportă video HTML5.
-      </video>
-    </div>
-  </div>
-  <div class="section-content">
-    <p>Textul pentru Terek se va încărca din text.txt.</p>
-  </div>
-</section>
+/* Active link styles */
+.dropdown-content a.active-link,
+.dropdown-content a.active-link:hover {
+  color: var(--color-accent) !important;
+  font-weight: bold;
+  background: #232326;
+  border-left: 3.5px solid var(--color-accent);
+}
 
-          <!-- Vorskla Section -->
-          <section id="vorskla">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Bătălia de pe râul Vorskla</span></h1>
-              <p class="info">12 August 1399</p>
-            </div>
-            <hr class="separator" />
-            <img
-              class="centered-image popup-enabled"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg/1200px-Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg"
-              alt="Bătălia de pe râul Vorskla"
-            />
-            <div class="section-content">
-              <p>Textul pentru Vorskla se va încărca din text.txt.</p>
-            </div>
-          </section>
-
-          <!-- Declin Section -->
-          <section id="declin">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Declinul Hoardei De Aur</span></h1>
-              <p class="info">1 Ianuarie 1406</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/2f/98/4f/2f984ff45f253bf89b54762b19c42963.jpg" alt="Declinul Hoardei De Aur" />
-            <div class="section-content">
-              <p>Textul pentru Declin se va încărca din text.txt.</p>
-            </div>
-          </section>
-
-          <!-- Dezintegrare Section -->
-          <section id="dezintegrare">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Dezintegrare</span></h1>
-              <p class="info">1 Ianuarie 1419</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/e0/e4/48/e0e4489cb34e87d437d213a843b1b181.jpg" alt="Dezintegrare" />
-            <div class="section-content">
-              <p>Textul pentru Dezintegrare se va încărca din text.txt.</p>
-            </div>
-          </section>
-
-          <!-- Lipnic Section -->
-          <section id="lipnic">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Bătălia de la Lipnic</span></h1>
-              <p class="info">20 August 1470</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/7b/b7/2c/7bb72cdef6c1b832ccd5e09b0f8e0d0d.jpg" alt="Bătălia de la Lipnic" />
-            <div class="section-content">
-              <p>Textul pentru Lipnic se va încărca din text.txt.</p>
-            </div>
-          </section>
-
-          <!-- Sfarsit Section -->
-          <section id="sfarsit">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Sfârșitul asupririi mongole</span></h1>
-              <p class="info">8 August 1480, Râul Ugra</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/96/93/b5/9693b53bf3b5d7549c5e017e44a05ea3.jpg" alt="Sfârșitul asupririi mongole" />
-            <div class="section-content">
-              <p>Textul pentru Sfârșit se va încărca din text.txt.</p>
-            </div>
-          </section>
-
-          <!-- Ultimul Khan Section -->
-          <section id="ultimul">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Ultimul Khan</span></h1>
-              <p class="info">1 Ianuarie 1502, Kaunas</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/e9/3e/ff/e93effe31b883e7df9ee30992543283b.jpg" alt="Ultimul Khan" />
-            <div class="section-content">
-              <p>Textul pentru Ultimul Khan se va încărca din text.txt.</p>
-            </div>
-          </section>
-
-<section id="recomandari">
-  <div class="section-header flex-header">
-    <h1><span class="title-text">Recomandări</span></h1>
-  </div>
-
-  <h2>Cărți</h2>
-  <ul class="rec-list">
-    <li>
-      <a href="https://www.goodreads.com/book/show/40718726-genghis-khan-and-the-making-of-the-modern-world" target="_blank" rel="noopener">
-        Genghis Khan and the Making of the Modern World
-      </a> – Jack Weatherford
-    </li>
-    <li>
-      <a href="https://www.goodreads.com/book/show/718607.The_Mongol_Art_of_War" target="_blank" rel="noopener">
-        The Mongol Art of War
-      </a> – Timothy May
-    </li>
-    <li>
-      <a href="https://www.goodreads.com/book/show/2341973.A_History_of_Russia_Vol_3" target="_blank" rel="noopener">
-        A History of Russia, Vol 3
-      </a> – George Vernadsky
-    </li>
-    <li>
-      <a href="https://www.goodreads.com/book/show/706951.Russia_and_the_Golden_Horde" target="_blank" rel="noopener">
-        Russia and the Golden Horde
-      </a> – Charles J. Halperin
-    </li>
-    <li>
-      <a href="https://www.goodreads.com/en/book/show/32073312-the-mongols-and-the-islamic-world" target="_blank" rel="noopener">
-        The Mongols and the Islamic World
-      </a> – Peter Jackson
-    </li>
-  </ul>
-
-  <h2>Filme</h2>
-  <ul class="rec-list">
-    <li>
-      <a href="https://www.imdb.com/title/tt2331066/" target="_blank" rel="noopener">
-        The Horde (Orda)
-      </a> (2012)
-    </li>
-    <li>
-      <a href="https://www.imdb.com/title/tt0043593/" target="_blank" rel="noopener">
-        The Golden Horde
-      </a> (1951)
-    </li>
-    <li>
-      <a href="https://www.imdb.com/title/tt0416044/" target="_blank" rel="noopener">
-        Mongol: The Rise of Genghis Khan
-      </a> (2007)
-    </li>
-  </ul>
-
-  <h2>Podcasturi / Videoclipuri</h2>
-  <ul class="rec-list">
-    <li>
-      <a href="https://www.youtube.com/watch?v=ZVv_KBK-PJI" target="_blank" rel="noopener">
-        DAMIAN ANFILE: „Mongolii reprezintă cel mai mare imperiu din istoria lumii”
-      </a> | VREAU SĂ ȘTIU
-    </li>
-    <li>
-      <a href="https://www.youtube.com/watch?v=3eEhruOZXHA" target="_blank" rel="noopener">
-        The Mongol Empire: The Golden Horde
-      </a> | History Junkie
-    </li>
-    <li>
-      <a href="https://www.youtube.com/watch?v=d4vROzoKElU" target="_blank" rel="noopener">
-        Battle of Kulikovo 1380 – Rus-Mongol Wars DOCUMENTARY
-      </a> | Kings and Generals
-    </li>
-    <li>
-      <a href="https://www.youtube.com/watch?v=y95sYUkQJuA" target="_blank" rel="noopener">
-        Rise of Timur – War against Toqtamish – MONGOL INVASIONS DOCUMENTARY
-      </a> | Kings and Generals
-    </li>
-  </ul>
-
-<h2>Articole</h2>
-<ul class="rec-list">
-  <li>
-    <a href="https://ro.wikipedia.org/wiki/Hoarda_de_Aur" target="_blank" rel="noopener"><strong>Hoarda de aur</strong></a> – Wikipedia
-  </li>
-  <li>
-    <a href="https://www.britannica.com/place/Mongol-empire/The-Golden-Horde" target="_blank" rel="noopener"><strong>The Golden Horde</strong></a> – Britannica
-  </li>
-  <li>
-    <a href="https://historia.ro/sectiune/general/hoarda-mongola-de-la-gurile-dunarii-569892.html" target="_blank" rel="noopener"><strong>Hoarda mongolă de la gurile Dunării</strong></a> – Historia
-  </li>
-</ul>
+/* Hover, but not active */
+.dropdown-content a:hover:not(.active-link) {
+  background: #28282b;
+  color: var(--color-accent);
+  border-left: 3.5px solid var(--color-accent);
+}
 
 
+/* =======================
+   INLINE FLAG + TITLE
+   ======================= */
+.section-header.flag-inline-header {
+  display: flex;
+  align-items: center;
+  gap: 0.56em;
+  text-align: left;
+  margin-bottom: 0;
+  padding-left: 0;
+  position: relative;
+}
+.section-link-flag {
+  font-size: var(--flag-size, 2.1em);
+  color: var(--color-accent, #ed143d);
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  transition: opacity 0.18s, color 0.18s, transform 0.13s;
+  vertical-align: middle;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+}
+.section-link-flag::before { content: "⚐"; }
+.section-link-flag.filled::before,
+.section-link-flag:hover::before { content: "⚑"; }
+.section-header.flag-inline-header .title-text.current-section-title + .section-link-flag,
+.section-header.flag-inline-header .section-link-flag.active,
+.section-header.flag-inline-header .section-link-flag:focus,
+.section-header.flag-inline-header .section-link-flag:hover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1.13) rotate(-7deg);
+}
+.section-header.flag-inline-header .section-link-flag.inactive {
+  opacity: 0.34;
+  pointer-events: none;
+}
+.section-link-flag[title]:hover::after, .section-link-flag[title]:focus::after {
+  content: attr(title);
+  position: absolute;
+  left: 50%;
+  bottom: 120%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  padding: 4px 13px;
+  border-radius: 7px;
+  font-size: 1rem;
+  white-space: nowrap;
+  z-index: 19;
+  opacity: 0.96;
+  pointer-events: none;
+  margin-top: -7px;
+}
+.section-header.flag-inline-header h1 {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  display: block;
+  font-family: var(--font-head);
+  font-size: 2.15em;
+  font-weight: 700;
+  position: relative;
+  text-align: left;
+}
+.title-text {
+  color: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  position: relative;
+  transition: color 0.18s;
+  cursor: pointer;
+}
+.title-text.current-section-title {
+  display: inline-block;
+  color: var(--color-accent);
+  font-weight: bold;
+  position: relative;
+}
+.title-text.current-section-title::after {
+  content: "";
+  display: block;
+  height: 4px;
+  width: 120%;
+  background: linear-gradient(90deg, var(--color-accent) 70%, #fff0);
+  border-radius: 2px;
+  margin-top: 8px;
+  margin-left: 0;
+  animation: pop-in-underline 0.35s cubic-bezier(.4,2,.6,1);
+}
+@keyframes pop-in-underline {
+  from { width: 0; opacity: 0; }
+  to   { width: 120%; opacity: 1; }
+}
 
-  <h2>Citate</h2>
-  <ul class="rec-list">
-    <li>
-      <strong>“Power is not given, it is taken.”</strong>
-      <br><em>Puterea nu se dă, se ia.</em>
-    </li>
-    <li>
-      <strong>“He who cannot submit to authority cannot be a leader.”</strong>
-      <br><em>Cine nu se poate supune autorității, nu poate conduce. – atribuit lui Ginghis Han</em>
-    </li>
-    <li>
-      <strong>“Vin tătarii!”</strong>
-      <br><em>“The Tatars are coming!” – Tradițional românesc</em>
-    </li>
-    <li>
-      <strong>“The Mongols made the world smaller.”</strong>
-      <br><em>Mongolii au micșorat lumea.</em>
-    </li>
-    <li>
-      <strong>“The greatest happiness is to scatter your enemy.”</strong>
-      <br><em>Cea mai mare fericire este să-ți împrăștii dușmanii. – atribuit lui Ginghis Han</em>
-    </li>
-    <li>
-      <strong>“The Mongol invasions depopulated such vast tracts of land that they reduced atmospheric CO₂ enough to be measurable centuries later.”</strong>
-      <br><em>Invaziile mongole au depopulat atât de mult încât au redus nivelul de CO₂ din atmosferă, măsurabil chiar și după secole.</em>
-    </li>
-  </ul>
+/* ===========================
+   TYPOGRAPHY (GENERAL)
+   =========================== */
+h1, h2, h3, .title-centered, .section-header h1 {
+  font-family: var(--font-head);
+  font-weight: 700;
+}
+.text-section,
+.section-content p {
+  font-family: var(--font-body);
+  font-size: 18px;
+  text-align: justify;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin: 20px 0;
+}
+.text-section p::first-letter {
+  color: var(--color-accent);
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 0.9;
+  margin-right: 5px;
+}
+.section-header .info,
+.date-place,
+.map-popup,
+#note-tooltip,
+.note-ref {
+  font-family: var(--font-accent);
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+.section-header .info {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 5px 0;
+  text-transform: uppercase;
+}
+.info::first-letter {
+  color: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  margin-right: 0 !important;
+}
 
-  <h2>Personalități</h2>
-  <ul class="rec-list">
-    <li>
-      <a href="https://en.wikipedia.org/wiki/Batu_Khan" target="_blank" rel="noopener">Batu Han (Batu Khan)</a>
-    </li>
-    <li>
-      <a href="https://en.wikipedia.org/wiki/%C3%96zbeg_Khan" target="_blank" rel="noopener">Öz Beg Han (Uzbek Khan)</a>
-    </li>
-    <li>
-      <a href="https://en.wikipedia.org/wiki/Mamai" target="_blank" rel="noopener">Mamai</a>
-    </li>
-    <li>
-      <a href="https://en.wikipedia.org/wiki/Charles_J._Halperin" target="_blank" rel="noopener">Charles J. Halperin</a>
-    </li>
-    <li>
-      <a href="https://en.wikipedia.org/wiki/George_Vernadsky" target="_blank" rel="noopener">George Vernadsky</a>
-    </li>
-    <li>
-      <a href="https://damiananfile.ro/" target="_blank" rel="noopener">Damian Anfile</a>
-    </li>
-  </ul>
-</section>
+/* ===========================
+   IMAGES & POPUP
+   =========================== */
+img.centered-image {
+  display: block;
+  margin: 0 auto 50px auto;
+  width: 70%;
+  height: auto;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.popup img {
+  max-width: 400%;
+  max-height: 150vh;
+  height: auto;
+  object-fit: contain;
+}
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 36px;
+  color: white;
+  cursor: pointer;
+}
 
-<!-- Gallery Section -->
-<section id="galerie">
-  <div class="section-header flex-header">
-    <h1><span class="title-text">Galerie</span></h1>
-  </div>
-  <hr class="separator" />
-  <div class="section-content">
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/d3/9a/b3/d39ab39b644184525387f82753585ec0.jpg" alt="Hoarda de Aur" class="popup-enabled" />
-        <div class="gallery-caption">Hoarda de Aur</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Prolog" class="popup-enabled" />
-        <div class="gallery-caption">Prolog</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo" class="popup-enabled" />
-        <div class="gallery-caption">Bătălia de la Kulikovo</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/75/eb/08/75eb08d0087dd0246e9a6228d9864349.jpg" alt="Bătălia de pe râul Kalka" class="popup-enabled" />
-        <div class="gallery-caption">Bătălia de pe râul Kalka</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/22/bc/3d/22bc3d0d11e16438139c5f20cdeb83e3.jpg" alt="Tokhtamysh" class="popup-enabled" />
-        <div class="gallery-caption">Tokhtamysh</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg" alt="Asediul Moscovei" class="popup-enabled" />
-        <div class="gallery-caption">Asediul Moscovei</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg" alt="Războiul Tokhtamysh–Timur" class="popup-enabled" />
-        <div class="gallery-caption">Războiul Tokhtamysh–Timur</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg" alt="Bătălia de pe râul Kondurcha" class="popup-enabled" />
-        <div class="gallery-caption">Bătălia de pe râul Kondurcha</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Bătălia de pe râul Terek" class="popup-enabled" />
-        <div class="gallery-caption">Bătălia de pe râul Terek</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg/1200px-Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg" alt="Bătălia de pe râul Vorskla" class="popup-enabled" />
-        <div class="gallery-caption">Bătălia de pe râul Vorskla</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/2f/98/4f/2f984ff45f253bf89b54762b19c42963.jpg" alt="Declinul Hoardei De Aur" class="popup-enabled" />
-        <div class="gallery-caption">Declinul Hoardei De Aur</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/e0/e4/48/e0e4489cb34e87d437d213a843b1b181.jpg" alt="Dezintegrare" class="popup-enabled" />
-        <div class="gallery-caption">Dezintegrare</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/7b/b7/2c/7bb72cdef6c1b832ccd5e09b0f8e0d0d.jpg" alt="Bătălia de la Lipnic" class="popup-enabled" />
-        <div class="gallery-caption">Bătălia de la Lipnic</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/96/93/b5/9693b53bf3b5d7549c5e017e44a05ea3.jpg" alt="Sfârșitul asupririi mongole" class="popup-enabled" />
-        <div class="gallery-caption">Sfârșitul asupririi mongole</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/e9/3e/ff/e93effe31b883e7df9ee30992543283b.jpg" alt="Ultimul Khan" class="popup-enabled" />
-        <div class="gallery-caption">Ultimul Khan</div>
-      </div>
-      <div class="gallery-item">
-        <img src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Bibliografie" class="popup-enabled" />
-        <div class="gallery-caption">Bibliografie</div>
-      </div>
-    </div>
-  </div>
-</section>
+/* ===========================
+   LEAFLET MAP
+   =========================== */
+#map {
+  width: 600px !important;
+  min-width: 300px !important;
+  max-width: 98vw;
+  height: 350px;
+  border-radius: 13px;
+  border: 2.5px solid var(--color-accent);
+  box-shadow: 0 2px 18px #ed143d18, 0 0 0 2.5px #fff inset;
+  opacity: 0.97; transition: box-shadow 0.22s;
+  outline: none;
+  background: #222;
+  display: block;
+  margin: 0 auto;
+}
+#map:focus, #map:hover {
+  box-shadow: 0 4px 22px #ed143d38, 0 0 0 2.5px #fff inset;
+}
+
+/* ===========================
+   BUTTONS
+   =========================== */
+.btn, .btn-source {
+  display: inline-block;
+  background-color: var(--color-accent);
+  color: white;
+  font-size: var(--btn-font-size);
+  font-family: var(--font-head);
+  font-weight: bold;
+  text-decoration: none;
+  padding: var(--btn-padding);
+  border-radius: var(--btn-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin: 8px 0;
+}
+.btn:hover, .btn-source:hover { background-color: var(--color-accent-hover); }
+.btn-secondary {
+  background-color: #515151;
+  color: white;
+}
+.btn-secondary:hover {
+  background-color: var(--color-accent);
+  color: white;
+}
+
+/* ===========================
+   VIDEO SECTION & BUTTONS
+   =========================== */
+.toggleVideo {
+  padding: 12px 30px;
+  font-size: 20px;
+  border-radius: 7px;
+  margin: 20px 0 10px 0;
+  box-shadow: 0 2px 10px rgba(237, 20, 61, 0.08);
+}
+.toggleVideo:hover {
+  box-shadow: 0 4px 16px rgba(237, 20, 61, 0.15);
+}
+.video-section {
+  margin: 30px auto;
+  max-width: 800px;
+  text-align: center;
+}
+
+/* ===========================
+   LISTS
+   =========================== */
+.fancy-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 20px 0;
+  counter-reset: fancy-item;
+  font-family: var(--font-body);
+  font-size: 1.08em;
+  color: inherit;
+}
+.fancy-list li {
+  position: relative;
+  padding-left: 2em;
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+  font-style: normal;
+}
+.fancy-list li::before {
+  content: counter(fancy-item) ".\00a0";
+  counter-increment: fancy-item;
+  position: absolute;
+  left: 0;
+  color: var(--color-list-number);
+  font-weight: bold;
+  font-family: var(--font-head);
+  font-size: 1em;
+}
+
+.fancy-list .gold-link,
+.fancy-list .gold-link:visited {
+  color: var(--color-accent, #ed143d);
+  font-weight: bold;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.fancy-list .gold-link:hover {
+  color: var(--color-accent-hover, #c70f25);
+  text-decoration: underline wavy;
+}
 
 
+/* ===========================
+   NOTE TOOLTIP
+   =========================== */
+.note-ref {
+  color: var(--color-accent);
+  font-family: var(--font-accent);
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  font-style: italic;
+}
+.note-ref:hover { text-decoration: underline; }
+#note-tooltip {
+  position: absolute;
+  background-color: var(--color-note-tooltip-bg);
+  color: var(--color-note-tooltip-text);
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 16px;
+  max-width: 320px;
+  padding: 8px 12px;
+  border-radius: 7px;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 9999;
+}
+
+/* ===========================
+   DARK MODE
+   =========================== */
+body.dark-mode { background-color: var(--color-bg-dark); color: var(--color-text-dark);}
+body.dark-mode .container { background-color: #444;}
+body.dark-mode .text-section,
+body.dark-mode .fancy-list,
+body.dark-mode .section-content p { color: var(--color-text-dark);}
+body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 1400px) {
+  .sidebar.open { width: 99vw; }
+  #map { width: 99vw; min-width: 180px; height: 230px; }
+}
+@media (max-width: 800px) {
+  .sidebar.open { width: 100vw; min-width: 0; }
+  #map { width: 98vw; min-width: 100px; height: 170px; }
+  .sidebar { font-size: 15px; }
+}
+
+/* ===========================
+   FLOATING ACTION BUTTON
+   =========================== */
+.fab-container {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 5001 !important;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+}
+.fab-main {
+  background: var(--color-accent, #ed143d);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.13);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background 0.18s;
+  outline: none;
+  overflow: visible;
+  z-index: 2;
+}
+.fab-main .bar {
+  pointer-events: none;
+  position: absolute;
+  left: 16px; right: 16px;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform 0.26s cubic-bezier(.4,2,.6,1), opacity 0.18s;
+}
+.fab-main .bar:nth-child(1) { top: 18px;}
+.fab-main .bar:nth-child(2) { top: 26px;}
+.fab-main .bar:nth-child(3) { top: 34px;}
+.fab-container.active .fab-main .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.fab-container.active .fab-main .bar:nth-child(2) { opacity: 0; }
+.fab-container.active .fab-main .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+.fab-main::after {
+  content: attr(aria-label);
+  position: absolute;
+  right: 110%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #222;
+  color: #fff;
+  padding: 4px 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.17s, right 0.22s;
+  z-index: 9999;
+  font-family: var(--font-head);
+}
+.fab-main:hover::after { opacity: 1; right: 115%;}
+.fab-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.fab-action {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 1.6rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.13);
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  transition: opacity 0.18s, transform 0.22s, background 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  outline: none;
+  position: relative;
+}
+.fab-action:hover { background: var(--color-accent, #ed143d);}
+.fab-action::after {
+  content: attr(aria-label);
+  position: absolute;
+  right: 110%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #222;
+  color: #fff;
+  padding: 4px 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.17s, right 0.22s;
+  z-index: 9999;
+  font-family: var(--font-head);
+}
+.fab-action:hover::after { opacity: 1; right: 115%;}
+.fab-container.active .fab-actions .fab-action {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.fab-menu {
+  position: fixed;
+  top: 27px; left: 23px;
+  z-index: 2200;
+  width: 54px; height: 54px;
+  background: var(--color-accent);
+  color: #fff; border: none;
+  border-radius: 50%;
+  box-shadow: 0 3px 14px #ed143d28;
+  font-size: 2.5em;
+  cursor: pointer;
+  transition: background 0.17s;
+  display: flex; align-items: center; justify-content: center;
+}
+.fab-menu:hover { background: #c70f25; }
+
+#particles-js {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-bg-particles);
+  z-index: -1;
+  top: 2px;
+}
+
+body {
+  background: (--color-bg-particles) !important;
+}
+
+html {
+  background: transparent !important;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* REMOVE height: 100vh and width: 100vw! */
+  /* Don't force overflow-x: hidden unless you know you need it. */
+}
+
+/* Section divider (gold degrade) */
+.section-divider {
+  height: 3px;
+  width: 100%;
+  margin: 22px 0 10px 0;
+  border: none;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent, #ed143d) 0%,
+    #d7ac3c 65%,
+    #fff0 100%
+  );
+  border-radius: 2px;
+  opacity: 0.93;
+  transition: background 0.4s;
+}
+body.dark-mode .section-divider {
+  background: linear-gradient(
+    90deg,
+    var(--color-accent, #ac7d0c) 0%,
+    #d7ac3c 75%,
+    #fff0 100%
+  );
+  opacity: 0.82;
+}
+
+#page-progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 4px;
+  width: 0;
+  z-index: 4000;
+  background: var(--color-accent, #ed143d);
+  border-radius: 0 6px 6px 0;
+  pointer-events: none;
+  overflow: visible;
+  transition: width 0.25s cubic-bezier(.4,2,.6,1);
+  /* The line below is new! */
+  box-shadow:
+    0 2px 8px #ed143d55, /* your old shadow */
+    0 10px 25px 4px var(--color-accent, #ed143d); /* neon glow below */
+}
+#page-progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0;
+  height: 100%;
+  width: 48px; /* Length of fade */
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, #fff0, var(--color-accent, #ed143d) 40%, transparent 100%);
+  opacity: 0.45;
+  z-index: 1;
+  /* fade will show only at the bar's end */
+}
+body.dark-mode #page-progress-bar {
+  background: var(--color-accent, #ac7d0c);
+  box-shadow:
+    0 2px 10px #d7ac3c44,
+    0 12px 40px 4px var(--color-accent, #ac7d0c);
+}
+body.dark-mode #page-progress-bar::after {
+  background: linear-gradient(90deg, transparent, #fff0, var(--color-accent, #ac7d0c) 40%, transparent 100%);
+}
+
+.videoContainer {
+  border: 3px solid var(--color-accent);
+  border-radius: 12px;
+  box-shadow: 0 4px 22px color-mix(in srgb, var(--color-accent) 38%, #111 62%);
+  background-color: var(--color-bg, #fff);
+  padding: 8px;
+  max-width: 560px;
+  margin: 20px auto;
+  transition: box-shadow 0.3s ease;
+}
+
+body.dark-mode .videoContainer {
+  background-color: var(--color-bg-dark, #232325);
+}
+
+.videoContainer iframe {
+  display: block;
+  border-radius: 8px;
+  width: 100%;
+  height: 315px;
+  box-shadow: none;
+}
+
+.videoContainer:hover {
+  box-shadow: 0 6px 25px rgba(var(--color-accent-rgb), 0.55);
+}
 
 
-          <!-- Bibliografie Section -->
-          <section id="bibliografie">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Bibliografie</span></h1>
-            </div>
-            <img
-              class="centered-image popup-enabled"
-              src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg"
-              alt="Bibliografie"
-            />
-            <div class="section-content">
-              <p>Textul pentru Bibliografie se va încărca din text.txt.</p>
-            </div>
-          </section>
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 4000;
+}
+.modal-overlay[style*="display: flex"] {
+  display: flex;
+}
 
-          <!-- Note Section -->
-          <section id="note">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Note</span></h1>
-            </div>
-            <div class="section-content">
-              <p>Textul pentru Note se va încărca din text.txt.</p>
-            </div>
-          </section>
+/* Settings Popup */
+.settings-popup {
+  background-color: #2f2f2f;
+  border: 3px solid var(--color-accent, #ed143d);
+  border-radius: 12px;
+  width: 90vw;
+  max-width: 720px;
+  max-height: 80vh;
+  padding: 24px 32px 32px 32px;
+  box-shadow:
+    0 0 0 3px var(--color-accent, #ed143d),
+    0 0 36px 0 var(--color-accent-hover, #edb51333);
+  overflow-y: auto;
+  color: #eee;
+  position: relative;
+  font-family: var(--font-body, 'Lora', serif);
+  box-sizing: border-box;
+  outline: none;
+}
 
-        </div> <!-- End text-section -->
-      </div> <!-- End container -->
-    </div> <!-- End highlight-box -->
-  </div> <!-- End main-container -->
+/* Center debug line */
+.modal-center-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: red;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.95;
+  transform: translateX(-50%);
+}
 
-  <!-- Floating Action Buttons -->
-  <div class="fab-container">
-    <button id="fabMain" class="fab-main" aria-label="Acțiuni rapide">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-    <div class="fab-actions" id="fabActions">
-      <button class="fab-action" id="fabTop" aria-label="Sus">↑</button>
-      <button class="fab-action" id="fabLast" aria-label="Înapoi">←</button>
-      <button class="fab-action" id="fabSettings" aria-label="Setări">⚙</button>
-      <button class="fab-action" id="fabMeniu" aria-label="Meniu">≡</button>
-    </div>
-  </div>
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 2rem;
+  background: transparent;
+  border: none;
+  color: var(--color-accent, #ed143d);
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 1;
+  transition: color 0.2s ease;
+  z-index: 2;
+}
+.close-btn:hover,
+.close-btn:focus {
+  color: var(--color-accent-hover, #c70f25);
+  outline: none;
+}
 
-<!-- Settings Popup Modal -->
-<div id="settingsOverlay" class="modal-overlay">
-  <div id="settingsPopup" class="settings-popup" tabindex="-1">
-    <!--<div class="modal-center-line"></div>-->
-    <span id="closeSettingsBtn" class="close-btn">&times;</span>
-    <h2 tabindex="0">Setări</h2>
-    <div class="settings-content">
-      <!-- LEFT COLUMN: main toggles -->
-      <div class="settings-labels column-1">
-        <div class="settings-group">
-          <label class="settings-label" for="themeToggle">Mod întunecat</label>
-          <input type="checkbox" id="themeToggle" class="settings-checkbox" />
-          <span class="settings-toggle"></span>
-        </div>
-        <div class="settings-group">
-          <label class="settings-label" for="debugToggle">Show Debug Panel</label>
-          <input type="checkbox" id="debugToggle" class="settings-checkbox" />
-          <span class="settings-toggle"></span>
-        </div>
-        <div class="settings-group">
-          <label class="settings-label" for="particlesToggle">Show Particles</label>
-          <input type="checkbox" id="particlesToggle" class="settings-checkbox" />
-          <span class="settings-toggle"></span>
-        </div>
-        <div class="settings-group">
-          <label class="settings-label" for="videoPlaybackSelect">Video</label>
-          <select id="videoPlaybackSelect" class="settings-dropdown" name="videoPlayback">
-            <option value="play">Rulează în fundal</option> 
-            <option value="pause">Oprește</option> 
-            <option value="pip">Picture in Picture</option>
-          </select>
-        </div>
-      </div>
-      <!-- RIGHT COLUMN: dyslexia toggle -->
-      <div class="settings-labels column-2">
-        <div class="settings-group">
-          <label class="settings-label" for="dyslexiaToggle">Dyslexia Mode</label>
-          <input type="checkbox" id="dyslexiaToggle" class="settings-checkbox" />
-          <span class="settings-toggle"></span>
-        </div>
-      </div>
-    </div>
-</div>
+.settings-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  gap: 0;
+}
 
-  <!-- Scripts -->
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="scripts.js"></script>
-</body>
-</html>
+.settings-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;  /* More space between rows if needed */
+  width: 100%;
+}
+
+.settings-group {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  min-height: 48px;
+}
+
+/* --- Key alignment logic here! --- */
+.settings-label {
+  font-size: 1.18em;
+  color: #fff;
+  user-select: none;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  padding-right: 0;  /* Remove extra space, let grid handle it */
+}
+
+/* Hide the checkbox, but keep it focusable and clickable */
+.settings-checkbox {
+  opacity: 0;
+  width: 44px;
+  height: 26px;
+  margin: 0;
+  z-index: 2;
+  cursor: pointer;
+  position: absolute;
+  left: calc(50% - 3px - 44px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Toggle: always 3px left of the center line */
+.settings-toggle {
+  position: absolute;
+  left: calc(50% - var(--settings-align-gap) - var(--settings-toggle-width));
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--settings-toggle-width);
+  height: 26px;
+  background-color: #444;
+  border-radius: 15px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  z-index: 1;
+  pointer-events: none; /* toggle is not directly clickable, only via label or checkbox */
+}
+.settings-checkbox:checked + .settings-toggle {
+  background-color: var(--color-accent, #ed143d);
+}
+.settings-toggle::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-accent, #ed143d);
+  border-radius: 50%;
+  transition: left 0.3s, background-color 0.3s;
+}
+.settings-checkbox:checked + .settings-toggle::after {
+  left: 22px;
+  background-color: #444;
+}
+
+.settings-label,
+.settings-checkbox {
+  cursor: pointer;
+}
+
+.settings-toggle,
+.settings-dropdown {
+  position: absolute;
+  left: calc(50% - var(--settings-align-gap) - var(--settings-toggle-width));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.settings-dropdown {
+  position: absolute;
+  /* Align right edge to toggle's right edge */
+  left: calc(50% - var(--settings-align-gap) - var(--settings-dropdown-width));
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--settings-dropdown-width);
+  padding: 6px 12px;
+  border-radius: 7px;
+  border: 2px solid var(--color-accent, #ed143d);
+  background-color: #222;
+  color: #eee;
+  font-size: 1rem;
+  min-width: 160px;
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+  font-family: var(--font-body, 'Lora', serif);
+  z-index: 2;
+}
+
+
+.settings-dropdown:hover,
+.settings-dropdown:focus {
+  border-color: var(--color-accent-hover, #c70f25);
+  outline: none;
+}
+
+/* Modal heading */
+.settings-popup h2 {
+  font-family: var(--font-head, 'Cinzel', serif);
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 48px;
+  color: #fff;
+  letter-spacing: 1.2px;
+}
+
+/* ============================= */
+/* Dropdown styling (right side) */
+
+.settings-dropdown {
+  padding: 6px 12px;
+  border-radius: 7px;
+  border: 2px solid var(--color-accent);
+  background-color: #222;
+  color: #eee;
+  font-size: 1rem;
+  min-width: 160px;
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+  flex-shrink: 0;
+  font-family: var(--font-body);
+}
+
+.settings-dropdown:hover,
+.settings-dropdown:focus {
+  border-color: var(--color-accent-hover);
+  outline: none;
+}
+
+#section-stats-indicator {
+  z-index: 5002 !important; /* Higher than modal! */
+}
+
+/* Only affects the 2nd column (right side) */
+.settings-labels.column-2 {
+  padding-left: 30px; /* space from center line */
+  /* no padding-right needed */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.settings-labels.column-2 .settings-group {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  min-height: 48px;
+  width: 100%;
+  position: relative;
+  margin-bottom: 18px;
+}
+
+/* Label aligns left, but with space from center line */
+.settings-labels.column-2 .settings-label {
+  text-align: left;
+  padding-left: 0;
+  padding-right: 30px;   /* spacing between label and toggle */
+  font-size: 1.18em;
+  color: #fff;
+  user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Toggle HUGGED to the right edge of modal */
+.settings-labels.column-2 .settings-toggle {
+  margin-right: 30px; /* space from right edge of modal */
+}
+
+.settings-labels.column-2 .settings-toggle,
+.settings-labels.column-2 .settings-dropdown {
+  justify-self: end;
+  align-self: center;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 24px;
+  justify-items: center;
+  align-items: start;
+  margin: 30px 0 10px 0;
+  width: 100%;
+}
+
+.gallery-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.gallery-item img {
+  width: 100%;
+  max-width: 230px;
+  height: auto;
+  border-radius: 10px;
+  border: 2.5px solid var(--color-accent, #ed143d);
+  box-shadow: none; /* No glow by default */
+  transition: box-shadow 0.2s, border-color 0.18s;
+  cursor: pointer;
+  background: #222;
+}
+
+.gallery-item img:hover {
+  box-shadow:
+    0 0 0 3px var(--color-accent-hover, #c70f25),
+    0 14px 38px 0 var(--color-accent, #ed143dcc); /* Strong, warm glow on hover */
+  border-color: var(--color-accent-hover, #c70f25);
+}
+
+.gallery-caption {
+  font-size: 1.08em;
+  color: var(--color-accent, #ed143d);
+  font-family: var(--font-accent, 'EB Garamond', serif);
+  font-style: italic;
+  text-align: center;
+  max-width: 230px;
+  padding: 0 4px;
+  margin-top: 22px;  /* makes the caption sit a bit lower */
+  margin-bottom: 8px;
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+}
+
+
+body.dark-mode .gallery-caption {
+  color: var(--color-accent, #ac7d0c);
+}
+
+
+img.centered-image {
+  display: block;
+  margin: 0 auto 50px auto;
+  width: 70%;
+  height: auto;
+  border-radius: 12px;
+  border: 3px solid var(--color-accent);
+  background: var(--color-bg, #fff);
+  box-shadow: 0 4px 15px rgba(var(--color-accent-rgb, 237,20,61), 0.35);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, border-color 0.22s;
+}
+img.centered-image:hover {
+  box-shadow: 0 7px 32px rgba(var(--color-accent-rgb, 237,20,61), 0.43);
+  border-color: var(--color-accent-hover);
+}
+body.dark-mode img.centered-image {
+  background: #232325;
+  box-shadow: 0 6px 18px rgba(215,172,60,0.26), 0 0 0 3px #181818;
+}
+
+.rec-list {
+  list-style: none;
+  margin: 0 0 1.6em 0;
+  padding: 0;
+}
+.rec-list li {
+  color: var(--color-text, #333);
+  font-size: 1.1em;
+  margin: 0.35em 0 0.35em 0.8em;
+  padding-left: 0.15em;
+  list-style-type: disc;
+  list-style-position: outside;
+}
+.rec-list li a {
+  color: var(--color-accent, #ed143d);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.rec-list li a:hover {
+  color: var(--color-accent-hover, #c70f25);
+  text-decoration: underline;
+}
+

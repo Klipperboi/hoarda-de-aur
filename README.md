@@ -16,6 +16,17 @@ TBA
 
 ## Changelog
 
+**1.0.8**
+- secțiuni noi, funcții implementate
+  - recomandări
+    - cărți
+    - filme
+    - podcasturi/videoclipuri
+    - articolr
+    - citate
+    - personalități
+  - galerie imagini
+
 **1.0.7**
 - rescriere video, mp4 (files.garden) vs youtube
 - funcții comportament video

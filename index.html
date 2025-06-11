@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -337,13 +338,14 @@
   </div>
 
 <!-- Settings Popup Modal -->
-<div id="settingsOverlay" class="modal-overlay" style="display: flex;">
+<div id="settingsOverlay" class="modal-overlay">
   <div id="settingsPopup" class="settings-popup" tabindex="-1">
-    <!--div class="modal-center-line"></div>-->
+    <!--<div class="modal-center-line"></div>-->
     <span id="closeSettingsBtn" class="close-btn">&times;</span>
     <h2 tabindex="0">Setări</h2>
     <div class="settings-content">
-      <div class="settings-labels">
+      <!-- LEFT COLUMN: main toggles -->
+      <div class="settings-labels column-1">
         <div class="settings-group">
           <label class="settings-label" for="themeToggle">Mod întunecat</label>
           <input type="checkbox" id="themeToggle" class="settings-checkbox" />
@@ -360,14 +362,21 @@
           <span class="settings-toggle"></span>
         </div>
         <div class="settings-group">
-  <label class="settings-label" for="videoPlaybackSelect">Video</label>
-  <select id="videoPlaybackSelect" class="settings-dropdown" name="videoPlayback">
-    <option value="play">Play (default)</option>
-    <option value="pause">Pause on load</option>
-    <option value="manual">Manual control</option>
-  </select>
-</div>
-
+          <label class="settings-label" for="videoPlaybackSelect">Video</label>
+          <select id="videoPlaybackSelect" class="settings-dropdown" name="videoPlayback">
+            <option value="play">Play (default)</option>
+            <option value="pause">Pause on load</option>
+            <option value="manual">Manual control</option>
+          </select>
+        </div>
+      </div>
+      <!-- RIGHT COLUMN: dyslexia toggle -->
+      <div class="settings-labels column-2">
+        <div class="settings-group">
+          <label class="settings-label" for="dyslexiaToggle">Dyslexia Mode</label>
+          <input type="checkbox" id="dyslexiaToggle" class="settings-checkbox" />
+          <span class="settings-toggle"></span>
+        </div>
       </div>
     </div>
   </div>

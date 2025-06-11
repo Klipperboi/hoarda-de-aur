@@ -33,9 +33,11 @@
   --separator-thick: 4px solid #333;
   --separator: 2px solid #333;
 
-  --settings-align-gap: 30px;           /* How far from the red line */
-  --settings-toggle-width: 44px;       /* Toggle width */
-  --settings-dropdown-width: 180px;    /* Set to your actual dropdown width */
+  --settings-col-padding-1: 80px;   /* Left column: from box edge */
+  --settings-col-padding-2: 30px;   /* Right column: from center line */
+  --settings-align-gap: -120px;       /* Label to toggle spacing */
+  --settings-toggle-width: 44px;
+  --settings-dropdown-width: 180px;
 }
 
 /* === DUAL COLOR PALETTE FOR DARK MODE === */
@@ -769,6 +771,7 @@ body.dark-mode #page-progress-bar::after {
   box-shadow: 0 6px 25px rgba(var(--color-accent-rgb), 0.55);
 }
 
+
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
@@ -839,41 +842,37 @@ body.dark-mode #page-progress-bar::after {
 }
 
 .settings-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
+  gap: 0;
 }
 
 .settings-labels {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 15px;
-  padding-left: 20px;
+  gap: 22px;  /* More space between rows if needed */
   width: 100%;
 }
 
 .settings-group {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
   width: 100%;
-  margin-bottom: 24px;
   position: relative;
+  min-height: 48px;
 }
 
 /* --- Key alignment logic here! --- */
 .settings-label {
-  flex: 0 1 auto;
   font-size: 1.18em;
   color: #fff;
   user-select: none;
   cursor: pointer;
   text-align: left;
-  margin-right: 0;
-  width: calc(50% - 55px); /* Tweak as needed for perfect left edge alignment */
-  /* 55px leaves space for toggle + gap */
-  z-index: 2;
-  display: block;
-  line-height: 1.18;
-  padding-right: 0;
+  white-space: nowrap;
+  padding-right: 0;  /* Remove extra space, let grid handle it */
 }
 
 /* Hide the checkbox, but keep it focusable and clickable */
@@ -1001,4 +1000,47 @@ body.dark-mode #page-progress-bar::after {
 
 #section-stats-indicator {
   z-index: 5002 !important; /* Higher than modal! */
+}
+
+/* Only affects the 2nd column (right side) */
+.settings-labels.column-2 {
+  padding-left: 30px; /* space from center line */
+  /* no padding-right needed */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.settings-labels.column-2 .settings-group {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  min-height: 48px;
+  width: 100%;
+  position: relative;
+  margin-bottom: 18px;
+}
+
+/* Label aligns left, but with space from center line */
+.settings-labels.column-2 .settings-label {
+  text-align: left;
+  padding-left: 0;
+  padding-right: 30px;   /* spacing between label and toggle */
+  font-size: 1.18em;
+  color: #fff;
+  user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Toggle HUGGED to the right edge of modal */
+.settings-labels.column-2 .settings-toggle {
+  margin-right: 30px; /* space from right edge of modal */
+}
+
+.settings-labels.column-2 .settings-toggle,
+.settings-labels.column-2 .settings-dropdown {
+  justify-self: end;
+  align-self: center;
 }

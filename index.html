@@ -9,6 +9,12 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
+<!-- Image Popup Modal -->
+<div id="imagePopup" class="popup" style="display:none;">
+  <span id="closePopup" class="close-btn">&times;</span>
+  <img id="popupImage" src="" alt="Imagine mărită" />
+</div>
+
 <body>
   <div id="scroll-bar"></div>
   <div id="page-progress-bar"></div>
@@ -20,25 +26,28 @@
     <div class="sidebar-top">
       <button class="menu-btn" id="sidebarSettings">⚙ Setări</button>
       <button class="menu-btn dropbtn" id="sidebarToc">Cuprins</button>
-      <div class="dropdown-content" id="tocDropdown">
-        <a href="#acasa" data-loc="acasa">Acasă</a>
-        <a href="#prolog" data-loc="prolog">1206 – Prolog</a>
-        <a href="#kulikovo" data-loc="kulikovo">1380 – Kulikovo</a>
-        <a href="#kalka" data-loc="kalka">1381 – Kalka</a>
-        <a href="#tokhtamysh" data-loc="tokhtamysh">1381 – Tokhtamysh</a>
-        <a href="#moscova" data-loc="moscova">1382 – Moscova</a>
-        <a href="#razboi" data-loc="razboi">1386 – Războiul</a>
-        <a href="#kondurcha" data-loc="kondurcha">1391 – Kondurcha</a>
-        <a href="#terek" data-loc="terek">1395 – Terek</a>
-        <a href="#vorskla" data-loc="vorskla">1399 – Vorskla</a>
-        <a href="#declin" data-loc="declin">1406 – Declin</a>
-        <a href="#dezintegrare" data-loc="dezintegrare">1419 – Dezintegrare</a>
-        <a href="#lipnic" data-loc="lipnic">1470 – Lipnic</a>
-        <a href="#sfarsit" data-loc="sfarsit">1480 – Sfârșitul</a>
-        <a href="#ultimul" data-loc="ultimul">1502 – Ultimul Khan</a>
-        <a href="#bibliografie" data-loc="bibliografie">Bibliografie</a>
-        <a href="#note" data-loc="note">Note</a>
-      </div>
+<div class="dropdown-content" id="tocDropdown">
+  <a href="#acasa" data-loc="acasa">Acasă</a>
+  <a href="#prolog" data-loc="prolog">1206 – Prolog</a>
+  <a href="#kulikovo" data-loc="kulikovo">1380 – Kulikovo</a>
+  <a href="#kalka" data-loc="kalka">1381 – Kalka</a>
+  <a href="#tokhtamysh" data-loc="tokhtamysh">1381 – Tokhtamysh</a>
+  <a href="#moscova" data-loc="moscova">1382 – Moscova</a>
+  <a href="#razboi" data-loc="razboi">1386 – Războiul</a>
+  <a href="#kondurcha" data-loc="kondurcha">1391 – Kondurcha</a>
+  <a href="#terek" data-loc="terek">1395 – Terek</a>
+  <a href="#vorskla" data-loc="vorskla">1399 – Vorskla</a>
+  <a href="#declin" data-loc="declin">1406 – Declin</a>
+  <a href="#dezintegrare" data-loc="dezintegrare">1419 – Dezintegrare</a>
+  <a href="#lipnic" data-loc="lipnic">1470 – Lipnic</a>
+  <a href="#sfarsit" data-loc="sfarsit">1480 – Sfârșitul</a>
+  <a href="#ultimul" data-loc="ultimul">1502 – Ultimul Khan</a>
+  <a href="#recomandari" data-loc="recomandari">Recomandări</a>
+  <a href="#galerie" data-loc="galerie">Galerie</a>
+  <a href="#bibliografie" data-loc="bibliografie">Bibliografie</a>
+  <a href="#note" data-loc="note">Note</a>
+</div>
+
     </div>
     <div class="sidebar-map">
       <div id="map"></div>
@@ -299,6 +308,228 @@
               <p>Textul pentru Ultimul Khan se va încărca din text.txt.</p>
             </div>
           </section>
+
+<section id="recomandari">
+  <div class="section-header flex-header">
+    <h1><span class="title-text">Recomandări</span></h1>
+  </div>
+
+  <h2>Cărți</h2>
+  <ul class="rec-list">
+    <li>
+      <a href="https://www.goodreads.com/book/show/40718726-genghis-khan-and-the-making-of-the-modern-world" target="_blank" rel="noopener">
+        Genghis Khan and the Making of the Modern World
+      </a> – Jack Weatherford
+    </li>
+    <li>
+      <a href="https://www.goodreads.com/book/show/718607.The_Mongol_Art_of_War" target="_blank" rel="noopener">
+        The Mongol Art of War
+      </a> – Timothy May
+    </li>
+    <li>
+      <a href="https://www.goodreads.com/book/show/2341973.A_History_of_Russia_Vol_3" target="_blank" rel="noopener">
+        A History of Russia, Vol 3
+      </a> – George Vernadsky
+    </li>
+    <li>
+      <a href="https://www.goodreads.com/book/show/706951.Russia_and_the_Golden_Horde" target="_blank" rel="noopener">
+        Russia and the Golden Horde
+      </a> – Charles J. Halperin
+    </li>
+    <li>
+      <a href="https://www.goodreads.com/en/book/show/32073312-the-mongols-and-the-islamic-world" target="_blank" rel="noopener">
+        The Mongols and the Islamic World
+      </a> – Peter Jackson
+    </li>
+  </ul>
+
+  <h2>Filme</h2>
+  <ul class="rec-list">
+    <li>
+      <a href="https://www.imdb.com/title/tt2331066/" target="_blank" rel="noopener">
+        The Horde (Orda)
+      </a> (2012)
+    </li>
+    <li>
+      <a href="https://www.imdb.com/title/tt0043593/" target="_blank" rel="noopener">
+        The Golden Horde
+      </a> (1951)
+    </li>
+    <li>
+      <a href="https://www.imdb.com/title/tt0416044/" target="_blank" rel="noopener">
+        Mongol: The Rise of Genghis Khan
+      </a> (2007)
+    </li>
+  </ul>
+
+  <h2>Podcasturi / Videoclipuri</h2>
+  <ul class="rec-list">
+    <li>
+      <a href="https://www.youtube.com/watch?v=ZVv_KBK-PJI" target="_blank" rel="noopener">
+        DAMIAN ANFILE: „Mongolii reprezintă cel mai mare imperiu din istoria lumii”
+      </a> | VREAU SĂ ȘTIU
+    </li>
+    <li>
+      <a href="https://www.youtube.com/watch?v=3eEhruOZXHA" target="_blank" rel="noopener">
+        The Mongol Empire: The Golden Horde
+      </a> | History Junkie
+    </li>
+    <li>
+      <a href="https://www.youtube.com/watch?v=d4vROzoKElU" target="_blank" rel="noopener">
+        Battle of Kulikovo 1380 – Rus-Mongol Wars DOCUMENTARY
+      </a> | Kings and Generals
+    </li>
+    <li>
+      <a href="https://www.youtube.com/watch?v=y95sYUkQJuA" target="_blank" rel="noopener">
+        Rise of Timur – War against Toqtamish – MONGOL INVASIONS DOCUMENTARY
+      </a> | Kings and Generals
+    </li>
+  </ul>
+
+<h2>Articole</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://ro.wikipedia.org/wiki/Hoarda_de_Aur" target="_blank" rel="noopener"><strong>Hoarda de aur</strong></a> – Wikipedia
+  </li>
+  <li>
+    <a href="https://www.britannica.com/place/Mongol-empire/The-Golden-Horde" target="_blank" rel="noopener"><strong>The Golden Horde</strong></a> – Britannica
+  </li>
+  <li>
+    <a href="https://historia.ro/sectiune/general/hoarda-mongola-de-la-gurile-dunarii-569892.html" target="_blank" rel="noopener"><strong>Hoarda mongolă de la gurile Dunării</strong></a> – Historia
+  </li>
+</ul>
+
+
+
+  <h2>Citate</h2>
+  <ul class="rec-list">
+    <li>
+      <strong>“Power is not given, it is taken.”</strong>
+      <br><em>Puterea nu se dă, se ia.</em>
+    </li>
+    <li>
+      <strong>“He who cannot submit to authority cannot be a leader.”</strong>
+      <br><em>Cine nu se poate supune autorității, nu poate conduce. – atribuit lui Ginghis Han</em>
+    </li>
+    <li>
+      <strong>“Vin tătarii!”</strong>
+      <br><em>“The Tatars are coming!” – Tradițional românesc</em>
+    </li>
+    <li>
+      <strong>“The Mongols made the world smaller.”</strong>
+      <br><em>Mongolii au micșorat lumea.</em>
+    </li>
+    <li>
+      <strong>“The greatest happiness is to scatter your enemy.”</strong>
+      <br><em>Cea mai mare fericire este să-ți împrăștii dușmanii. – atribuit lui Ginghis Han</em>
+    </li>
+    <li>
+      <strong>“The Mongol invasions depopulated such vast tracts of land that they reduced atmospheric CO₂ enough to be measurable centuries later.”</strong>
+      <br><em>Invaziile mongole au depopulat atât de mult încât au redus nivelul de CO₂ din atmosferă, măsurabil chiar și după secole.</em>
+    </li>
+  </ul>
+
+  <h2>Personalități</h2>
+  <ul class="rec-list">
+    <li>
+      <a href="https://en.wikipedia.org/wiki/Batu_Khan" target="_blank" rel="noopener">Batu Han (Batu Khan)</a>
+    </li>
+    <li>
+      <a href="https://en.wikipedia.org/wiki/%C3%96zbeg_Khan" target="_blank" rel="noopener">Öz Beg Han (Uzbek Khan)</a>
+    </li>
+    <li>
+      <a href="https://en.wikipedia.org/wiki/Mamai" target="_blank" rel="noopener">Mamai</a>
+    </li>
+    <li>
+      <a href="https://en.wikipedia.org/wiki/Charles_J._Halperin" target="_blank" rel="noopener">Charles J. Halperin</a>
+    </li>
+    <li>
+      <a href="https://en.wikipedia.org/wiki/George_Vernadsky" target="_blank" rel="noopener">George Vernadsky</a>
+    </li>
+    <li>
+      <a href="https://damiananfile.ro/" target="_blank" rel="noopener">Damian Anfile</a>
+    </li>
+  </ul>
+</section>
+
+<!-- Gallery Section -->
+<section id="galerie">
+  <div class="section-header flex-header">
+    <h1><span class="title-text">Galerie</span></h1>
+  </div>
+  <hr class="separator" />
+  <div class="section-content">
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/d3/9a/b3/d39ab39b644184525387f82753585ec0.jpg" alt="Hoarda de Aur" class="popup-enabled" />
+        <div class="gallery-caption">Hoarda de Aur</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Prolog" class="popup-enabled" />
+        <div class="gallery-caption">Prolog</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo" class="popup-enabled" />
+        <div class="gallery-caption">Bătălia de la Kulikovo</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/75/eb/08/75eb08d0087dd0246e9a6228d9864349.jpg" alt="Bătălia de pe râul Kalka" class="popup-enabled" />
+        <div class="gallery-caption">Bătălia de pe râul Kalka</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/22/bc/3d/22bc3d0d11e16438139c5f20cdeb83e3.jpg" alt="Tokhtamysh" class="popup-enabled" />
+        <div class="gallery-caption">Tokhtamysh</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg" alt="Asediul Moscovei" class="popup-enabled" />
+        <div class="gallery-caption">Asediul Moscovei</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg" alt="Războiul Tokhtamysh–Timur" class="popup-enabled" />
+        <div class="gallery-caption">Războiul Tokhtamysh–Timur</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg" alt="Bătălia de pe râul Kondurcha" class="popup-enabled" />
+        <div class="gallery-caption">Bătălia de pe râul Kondurcha</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Bătălia de pe râul Terek" class="popup-enabled" />
+        <div class="gallery-caption">Bătălia de pe râul Terek</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg/1200px-Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg" alt="Bătălia de pe râul Vorskla" class="popup-enabled" />
+        <div class="gallery-caption">Bătălia de pe râul Vorskla</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/2f/98/4f/2f984ff45f253bf89b54762b19c42963.jpg" alt="Declinul Hoardei De Aur" class="popup-enabled" />
+        <div class="gallery-caption">Declinul Hoardei De Aur</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/e0/e4/48/e0e4489cb34e87d437d213a843b1b181.jpg" alt="Dezintegrare" class="popup-enabled" />
+        <div class="gallery-caption">Dezintegrare</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/7b/b7/2c/7bb72cdef6c1b832ccd5e09b0f8e0d0d.jpg" alt="Bătălia de la Lipnic" class="popup-enabled" />
+        <div class="gallery-caption">Bătălia de la Lipnic</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/96/93/b5/9693b53bf3b5d7549c5e017e44a05ea3.jpg" alt="Sfârșitul asupririi mongole" class="popup-enabled" />
+        <div class="gallery-caption">Sfârșitul asupririi mongole</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/e9/3e/ff/e93effe31b883e7df9ee30992543283b.jpg" alt="Ultimul Khan" class="popup-enabled" />
+        <div class="gallery-caption">Ultimul Khan</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Bibliografie" class="popup-enabled" />
+        <div class="gallery-caption">Bibliografie</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
 
           <!-- Bibliografie Section -->
           <section id="bibliografie">

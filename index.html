@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -16,7 +15,7 @@
   <div id="note-tooltip"></div>
   <div id="particles-js"></div>
 
-  <!-- Sidebar / Menu -->
+  <!-- Sidebar / Menu (unchanged) -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-top">
       <button class="menu-btn" id="sidebarSettings">⚙ Setări</button>
@@ -49,38 +48,45 @@
   <div class="main-container">
     <div class="highlight-box">
       <div class="container">
-        <section id="top"></section>
+
+        <!-- Dummy landing/cover section (use or ignore as you wish) -->
+        <section id="top">
+          <!-- Optionally, move your title/art here -->
+        </section>
+
         <h3>1380 – 1502</h3>
         <h2 class="title-centered" style="font-size: 48px; text-align: center; font-weight: bold;">HOARDA DE AUR</h2>
         <hr class="separator thick" />
         <h2 id="declin-title" class="title-centered" style="font-size: 36px; text-align: center; font-weight: bold;">– DECLINUL –</h2>
         <hr class="separator" />
         <img class="popup-enabled centered-image" src="https://i.pinimg.com/1200x/d3/9a/b3/d39ab39b644184525387f82753585ec0.jpg" alt="Hoarda de Aur" />
-        
-        <div class="video-section">
-          <button class="btn toggleVideo">Arată Video</button>
-          <div class="videoContainer" style="display: none; margin-top: 20px;">
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/3eEhruOZXHA?origin=https://klipperboi.github.io"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </div>
 
         <div class="text-section">
-          <!-- Main Section -->
+
+          <!-- Main Section: VIDEO NOW INSIDE "acasa" -->
           <section id="acasa">
+            <div class="video-section">
+              <button class="btn toggleVideo">Arată Video</button>
+              <div class="videoContainer" style="display: none; margin-top: 20px;">
+                <video
+                  id="hoardaVideo"
+                  width="560"
+                  height="315"
+                  controls
+                  poster="assets/your-poster.jpg"
+                  style="border-radius:12px; background:transparent;">
+                  <source src="assets/acasa.mp4" type="video/mp4">
+                  Browserul tău nu suportă video HTML5.
+                </video>
+              </div>
+            </div>
             <div class="section-content" id="principal">
               <!-- Text dynamically loaded from text.txt -->
               <p>Textul din secțiunea principală se va actualiza din text.txt.</p>
             </div>
           </section>
 
-          <!-- Prolog Section -->
+          <!-- Prolog Section (unchanged) -->
           <section id="prolog">
             <div class="section-header flex-header">
               <h1><span class="title-text">Prolog</span></h1>
@@ -92,32 +98,34 @@
               <p>Textul pentru Prolog se va încărca din text.txt.</p>
             </div>
           </section>
+          
+<!-- Kulikovo Section -->
+<section id="kulikovo">
+  <div class="section-header flex-header">
+    <h1><span class="title-text">Punct de cotitură: Bătălia de la Kulikovo</span></h1>
+    <p class="info">8 Septembrie 1380, Râul Don, Rusia</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo" />
+  <div class="video-section">
+    <button class="btn toggleVideo">Arată Video</button>
+    <div class="videoContainer" style="display: none; margin-top: 20px;">
+      <video
+        width="560"
+        height="315"
+        controls
+        poster="assets/kulikovo.jpg"
+        style="border-radius:12px; box-shadow:0 4px 15px var(--color-accent, #ed143d38); background:#111;">
+        <source src="assets/kulikovo.mp4" type="video/mp4">
+        Browserul tău nu suportă video HTML5.
+      </video>
+    </div>
+  </div>
+  <div class="section-content">
+    <p>Textul pentru Kulikovo se va încărca din text.txt.</p>
+  </div>
+</section>
 
-          <!-- Kulikovo Section -->
-          <section id="kulikovo">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Punct de cotitură: Bătălia de la Kulikovo</span></h1>
-              <p class="info">8 Septembrie 1380, Râul Don, Rusia</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo" />
-            <div class="video-section">
-              <button class="btn toggleVideo">Arată Video</button>
-              <div class="videoContainer" style="display: none; margin-top: 20px;">
-                <iframe
-                  width="560"
-                  height="315"
-                  src="https://www.youtube.com/embed/d4vROzoKElU?origin=https://klipperboi.github.io"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </div>
-            <div class="section-content">
-              <p>Textul pentru Kulikovo se va încărca din text.txt.</p>
-            </div>
-          </section>
 
           <!-- Kalka Section -->
           <section id="kalka">
@@ -184,31 +192,32 @@
             </div>
           </section>
 
-          <!-- Terek Section -->
-          <section id="terek">
-            <div class="section-header flex-header">
-              <h1><span class="title-text">Bătălia de pe râul Terek</span></h1>
-              <p class="info">15 Aprilie 1395</p>
-            </div>
-            <hr class="separator" />
-            <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Bătălia de pe râul Terek" />
-            <div class="video-section">
-              <button class="btn toggleVideo">Arată Video</button>
-              <div class="videoContainer" style="display: none; margin-top: 20px;">
-                <iframe
-                  width="560"
-                  height="315"
-                  src="https://www.youtube.com/embed/y95sYUkQJuA?origin=https://klipperboi.github.io"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </div>
-            <div class="section-content">
-              <p>Textul pentru Terek se va încărca din text.txt.</p>
-            </div>
-          </section>
+<!-- Terek Section -->
+<section id="terek">
+  <div class="section-header flex-header">
+    <h1><span class="title-text">Bătălia de pe râul Terek</span></h1>
+    <p class="info">15 Aprilie 1395</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Bătălia de pe râul Terek" />
+  <div class="video-section">
+    <button class="btn toggleVideo">Arată Video</button>
+    <div class="videoContainer" style="display: none; margin-top: 20px;">
+      <video
+        width="560"
+        height="315"
+        controls
+        poster="assets/terek.jpg"
+        style="border-radius:12px; box-shadow:0 4px 15px var(--color-accent, #ed143d38); background:#111;">
+        <source src="assets/terek.mp4" type="video/mp4">
+        Browserul tău nu suportă video HTML5.
+      </video>
+    </div>
+  </div>
+  <div class="section-content">
+    <p>Textul pentru Terek se va încărca din text.txt.</p>
+  </div>
+</section>
 
           <!-- Vorskla Section -->
           <section id="vorskla">
@@ -364,9 +373,9 @@
         <div class="settings-group">
           <label class="settings-label" for="videoPlaybackSelect">Video</label>
           <select id="videoPlaybackSelect" class="settings-dropdown" name="videoPlayback">
-            <option value="play">Play (default)</option>
-            <option value="pause">Pause on load</option>
-            <option value="manual">Manual control</option>
+            <option value="play">Rulează în fundal</option> 
+            <option value="pause">Oprește</option> 
+            <option value="pip">Picture in Picture</option>
           </select>
         </div>
       </div>
@@ -383,6 +392,7 @@
 </div>
 
   <!-- Scripts -->
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="scripts.js"></script>

@@ -23,6 +23,7 @@ TBA
     - stop la scroll
     - PiP (Picture in Picture) la scroll
     - rulează în fundal
+- dev tools
 
 **1.0.6**
 - actualizare debug panel

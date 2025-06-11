@@ -19,6 +19,10 @@ TBA
 **1.0.7**
 - rescriere video, mp4 (files.garden) vs youtube
 - funcții comportament video
+- comportament video
+    - stop la scroll
+    - PiP (Picture in Picture) la scroll
+    - rulează în fundal
 
 **1.0.6**
 - actualizare debug panel

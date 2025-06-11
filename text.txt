@@ -111,6 +111,7 @@ De asemenea, intervenția imperiului otoman a marcat o schimbare, iar în cele d
   <li>Video: <a class="gold-link" href="https://youtu.be/3eEhruOZXHA" target="_blank">Hoarda de Aur – Istorie și Mituri, YouTube</a></li>
   <li>Video: <a class="gold-link" href="https://youtu.be/d4vROzoKElU" target="_blank">Bătălia de la Kulikovo, YouTube</a></li>
   <li>Video: <a class="gold-link" href="https://youtu.be/y95sYUkQJuA" target="_blank">Bătălia de pe râul Terek, YouTube</a></li>
+  <li>Video hosting: <a class="gold-link" href="https://file.garden/" target="_blank">file.garden</a></li>
 </ol>
 
 

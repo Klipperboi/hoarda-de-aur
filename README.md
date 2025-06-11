@@ -16,6 +16,10 @@ TBA
 
 ## Changelog
 
+**1.0.7**
+- rescriere video, mp4 vs youtube
+- funcții comportament video
+
 **1.0.6**
 - actualizare debug panel
 - actualizare palete de culori

@@ -16,6 +16,11 @@ TBA
 
 ## Changelog
 
+**1.0.10**
+- implementare sistem locație -> secțiune
+- stilizare, formatare și tooltip la hyperlink (linkuri externe)
+- scroolbar custom
+
 **1.0.9**
 - reiterare logică scroll & schimbare secțiuni
 - rescriere logică popups imagini, fără overflow

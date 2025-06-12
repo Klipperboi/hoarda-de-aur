@@ -71,10 +71,11 @@ body {
 }
 
 html, body {
-  margin: 0;
-  padding: 0;
+  max-width: 100vw;
+  overflow-x: hidden !important;
   box-sizing: border-box;
 }
+
 
 .main-container { min-height: 100vh; }
 .container {
@@ -554,12 +555,13 @@ body.dark-mode .sidebar { background-color: var(--sidebar-bg-dark);}
    =========================== */
 .fab-container {
   position: fixed;
-  bottom: 32px;
-  right: 32px;
+  bottom: 40px;
+  right: 40px;
   z-index: 5001 !important;
   display: flex;
   flex-direction: column-reverse;
   align-items: flex-end;
+  /* No width constraint here */
 }
 .fab-main {
   background: var(--color-accent, #ed143d);
@@ -1172,3 +1174,25 @@ body.dark-mode img.centered-image {
   text-decoration: underline;
 }
 
+/* Put this at the bottom of your CSS file for priority! */
+@media (max-width: 900px) {
+  .container {
+    width: 100vw;
+    max-width: 100vw;
+    min-width: 0;
+    box-sizing: border-box;  /* This is key! */
+    padding: 14px;           /* Keep padding but no overflow */
+    margin: 0;
+    border-radius: 0 0 10px 10px;
+  }
+.fab-container {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 5001 !important;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+}
+
+}

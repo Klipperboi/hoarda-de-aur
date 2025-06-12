@@ -5,6 +5,7 @@ let currentSectionId = null;
 let observerPaused = false;
 let videoId = null;
 
+
 // MAP LOCATIONS
 const locations = {
   prolog:       { coords: [46,     105], msg: "Prolog – 1206 - 1380, Mongolia" },
@@ -22,10 +23,10 @@ const locations = {
   sfarsit:      { coords: [54.6778, 36.2865], msg: "Sfârșit - 8 August 1480, Râul Ugra" },
   ultimul:      { coords: [54.8985, 23.9036], msg: "Ultimul Khan - 1 Ianuarie 1502, Kaunas" },
   principal:    { coords: [48,      42] },
-  note:         { coords: [44, 41], msg: "Note" },
-  recomandari:  { coords: [44, 41], msg: "Recomandări" },
-  galerie:      { coords: [44, 41], msg: "Galeris" },
-  bibliografie: { coords: [44,      41], msg: "Bibliografie"},
+  note:         { coords: [44, 41]},
+  recomandari:  { coords: [44, 41]},
+  galerie:      { coords: [44, 41]},
+  bibliografie: { coords: [44,      41]},
 };
 const mapFlyZoom = 6;
 const mapFlyAnim = { animate: true, duration: 1.15, easeLinearity: 0.27 };
@@ -158,43 +159,72 @@ function requestPiPForCurrentVideo() {
 // --- Add this call inside your observer in setupSectionTracking:
 function setupSectionTracking() {
   const sections = Array.from(document.querySelectorAll('section[id]'));
+  let lastScrollY = window.scrollY;
+  let scrollDirection = 'down';
+
+  window.addEventListener('scroll', () => {
+    let newScrollY = window.scrollY;
+    scrollDirection = newScrollY > lastScrollY ? 'down' : 'up';
+    lastScrollY = newScrollY;
+  }, { passive: true });
+
   const observer = new IntersectionObserver((entries) => {
     if (observerPaused) return;
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const prevSection = currentSectionId;
-        currentSectionId = entry.target.id;
-        updateStatsPanel();
-        highlightCurrentSectionTitle(currentSectionId);
 
-        // ========== Enforce Video Behaviour ==========
-        if (window._enforceVideoBehaviour) window._enforceVideoBehaviour();
+    // Filter for intersecting entries
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .map(entry => ({
+        id: entry.target.id,
+        top: entry.boundingClientRect.top
+      }));
 
-        // ======= Magic: Pause on scroll-away if needed =======
-        if (
-          getCurrentVideoBehaviour() === 'pause' &&
-          videoId &&
-          videoId !== currentSectionId &&
-          prevSection !== currentSectionId
-        ) {
-          pauseCurrentVideo();
-        }
+    if (!visible.length) return;
 
-        // ======= Magic: PiP on scroll-away if needed =======
-        if (
-          getCurrentVideoBehaviour() === 'pip' &&
-          videoId &&
-          videoId !== currentSectionId &&
-          prevSection !== currentSectionId
-        ) {
-          requestPiPForCurrentVideo();
-        }
+    // Sort sections: topmost first
+    visible.sort((a, b) => a.top - b.top);
+
+    // Pick section based on scroll direction
+    let newSectionId = null;
+    if (scrollDirection === 'down') {
+      newSectionId = visible[0].id; // first visible (topmost)
+    } else {
+      newSectionId = visible[visible.length - 1].id; // last visible (lowest)
+    }
+
+    if (newSectionId && newSectionId !== currentSectionId) {
+      const prevSection = currentSectionId;
+      currentSectionId = newSectionId;
+      updateStatsPanel();
+      highlightCurrentSectionTitle(currentSectionId);
+
+      // ========== Enforce Video Behaviour ==========
+      if (window._enforceVideoBehaviour) window._enforceVideoBehaviour();
+
+      // ======= Pause on scroll-away if needed =======
+      if (
+        getCurrentVideoBehaviour() === 'pause' &&
+        videoId &&
+        videoId !== currentSectionId &&
+        prevSection !== currentSectionId
+      ) {
+        pauseCurrentVideo();
       }
-    });
-  }, { threshold: 0.5 });
+
+      // ======= PiP on scroll-away if needed =======
+      if (
+        getCurrentVideoBehaviour() === 'pip' &&
+        videoId &&
+        videoId !== currentSectionId &&
+        prevSection !== currentSectionId
+      ) {
+        requestPiPForCurrentVideo();
+      }
+    }
+  }, { threshold: 0.3 });
+
   sections.forEach(section => observer.observe(section));
 }
-
 
 
 /* SMART SMOOTH SCROLL JUMP */

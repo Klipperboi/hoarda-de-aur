@@ -21,6 +21,8 @@ TBA
 - rescriere logică popups imagini, fără overflow
 - sidebar & container scalabile
 - tip device în funcție de dimensiune display (px)
+- modal setări adaptat pentru ecran telefon
+- sidebar adaptat pentru ecran telefon
 
 **1.0.8**
 - secțiuni noi, funcții implementate

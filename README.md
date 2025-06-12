@@ -16,13 +16,16 @@ TBA
 
 ## Changelog
 
+**1.0.9**
+- reiterare logică scroll & schimbare secțiuni
+
 **1.0.8**
 - secțiuni noi, funcții implementate
   - recomandări
     - cărți
     - filme
     - podcasturi/videoclipuri
-    - articolr
+    - articole
     - citate
     - personalități
   - galerie imagini

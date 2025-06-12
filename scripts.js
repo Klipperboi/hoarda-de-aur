@@ -443,13 +443,33 @@ function initImagePopups() {
   const closePopup = document.getElementById("closePopup");
   const images = document.querySelectorAll("img.popup-enabled");
 
+  // Helper: set max size for any screen
+  function setPopupImageMaxSize() {
+    const padding = 40; // px for top/bottom/left/right
+    const maxW = window.innerWidth - padding * 2;
+    const maxH = window.innerHeight - padding * 2;
+    popupImage.style.maxWidth = `${maxW}px`;
+    popupImage.style.maxHeight = `${maxH}px`;
+    popupImage.style.width = 'auto';
+    popupImage.style.height = 'auto';
+    popupImage.style.display = 'block';
+    popupImage.style.margin = '0 auto';
+    popupImage.style.objectFit = 'contain';
+  }
+
   images.forEach(img => {
     img.addEventListener("click", function() {
       if (!popup || !popupImage) return;
       popupImage.src = this.src || this.getAttribute("data-src") || "";
+      setPopupImageMaxSize();
       popup.style.display = "flex";
       document.body.style.overflow = "hidden";
     });
+  });
+
+  // Resize image live if user rotates/resizes window while open
+  window.addEventListener('resize', () => {
+    if (popup && popup.style.display === "flex") setPopupImageMaxSize();
   });
 
   if (closePopup) {
@@ -476,6 +496,7 @@ function initImagePopups() {
     });
   }
 }
+
 
 
 /* LEAFLET MAP (with TOC sync) */
@@ -764,14 +785,16 @@ function updateStatsPanel() {
     statsDiv.style.userSelect = "none";
     statsDiv.style.minWidth = "240px";
     statsDiv.innerHTML = `
+      <div>Display size: <span id="stats-display">?</span></div>
+      <div>Device type: <span id="stats-device-type">?</span></div>
+      <div>Container width: <span id="stats-container-width">?</span></div>
+      <div>Sidebar width: <span id="stats-sidebar-width">?</span></div>
       <div>Current section: <span id="stats-current">?</span></div>
       <div>Last saved: <span id="stats-last">?</span></div>
-      <div>Display size: <span id="stats-display">?</span></div>
       <div>Dark mode: <span id="stats-darkmode">?</span></div>
       <div>Debug panel: <span id="stats-debugpanel">?</span></div>
       <div>Particles: <span id="stats-particles">?</span></div>
       <div>FAB Status: <span id="stats-fab">?</span></div>
-      <div>Sidebar: <span id="stats-sidebar">?</span></div>
       <div>Video Behaviour: <span id="stats-video-behaviour">?</span></div>
       <div>Current video: <span id="stats-video-id">-</span></div>
     `;
@@ -779,29 +802,35 @@ function updateStatsPanel() {
     window.addEventListener('resize', updateStatsPanel);
   }
 
+  // Display and device info
+  document.getElementById('stats-display').textContent = `${window.innerWidth} × ${window.innerHeight}`;
+  document.getElementById('stats-device-type').textContent = getDeviceType();
+
+  // Container
+  let container = document.querySelector('.container');
+  document.getElementById('stats-container-width').textContent = container ? `${container.offsetWidth}px` : '?';
+
+  // Sidebar "should be" pixel value (based on 20vw or whatever percent)
+  let sidebar = document.getElementById('sidebar');
+  let sidebarOpen = sidebar && sidebar.classList.contains('open');
+  let percentVW = 20; // set to your .sidebar.open { width: XXvw }
+  let sidebarWidthPx = Math.round(window.innerWidth * percentVW / 100);
+  let sidebarText = sidebarOpen
+    ? `${sidebarWidthPx}px (open)`
+    : `0px (closed)`;
+  document.getElementById('stats-sidebar-width').textContent = sidebarText;
+
+  // Other stats
   document.getElementById('stats-current').textContent = currentSectionId || "?";
   document.getElementById('stats-last').textContent = lastSavedSectionId || "-";
-  document.getElementById('stats-display').textContent = `${window.innerWidth} × ${window.innerHeight}`;
-
-  const isDark = document.body.classList.contains('dark-mode');
-  document.getElementById('stats-darkmode').textContent = isDark ? "Enabled" : "Disabled";
-
-  const debugPanelEnabled = localStorage.getItem('debugPanelEnabled') === 'true';
-  document.getElementById('stats-debugpanel').textContent = debugPanelEnabled ? "Enabled" : "Disabled";
-
+  document.getElementById('stats-darkmode').textContent = document.body.classList.contains('dark-mode') ? "Enabled" : "Disabled";
+  document.getElementById('stats-debugpanel').textContent = localStorage.getItem('debugPanelEnabled') === 'true' ? "Enabled" : "Disabled";
   document.getElementById('stats-particles').textContent = particlesVisible ? "Enabled" : "Disabled";
 
-  // FAB Status
   const fabContainer = document.querySelector('.fab-container');
   const fabActive = fabContainer && fabContainer.classList.contains('active');
   document.getElementById('stats-fab').textContent = fabActive ? "Open" : "Closed";
 
-  // Sidebar Status
-  const sidebar = document.getElementById('sidebar');
-  const sidebarOpen = sidebar && sidebar.classList.contains('open');
-  document.getElementById('stats-sidebar').textContent = sidebarOpen ? "Open" : "Closed";
-
-  // Video Behaviour Status
   const videoSelect = document.getElementById('videoPlaybackSelect');
   if (videoSelect) {
     const videoText = videoSelect.options[videoSelect.selectedIndex].text;
@@ -809,93 +838,28 @@ function updateStatsPanel() {
   } else {
     document.getElementById('stats-video-behaviour').textContent = "-";
   }
-
-  // Show/hide panel depending on Debug toggle
-  statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
-
   document.getElementById('stats-video-id').textContent = videoId || "-";
 
-  // ------- DEV TOOLS TOGGLE (above buttons, styled right!) -------
-  let devToggleWrap = document.getElementById('devToolsToggleWrap');
-  if (!devToggleWrap) {
-    devToggleWrap = document.createElement('div');
-    devToggleWrap.id = 'devToolsToggleWrap';
-    devToggleWrap.style.marginTop = '12px';
-    devToggleWrap.style.marginBottom = '8px';
-    devToggleWrap.style.display = 'flex';
-    devToggleWrap.style.alignItems = 'center';
-    devToggleWrap.style.justifyContent = 'center';
-    // Use flex-row: label left, switch right
-    devToggleWrap.innerHTML = `
-      <label style="display:flex;align-items:center;justify-content:space-between;width:100%;font-size:15px;font-family:inherit;">
-        <span style="flex:1;text-align:center;">Dev Tools</span>
-        <input type="checkbox" id="devToolsToggle"
-          style="accent-color:#ed143d;width:20px;height:20px;margin-left:10px;outline:1.5px solid #444;border-radius:4px;cursor:pointer;">
-      </label>
-    `;
-    let firstBtn = document.getElementById('forcePiPBtn');
-    if (firstBtn) statsDiv.insertBefore(devToggleWrap, firstBtn);
-    else statsDiv.appendChild(devToggleWrap);
-  }
-
-  // Always use the current DOM version (not cached!)
-  let devToolsToggle = document.getElementById('devToolsToggle');
-  // On first run, restore from storage (or default to false)
-  let devEnabled = localStorage.getItem('devToolsEnabled');
-  if (devEnabled === null) devEnabled = false;
-  else devEnabled = devEnabled === 'true';
-  devToolsToggle.checked = devEnabled;
-
-  // When toggled, update localStorage and UI
-  devToolsToggle.onchange = function () {
-    localStorage.setItem('devToolsEnabled', devToolsToggle.checked);
-    updateDevToolsVisibility();
-  };
-
-  // ------- DEV BUTTONS -------
-  let pipBtn = document.getElementById('forcePiPBtn');
-  if (!pipBtn) {
-    pipBtn = document.createElement('button');
-    pipBtn.id = 'forcePiPBtn';
-    pipBtn.textContent = 'Picture in Picture';
-    pipBtn.style.marginTop = '6px';
-    pipBtn.style.width = '100%';
-    pipBtn.style.padding = '8px 0';
-    pipBtn.style.background = '#d00000';
-    pipBtn.style.color = '#fff';
-    pipBtn.style.border = 'none';
-    pipBtn.style.borderRadius = '7px';
-    pipBtn.style.fontWeight = 'bold';
-    pipBtn.style.fontSize = '15px';
-    pipBtn.style.cursor = 'pointer';
-    pipBtn.style.boxShadow = '0 2px 16px #d0000030';
-    pipBtn.style.pointerEvents = 'auto';
-    statsDiv.appendChild(pipBtn);
-  }
-
-  let pauseBtn = document.getElementById('forcePauseBtn');
-  if (!pauseBtn) {
-    pauseBtn = document.createElement('button');
-    pauseBtn.id = 'forcePauseBtn';
-    pauseBtn.textContent = 'Pause Video';
-    pauseBtn.style.marginTop = '7px';
-    pauseBtn.style.width = '100%';
-    pauseBtn.style.padding = '8px 0';
-    pauseBtn.style.background = '#333';
-    pauseBtn.style.color = '#fff';
-    pauseBtn.style.border = 'none';
-    pauseBtn.style.borderRadius = '7px';
-    pauseBtn.style.fontWeight = 'bold';
-    pauseBtn.style.fontSize = '15px';
-    pauseBtn.style.cursor = 'pointer';
-    pauseBtn.style.boxShadow = '0 2px 16px #2227';
-    pauseBtn.style.pointerEvents = 'auto';
-    statsDiv.appendChild(pauseBtn);
-  }
-
-  // Actually show/hide the dev buttons
-  updateDevToolsVisibility();
+  // Hide if debug disabled
+  const debugPanelEnabled = localStorage.getItem('debugPanelEnabled') === 'true';
+  statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 }
+
+
+
+window.addEventListener('resize', updateStatsPanel);
+
+// Make sure to also define getDeviceType somewhere globally:
+function getDeviceType() {
+  return window.innerWidth > window.innerHeight ? "desktop" : "mobile";
+}
+
+// Add live update on resize (outside function, just once)
+window.addEventListener('resize', () => {
+  let deviceTypeDiv = document.getElementById('stats-device-type');
+  if (deviceTypeDiv) deviceTypeDiv.textContent = "Device type: " + getDeviceType();
+});
+
 
 function updateDevToolsVisibility() {
   const show = localStorage.getItem('devToolsEnabled') === 'true';
@@ -1183,8 +1147,13 @@ function initGalleryTooltips() {
   });
 }
 
+function getDeviceType() {
+  return window.innerWidth > window.innerHeight ? "desktop" : "mobile";
+}
 
-
+function getDeviceType() {
+  return window.innerWidth > window.innerHeight ? "desktop" : "mobile";
+}
 
 // -------- MAIN INIT --------
 document.addEventListener("DOMContentLoaded", function() {

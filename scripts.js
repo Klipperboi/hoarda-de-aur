@@ -4,6 +4,7 @@ let lastSavedSectionId = null;
 let currentSectionId = null;
 let observerPaused = false;
 let videoId = null;
+let mapUpdateTimeout = null;
 
 
 // MAP LOCATIONS
@@ -45,29 +46,23 @@ if ('scrollRestoration' in history) {
 let currentVideoElement = null; // Track current playing video DOM node
 
 function initVideoToggle() {
-  document.querySelectorAll(".toggleVideo").forEach(button => {
-    button.addEventListener("click", function() {
-      const videoContainer = this.nextElementSibling;
-      if (!videoContainer) return;
+document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
+  link.addEventListener("click", function(e) {
+    e.preventDefault();
+    const locKey = this.dataset.loc;
+    updateActiveLink(locKey);
+    saveCurrentSectionAsLast(currentSectionId); // Correct: save the section you’re leaving
 
-      const video = videoContainer.querySelector("video");
-      const isHidden = videoContainer.style.display === "none" || !videoContainer.style.display;
-
-      if (isHidden) {
-        videoContainer.style.display = "block";
-        videoContainer.removeAttribute('inert');
-        this.textContent = "Ascunde Video";
-      } else {
-        videoContainer.style.display = "none";
-        videoContainer.setAttribute('inert', '');
-        this.textContent = "Arată Video";
-        if (video) {
-          video.pause();
-          video.currentTime = 0;
-        }
-      }
-    });
+    if (locKey === "top") {
+      smartSmoothJumpToSection("top");
+    } else if (locations[locKey]) {
+      smartSmoothJumpToSection(locKey);
+    }
+    // Do NOT set currentSectionId or call highlight directly here!
+    // The jump function will handle it after the scroll completes.
   });
+});
+
 }
 
 // Handle videoId and remember which is playing
@@ -166,6 +161,10 @@ function setupSectionTracking() {
     let newScrollY = window.scrollY;
     scrollDirection = newScrollY > lastScrollY ? 'down' : 'up';
     lastScrollY = newScrollY;
+
+    // Extra check, always update if title in view
+    let id = detectCurrentSectionByTitle();
+    if (id && id !== currentSectionId) updateCurrentSection(id);
   }, { passive: true });
 
   const observer = new IntersectionObserver((entries) => {
@@ -181,54 +180,28 @@ function setupSectionTracking() {
 
     if (!visible.length) return;
 
-    // Sort sections: topmost first
     visible.sort((a, b) => a.top - b.top);
 
-    // Pick section based on scroll direction
     let newSectionId = null;
     if (scrollDirection === 'down') {
-      newSectionId = visible[0].id; // first visible (topmost)
+      newSectionId = visible[0].id;
     } else {
-      newSectionId = visible[visible.length - 1].id; // last visible (lowest)
+      newSectionId = visible[visible.length - 1].id;
     }
 
-    if (newSectionId && newSectionId !== currentSectionId) {
-      const prevSection = currentSectionId;
-      currentSectionId = newSectionId;
-      updateStatsPanel();
-      highlightCurrentSectionTitle(currentSectionId);
-
-      // ========== Enforce Video Behaviour ==========
-      if (window._enforceVideoBehaviour) window._enforceVideoBehaviour();
-
-      // ======= Pause on scroll-away if needed =======
-      if (
-        getCurrentVideoBehaviour() === 'pause' &&
-        videoId &&
-        videoId !== currentSectionId &&
-        prevSection !== currentSectionId
-      ) {
-        pauseCurrentVideo();
-      }
-
-      // ======= PiP on scroll-away if needed =======
-      if (
-        getCurrentVideoBehaviour() === 'pip' &&
-        videoId &&
-        videoId !== currentSectionId &&
-        prevSection !== currentSectionId
-      ) {
-        requestPiPForCurrentVideo();
-      }
+    // Always double-check with title-in-view detector
+    let bestId = detectCurrentSectionByTitle() || newSectionId;
+    if (bestId && bestId !== currentSectionId) {
+      updateCurrentSection(bestId);
     }
-  }, { threshold: 0.3 });
-
+  }, { threshold: 0.05 }); // <-- lower threshold
   sections.forEach(section => observer.observe(section));
 }
 
 
+
 /* SMART SMOOTH SCROLL JUMP */
-function smartSmoothJumpToSection(targetId) {
+function smartSmoothJumpToSection(targetId, callback) {
   observerPaused = true;
   const section = document.getElementById(targetId);
   if (!section) return;
@@ -241,20 +214,11 @@ function smartSmoothJumpToSection(targetId) {
     if (Math.abs(window.scrollY - targetY) < 3) {
       window.removeEventListener('scroll', onScroll);
       setTimeout(() => {
-        observerPaused = false;
-        currentSectionId = targetId;
-        highlightCurrentSectionTitle(currentSectionId);
-        updateStatsPanel();
-        updateActiveLink(currentSectionId);
-        // Only fly if the section actually has a map marker (i.e., a pin)
-        if (mapMarkers[currentSectionId]) {
-          map.flyTo(locations[currentSectionId].coords, mapFlyZoom, mapFlyAnim);
-          mapMarkers[currentSectionId].openPopup();
-        }
-      }, 70);
+        runSectionRefreshBurst(targetId, callback);
+      }, 80);
     } else {
       if (!lastCheck) lastCheck = Date.now();
-      if (Date.now() - lastCheck > 550) {
+      if (Date.now() - lastCheck > 600) {
         window.removeEventListener('scroll', onScroll);
         observerPaused = false;
       }
@@ -263,6 +227,23 @@ function smartSmoothJumpToSection(targetId) {
   window.addEventListener('scroll', onScroll);
 }
 
+function runSectionRefreshBurst(targetId, callback) {
+  let tries = 0, maxTries = 7, delay = 60;
+  function burst() {
+    let detectedId = detectCurrentSectionByTitle() || targetId;
+    if (detectedId !== currentSectionId) {
+      updateCurrentSection(detectedId);
+    }
+    tries++;
+    if (tries < maxTries) {
+      setTimeout(burst, delay);
+    } else {
+      observerPaused = false;
+      if (callback) callback(currentSectionId);
+    }
+  }
+  burst();
+}
 
 /* SIDEBAR & DROPDOWN MENU */
 function initSidebar() {
@@ -351,46 +332,23 @@ function loadParticles(mode) {
 
 /* Drop cap first letter in each .section-content */
 function applyDropCapToSections() {
-  document.querySelectorAll('.section-content').forEach(container => {
-    if (container.querySelector('.drop-cap')) return;
-    const paragraphs = container.querySelectorAll('p');
-    let firstParagraph = null;
-    for (const p of paragraphs) {
-      if (p.textContent.trim().length > 0) {
-        firstParagraph = p;
-        break;
-      }
+document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
+  link.addEventListener("click", function(e) {
+    e.preventDefault();
+    const locKey = this.dataset.loc;
+    updateActiveLink(locKey);
+    saveCurrentSectionAsLast(currentSectionId);
+
+    if (locKey === "top") {
+      smartSmoothJumpToSection("top");
+    } else if (locations[locKey]) {
+      smartSmoothJumpToSection(locKey);
     }
-    if (!firstParagraph) return;
-    function findFirstTextNode(node) {
-      for (const child of node.childNodes) {
-        if (child.nodeType === Node.TEXT_NODE) {
-          if (child.textContent.trim().length > 0) return child;
-        } else if (child.nodeType === Node.ELEMENT_NODE) {
-          const found = findFirstTextNode(child);
-          if (found) return found;
-        }
-      }
-      return null;
-    }
-    const textNode = findFirstTextNode(firstParagraph);
-    if (!textNode) return;
-    const text = textNode.textContent;
-    const firstLetterIndex = text.search(/\S/);
-    if (firstLetterIndex === -1) return;
-    const before = text.slice(0, firstLetterIndex);
-    const letter = text[firstLetterIndex];
-    const after = text.slice(firstLetterIndex + 1);
-    const span = document.createElement('span');
-    span.className = 'drop-cap';
-    span.textContent = letter;
-    const parent = textNode.parentNode;
-    const beforeNode = document.createTextNode(before);
-    const afterNode = document.createTextNode(after);
-    parent.replaceChild(afterNode, textNode);
-    parent.insertBefore(span, afterNode);
-    parent.insertBefore(beforeNode, span);
+    // DO NOT set currentSectionId or call highlight directly here!
+    // The jump function will handle it after the scroll completes.
   });
+});
+
 }
 
 /* HIGHLIGHT CURRENT SECTION TITLE + SMOOTH SCROLL ON CLICK */
@@ -408,12 +366,29 @@ function setupTitleClicks() {
     titleSpan.appendChild(link);
     link.addEventListener('click', e => {
       e.preventDefault();
+      saveCurrentSectionAsLast(currentSectionId); // Correct!
       smartSmoothJumpToSection(section.id);
-      saveCurrentSectionAsLast(section.id);
-      currentSectionId = section.id;
-      highlightCurrentSectionTitle(section.id);
     });
   });
+}
+
+function updateCurrentSection(newSectionId, { syncMap = true, syncTOC = true } = {}) {
+  currentSectionId = newSectionId;
+  highlightCurrentSectionTitle(currentSectionId);
+  updateStatsPanel();
+  if (syncTOC) updateActiveLink(currentSectionId);
+
+  // Only fly if marker exists!
+  if (syncMap && mapMarkers[currentSectionId]) {
+    if (mapUpdateTimeout) clearTimeout(mapUpdateTimeout);
+    mapUpdateTimeout = setTimeout(() => {
+      // Only call if marker is still there (paranoia)
+      if (mapMarkers[currentSectionId]) {
+        map.flyTo(mapMarkers[currentSectionId].getLatLng(), mapFlyZoom, mapFlyAnim);
+        mapMarkers[currentSectionId].openPopup();
+      }
+    }, 250);
+  }
 }
 
 /* HIGHLIGHT CURRENT SECTION TITLE */
@@ -497,7 +472,9 @@ function initImagePopups() {
   }
 }
 
-
+const NO_MAP_SECTIONS = [
+  "principal", "recomandari", "galerie", "bibliografie", "note"
+];
 
 /* LEAFLET MAP (with TOC sync) */
 function initMap() {
@@ -506,12 +483,12 @@ function initMap() {
     attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
-  // Only add map markers for sections you want shown
+  // Add pins only for historical sections, skip 'principal' and the rest
   mapMarkers = {};
   for (const key in locations) {
     if (
       locations.hasOwnProperty(key) &&
-      !["bibliografie", "note", "galerie", "recomandari"].includes(key)
+      !NO_MAP_SECTIONS.includes(key)
     ) {
       const loc = locations[key];
       const marker = L.marker(loc.coords)
@@ -520,6 +497,18 @@ function initMap() {
       mapMarkers[key] = marker;
     }
   }
+
+  // Pin click scrolls to section
+// Pin click scrolls to section (safe)
+for (const key in mapMarkers) {
+  if (!mapMarkers.hasOwnProperty(key)) continue;
+  mapMarkers[key].on('click', function () {
+    if (document.getElementById(key)) {
+      smartSmoothJumpToSection(key);
+    }
+  });
+}
+
 
   // Sidebar TOC link logic
   function updateActiveLink(activeId) {
@@ -539,7 +528,7 @@ function initMap() {
       e.preventDefault();
       const locKey = this.dataset.loc;
       updateActiveLink(locKey);
-      saveCurrentSectionAsLast(locKey);
+      saveCurrentSectionAsLast(currentSectionId);
 
       if (locKey === "top") {
         smartSmoothJumpToSection("top");
@@ -549,21 +538,23 @@ function initMap() {
     });
   });
 
-  // Map follows section when visible (but only for relevant sections)
+  // Map follows section (only for those with pins)
   const observerOptions = { root: null, threshold: 0.5 };
 const observerCallback = (entries) => {
   if (observerPaused) return;
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const id = entry.target.id;
-      // Only fly to and open popup if marker exists for this section
-if (mapMarkers[id]) {
-  map.flyTo(locations[id].coords, mapFlyZoom, mapFlyAnim);
-  mapMarkers[id].openPopup();
-}
-
-
-      updateActiveLink(id);
+      if (mapMarkers[id]) {
+        setTimeout(() => {
+          map.flyTo(mapMarkers[id].getLatLng(), mapFlyZoom, mapFlyAnim);
+          mapMarkers[id].openPopup();
+        }, 200);
+      }
+      updateCurrentSection(id, {
+        syncMap: false, // Map already handled above (or skipped)
+        syncTOC: true
+      });
     }
   });
 };
@@ -611,12 +602,16 @@ function initTextSections() {
         }
       }
       applyDropCapToSections();
-      initAllTooltips();
       setupTitleClicks();
       initImagePopups();
+
+      // 🟦 🟦 🟦  INIT TOOLTIP HANDLERS HERE  🟦 🟦 🟦
+      initAllTooltips();            // for .note-ref, etc
+      initExternalLinkTooltips();   // for external links
     })
     .catch(error => console.error("Eroare la procesarea text.txt:", error));
 }
+
 
 /* NOTE TOOLTIP (and smooth jump) */
 function initAllTooltips() {
@@ -740,23 +735,19 @@ function initFab() {
   }
 
 fabTop && fabTop.addEventListener('click', () => {
-  if (window.scrollY < 5 || currentSectionId === 'top') {
-    saveCurrentSectionAsLast('top');
-    smartSmoothJumpToSection('top');
+  saveCurrentSectionAsLast(currentSectionId); // Always save before jumping
+  smartSmoothJumpToSection('top');
+});
+
+fabLast && fabLast.addEventListener('click', () => {
+  saveCurrentSectionAsLast(currentSectionId); // Save the section before you jump back!
+  if (lastSavedSectionId) {
+    smartSmoothJumpToSection(lastSavedSectionId);
   } else {
-    saveCurrentSectionAsLast(currentSectionId);
-    smartSmoothJumpToSection('top');
+    smartSmoothJumpToSection('acasa');
   }
 });
 
-
-  fabLast && fabLast.addEventListener('click', () => {
-    if (lastSavedSectionId) {
-      smartSmoothJumpToSection(lastSavedSectionId);
-    } else {
-      smartSmoothJumpToSection('acasa');
-    }
-  });
 
   fabMeniu && fabMeniu.addEventListener('click', function(event) {
     event.stopPropagation();
@@ -828,6 +819,7 @@ statsDiv.innerHTML = `
     <div>Device type: <span id="stats-device-type">${getDeviceType()}</span></div>
     <div>Container width: <span id="stats-container-width">${container ? `${container.offsetWidth}px` : '?'}</span></div>
     <div>Sidebar width: <span id="stats-sidebar-width">${sidebarWidthDisplay}</span></div>
+    <hr>
     <div>Current section: <span id="stats-current">${currentSectionId || "?"}</span></div>
     <div>Last saved: <span id="stats-last">${lastSavedSectionId || "-"}</span></div>
     <div>Dark mode: <span id="stats-darkmode">${document.body.classList.contains('dark-mode') ? "Enabled" : "Disabled"}</span></div>
@@ -1226,6 +1218,159 @@ function getDeviceType() {
   return window.innerWidth > window.innerHeight ? "desktop" : "mobile";
 }
 
+function detectCurrentSectionByTitle() {
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+  let bestId = null;
+  let minTop = Infinity;
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    // Check if the very top of the section is within the top 20% of the viewport
+    if (rect.top >= 0 && rect.top < window.innerHeight * 0.2) {
+      if (rect.top < minTop) {
+        minTop = rect.top;
+        bestId = section.id;
+      }
+    }
+  });
+  return bestId;
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Get or create the tooltip
+  let tooltip = document.getElementById('note-tooltip'); // <-- this line must be active!
+  if (!tooltip) {
+    tooltip = document.createElement('div');
+    tooltip.id = "note-tooltip";
+    document.body.appendChild(tooltip);
+  }
+
+  // Returns only the domain (no www.)
+  function getBaseDomain(url) {
+    try {
+      const { hostname } = new URL(url, window.location.href);
+      return hostname.replace(/^www\./, '');
+    } catch {
+      return url;
+    }
+  }
+
+  // True if link is external
+  function isExternal(link) {
+    const href = link.getAttribute('href');
+    if (!href) return false;
+    if (href.startsWith('#') || href.startsWith('/') || href.startsWith('mailto:')) return false;
+    try {
+      const parsed = new URL(href, window.location.href);
+      return parsed.hostname !== window.location.hostname;
+    } catch {
+      return false;
+    }
+  }
+
+  document.querySelectorAll('a[href]').forEach(link => {
+    if (isExternal(link)) link.classList.add('external-link');
+    else link.classList.remove('external-link');
+    if (!isExternal(link)) return;
+    link.addEventListener('mouseenter', function (e) {
+      tooltip.textContent = getBaseDomain(link.href);
+      tooltip.style.opacity = '1';
+      function move(ev) {
+        tooltip.style.left = (ev.pageX + 12) + "px";
+        tooltip.style.top = (ev.pageY - 40) + "px";
+      }
+      move(e);
+      link.addEventListener('mousemove', move);
+      link._moveTooltip = move;
+    });
+    link.addEventListener('mouseleave', function () {
+      tooltip.style.opacity = '0';
+      if (link._moveTooltip) link.removeEventListener('mousemove', link._moveTooltip);
+    });
+    link.addEventListener('focus', function (e) {
+      tooltip.textContent = getBaseDomain(link.href);
+      tooltip.style.opacity = '1';
+      const rect = link.getBoundingClientRect();
+      tooltip.style.left = (rect.left + window.scrollX + 20) + "px";
+      tooltip.style.top = (rect.top + window.scrollY - 40) + "px";
+    });
+    link.addEventListener('blur', function () {
+      tooltip.style.opacity = '0';
+    });
+  });
+});
+
+
+function initExternalLinkTooltips() {
+  let tooltip = document.getElementById('note-tooltip');
+  if (!tooltip) {
+    tooltip = document.createElement('div');
+    tooltip.id = "note-tooltip";
+    document.body.appendChild(tooltip);
+  }
+
+  function getBaseDomain(url) {
+    try {
+      const { hostname } = new URL(url, window.location.href);
+      return hostname.replace(/^www\./, '');
+    } catch {
+      return url;
+    }
+  }
+
+  function isExternal(link) {
+    const href = link.getAttribute('href');
+    if (!href) return false;
+    if (href.startsWith('#') || href.startsWith('/') || href.startsWith('mailto:')) return false;
+    try {
+      const parsed = new URL(href, window.location.href);
+      return parsed.hostname !== window.location.hostname;
+    } catch {
+      return false;
+    }
+  }
+
+  document.querySelectorAll('a[href]').forEach(link => {
+    if (!isExternal(link)) return;
+    link.classList.add('external-link');
+
+    // Remove old handlers first (avoid stacking)
+    link.onmouseenter = null;
+    link.onmouseleave = null;
+    link.onfocus = null;
+    link.onblur = null;
+    link.onmousemove = null;
+
+    link.addEventListener('mouseenter', function (e) {
+      tooltip.textContent = getBaseDomain(link.href);
+      tooltip.style.opacity = '1';
+      function move(ev) {
+        tooltip.style.left = (ev.pageX + 12) + "px";
+        tooltip.style.top = (ev.pageY - 40) + "px";
+      }
+      move(e);
+      link.addEventListener('mousemove', move);
+      link._moveTooltip = move;
+    });
+    link.addEventListener('mouseleave', function () {
+      tooltip.style.opacity = '0';
+      if (link._moveTooltip) link.removeEventListener('mousemove', link._moveTooltip);
+    });
+    link.addEventListener('focus', function () {
+      tooltip.textContent = getBaseDomain(link.href);
+      tooltip.style.opacity = '1';
+      const rect = link.getBoundingClientRect();
+      tooltip.style.left = (rect.left + window.scrollX + 20) + "px";
+      tooltip.style.top = (rect.top + window.scrollY - 40) + "px";
+    });
+    link.addEventListener('blur', function () {
+      tooltip.style.opacity = '0';
+    });
+  });
+}
+
+
+
 // -------- MAIN INIT --------
 document.addEventListener("DOMContentLoaded", function() {
   setupTitleClicks();
@@ -1234,16 +1379,15 @@ document.addEventListener("DOMContentLoaded", function() {
   initImagePopups();
   initMap();
   initTextSections();
-  initAllTooltips();
   initThemeToggle();
   initParticlesToggle();
   setupSectionTracking();
   initFab();
   updateStatsPanel();
   initVideoToggle();
-  initVideoIdStealOnPlay();  // <-- this does the magic
+  initVideoIdStealOnPlay();
   initSettingsPopup();
   initSettingsControls();
-  initGalleryTooltips()
+  initGalleryTooltips();
 });
 

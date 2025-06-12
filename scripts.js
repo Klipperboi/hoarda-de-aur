@@ -784,64 +784,118 @@ function updateStatsPanel() {
     statsDiv.style.pointerEvents = "auto";
     statsDiv.style.userSelect = "none";
     statsDiv.style.minWidth = "240px";
-    statsDiv.innerHTML = `
-      <div>Display size: <span id="stats-display">?</span></div>
-      <div>Device type: <span id="stats-device-type">?</span></div>
-      <div>Container width: <span id="stats-container-width">?</span></div>
-      <div>Sidebar width: <span id="stats-sidebar-width">?</span></div>
-      <div>Current section: <span id="stats-current">?</span></div>
-      <div>Last saved: <span id="stats-last">?</span></div>
-      <div>Dark mode: <span id="stats-darkmode">?</span></div>
-      <div>Debug panel: <span id="stats-debugpanel">?</span></div>
-      <div>Particles: <span id="stats-particles">?</span></div>
-      <div>FAB Status: <span id="stats-fab">?</span></div>
-      <div>Video Behaviour: <span id="stats-video-behaviour">?</span></div>
-      <div>Current video: <span id="stats-video-id">-</span></div>
-    `;
     document.body.appendChild(statsDiv);
     window.addEventListener('resize', updateStatsPanel);
   }
 
-  // Display and device info
-  document.getElementById('stats-display').textContent = `${window.innerWidth} × ${window.innerHeight}`;
-  document.getElementById('stats-device-type').textContent = getDeviceType();
-
-  // Container
-  let container = document.querySelector('.container');
-  document.getElementById('stats-container-width').textContent = container ? `${container.offsetWidth}px` : '?';
-
-  // Sidebar "should be" pixel value (based on 20vw or whatever percent)
+  // Calculate the sidebar theoretical width (20vw)
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  const sidebarOpenPx = Math.round(vw * 0.20);
+  const sidebarClosedPx = 0;
   let sidebar = document.getElementById('sidebar');
   let sidebarOpen = sidebar && sidebar.classList.contains('open');
-  let percentVW = 20; // set to your .sidebar.open { width: XXvw }
-  let sidebarWidthPx = Math.round(window.innerWidth * percentVW / 100);
-  let sidebarText = sidebarOpen
-    ? `${sidebarWidthPx}px (open)`
-    : `0px (closed)`;
-  document.getElementById('stats-sidebar-width').textContent = sidebarText;
+  let sidebarWidthDisplay = sidebarOpen
+    ? `${sidebarOpenPx}px (open)`
+    : `${sidebarClosedPx}px (closed)`;
 
-  // Other stats
-  document.getElementById('stats-current').textContent = currentSectionId || "?";
-  document.getElementById('stats-last').textContent = lastSavedSectionId || "-";
-  document.getElementById('stats-darkmode').textContent = document.body.classList.contains('dark-mode') ? "Enabled" : "Disabled";
-  document.getElementById('stats-debugpanel').textContent = localStorage.getItem('debugPanelEnabled') === 'true' ? "Enabled" : "Disabled";
-  document.getElementById('stats-particles').textContent = particlesVisible ? "Enabled" : "Disabled";
-
+  // Core stats
+  const container = document.querySelector('.container');
   const fabContainer = document.querySelector('.fab-container');
   const fabActive = fabContainer && fabContainer.classList.contains('active');
-  document.getElementById('stats-fab').textContent = fabActive ? "Open" : "Closed";
-
   const videoSelect = document.getElementById('videoPlaybackSelect');
-  if (videoSelect) {
-    const videoText = videoSelect.options[videoSelect.selectedIndex].text;
-    document.getElementById('stats-video-behaviour').textContent = videoText;
-  } else {
-    document.getElementById('stats-video-behaviour').textContent = "-";
-  }
-  document.getElementById('stats-video-id').textContent = videoId || "-";
-
-  // Hide if debug disabled
+  const videoText = videoSelect
+    ? videoSelect.options[videoSelect.selectedIndex].text
+    : "-";
   const debugPanelEnabled = localStorage.getItem('debugPanelEnabled') === 'true';
+
+  statsDiv.innerHTML = `
+    <div>Display size: <span id="stats-display">${window.innerWidth} × ${window.innerHeight}</span></div>
+    <div>Device type: <span id="stats-device-type">${getDeviceType()}</span></div>
+    <div>Container width: <span id="stats-container-width">${container ? `${container.offsetWidth}px` : '?'}</span></div>
+    <div>Sidebar width: <span id="stats-sidebar-width">${sidebarWidthDisplay}</span></div>
+    <div>Current section: <span id="stats-current">${currentSectionId || "?"}</span></div>
+    <div>Last saved: <span id="stats-last">${lastSavedSectionId || "-"}</span></div>
+    <div>Dark mode: <span id="stats-darkmode">${document.body.classList.contains('dark-mode') ? "Enabled" : "Disabled"}</span></div>
+    <div>Debug panel: <span id="stats-debugpanel">${debugPanelEnabled ? "Enabled" : "Disabled"}</span></div>
+    <div>Particles: <span id="stats-particles">${particlesVisible ? "Enabled" : "Disabled"}</span></div>
+    <div>FAB Status: <span id="stats-fab">${fabActive ? "Open" : "Closed"}</span></div>
+    <div>Video Behaviour: <span id="stats-video-behaviour">${videoText}</span></div>
+    <div>Current video: <span id="stats-video-id">${videoId || "-"}</span></div>
+  `;
+
+  // DEV TOOLS TOGGLE
+  let devToggleWrap = document.getElementById('devToolsToggleWrap');
+  if (!devToggleWrap) {
+    devToggleWrap = document.createElement('div');
+    devToggleWrap.id = 'devToolsToggleWrap';
+    devToggleWrap.style.marginTop = '12px';
+    devToggleWrap.style.marginBottom = '8px';
+    devToggleWrap.style.display = 'flex';
+    devToggleWrap.style.alignItems = 'center';
+    devToggleWrap.style.justifyContent = 'center';
+    devToggleWrap.innerHTML = `
+      <label style="display:flex;align-items:center;justify-content:space-between;width:100%;font-size:15px;font-family:inherit;">
+        <span style="flex:1;text-align:center;">Dev Tools</span>
+        <input type="checkbox" id="devToolsToggle"
+          style="accent-color:#ed143d;width:20px;height:20px;margin-left:10px;outline:1.5px solid #444;border-radius:4px;cursor:pointer;">
+      </label>
+    `;
+    // Place after main stats
+    statsDiv.appendChild(devToggleWrap);
+  }
+  let devToolsToggle = document.getElementById('devToolsToggle');
+  let devEnabled = localStorage.getItem('devToolsEnabled');
+  if (devEnabled === null) devEnabled = false;
+  else devEnabled = devEnabled === 'true';
+  devToolsToggle.checked = devEnabled;
+  devToolsToggle.onchange = function () {
+    localStorage.setItem('devToolsEnabled', devToolsToggle.checked);
+    updateDevToolsVisibility();
+  };
+
+  // DEV BUTTONS
+  let pipBtn = document.getElementById('forcePiPBtn');
+  if (!pipBtn) {
+    pipBtn = document.createElement('button');
+    pipBtn.id = 'forcePiPBtn';
+    pipBtn.textContent = 'Picture in Picture';
+    pipBtn.style.marginTop = '6px';
+    pipBtn.style.width = '100%';
+    pipBtn.style.padding = '8px 0';
+    pipBtn.style.background = '#d00000';
+    pipBtn.style.color = '#fff';
+    pipBtn.style.border = 'none';
+    pipBtn.style.borderRadius = '7px';
+    pipBtn.style.fontWeight = 'bold';
+    pipBtn.style.fontSize = '15px';
+    pipBtn.style.cursor = 'pointer';
+    pipBtn.style.boxShadow = '0 2px 16px #d0000030';
+    pipBtn.style.pointerEvents = 'auto';
+    statsDiv.appendChild(pipBtn);
+  }
+  let pauseBtn = document.getElementById('forcePauseBtn');
+  if (!pauseBtn) {
+    pauseBtn = document.createElement('button');
+    pauseBtn.id = 'forcePauseBtn';
+    pauseBtn.textContent = 'Pause Video';
+    pauseBtn.style.marginTop = '7px';
+    pauseBtn.style.width = '100%';
+    pauseBtn.style.padding = '8px 0';
+    pauseBtn.style.background = '#333';
+    pauseBtn.style.color = '#fff';
+    pauseBtn.style.border = 'none';
+    pauseBtn.style.borderRadius = '7px';
+    pauseBtn.style.fontWeight = 'bold';
+    pauseBtn.style.fontSize = '15px';
+    pauseBtn.style.cursor = 'pointer';
+    pauseBtn.style.boxShadow = '0 2px 16px #2227';
+    pauseBtn.style.pointerEvents = 'auto';
+    statsDiv.appendChild(pauseBtn);
+  }
+
+  updateDevToolsVisibility();
+
+  // Show/hide panel depending on Debug toggle
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 }
 

@@ -18,6 +18,9 @@ TBA
 
 **1.0.9**
 - reiterare logică scroll & schimbare secțiuni
+- rescriere logică popups imagini, fără overflow
+- sidebar & container scalabile
+- tip device în funcție de dimensiune display (px)
 
 **1.0.8**
 - secțiuni noi, funcții implementate

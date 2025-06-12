@@ -808,7 +808,22 @@ function updateStatsPanel() {
     : "-";
   const debugPanelEnabled = localStorage.getItem('debugPanelEnabled') === 'true';
 
-  statsDiv.innerHTML = `
+statsDiv.innerHTML = `
+  <div class="debug-panel-interactive" style="margin-bottom: 10px;">
+    <div id="devToolsToggleWrap" style="margin-bottom: 8px;">
+      <label style="display:flex;align-items:center;justify-content:space-between;width:100%;font-size:15px;font-family:inherit;">
+        <span style="flex:1;text-align:center;">Dev Tools</span>
+        <input type="checkbox" id="devToolsToggle"
+          style="accent-color:#ed143d;width:20px;height:20px;margin-left:10px;outline:1.5px solid #444;border-radius:4px;cursor:pointer;">
+      </label>
+    </div>
+    <button id="forcePiPBtn"
+      style="margin-bottom:6px;width:100%;padding:8px 0;background:#d00000;color:#fff;border:none;border-radius:7px;font-weight:bold;font-size:15px;cursor:pointer;box-shadow:0 2px 16px #d0000030;">Picture in Picture</button>
+    <button id="forcePauseBtn"
+      style="margin-bottom:8px;width:100%;padding:8px 0;background:#333;color:#fff;border:none;border-radius:7px;font-weight:bold;font-size:15px;cursor:pointer;box-shadow:0 2px 16px #2227;">Pause Video</button>
+  </div>
+  <hr>
+  <div class="debug-panel-info">
     <div>Display size: <span id="stats-display">${window.innerWidth} × ${window.innerHeight}</span></div>
     <div>Device type: <span id="stats-device-type">${getDeviceType()}</span></div>
     <div>Container width: <span id="stats-container-width">${container ? `${container.offsetWidth}px` : '?'}</span></div>
@@ -821,7 +836,9 @@ function updateStatsPanel() {
     <div>FAB Status: <span id="stats-fab">${fabActive ? "Open" : "Closed"}</span></div>
     <div>Video Behaviour: <span id="stats-video-behaviour">${videoText}</span></div>
     <div>Current video: <span id="stats-video-id">${videoId || "-"}</span></div>
-  `;
+  </div>
+`;
+
 
   // DEV TOOLS TOGGLE
   let devToggleWrap = document.getElementById('devToolsToggleWrap');

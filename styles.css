@@ -7,7 +7,8 @@
   --color-bg-sidebar: #111;
   --color-bg-sidebar-dark: #222;
   --color-shadow: rgba(0,0,0,0.1);
-
+  --color-scrollbar-bg: #f4f4f4;
+  
   --color-text: #333;
   --color-text-dark: #ddd;
   --color-list-number: #ed143d;
@@ -57,6 +58,7 @@ body.dark-mode {
   --color-link-hover: #d7ac3c;
   --color-note-tooltip-bg: rgba(20, 20, 10, 0.98);
   --color-note-tooltip-text: #fff;
+  --color-scrollbar-bg: #2f2f2f;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap');
@@ -1262,4 +1264,19 @@ a.external-link:focus {
 /* Optional: wavy on hover for extra pop */
 a.external-link:hover {
   text-decoration-style: wavy;
+}
+
+/* --- SIDEBAR CUSTOM SCROLLBAR --- */
+.sidebar ::-webkit-scrollbar,
+.sidebar ::-webkit-scrollbar-corner {
+  width: 18px;
+  background: var(--color-scrollbar-bg);
+}
+.sidebar ::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 10px;
+  border: 5px solid var(--color-scrollbar-bg);
+}
+.sidebar ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-hover);
 }

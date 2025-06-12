@@ -1225,3 +1225,41 @@ body.dark-mode img.centered-image {
   }
 }
 
+a, .gold-link {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: none !important;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  transition: color 0.16s, text-decoration 0.14s;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Visited state: optional, same as above or tweak */
+a:visited, .gold-link:visited {
+  color: var(--color-accent-hover);
+  text-decoration: none !important;
+}
+
+/* Underline ONLY external links */
+a.external-link,
+a.external-link:visited {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+  color: var(--color-accent) !important;
+}
+
+a.external-link:hover,
+a.external-link:focus {
+  color: var(--color-accent-hover) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+/* Optional: wavy on hover for extra pop */
+a.external-link:hover {
+  text-decoration-style: wavy;
+}

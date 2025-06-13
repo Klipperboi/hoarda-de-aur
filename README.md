@@ -16,6 +16,10 @@ TBA
 
 ## Changelog
 
+**1.0.11**
+- buton refresh hartă
+- pin custom
+
 **1.0.10**
 - implementare sistem locație -> secțiune
 - stilizare, formatare și tooltip la hyperlink (linkuri externe)

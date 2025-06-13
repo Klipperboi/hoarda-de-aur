@@ -19,6 +19,7 @@ TBA
 **1.0.11**
 - buton refresh hartă
 - pin custom
+- redefinire frame video (mobil)
 
 **1.0.10**
 - implementare sistem locație -> secțiune

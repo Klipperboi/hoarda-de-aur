@@ -1182,6 +1182,27 @@ function initVideoIdStealOnPlay() {
   });
 }
 
+function initVideoShowButtons() {
+  document.querySelectorAll('.toggleVideo').forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Find the nearest .video-section, then .videoContainer
+      const videoSection = btn.closest('.video-section');
+      if (!videoSection) return;
+      const container = videoSection.querySelector('.videoContainer');
+      if (!container) return;
+      // Toggle display
+      if (container.style.display === 'none' || !container.style.display) {
+        container.style.display = 'block';
+        btn.textContent = 'Ascunde Video';
+      } else {
+        container.style.display = 'none';
+        btn.textContent = 'Arată Video';
+      }
+    });
+  });
+}
+
+
 function updateProgressBar() {
   const bar = document.getElementById("page-progress-bar");
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -1389,5 +1410,6 @@ document.addEventListener("DOMContentLoaded", function() {
   initSettingsPopup();
   initSettingsControls();
   initGalleryTooltips();
+  initVideoShowButtons();
 });
 

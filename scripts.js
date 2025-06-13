@@ -9,20 +9,20 @@ let mapUpdateTimeout = null;
 
 // MAP LOCATIONS
 const locations = {
-  prolog:       { coords: [46,     105], msg: "Prolog – 1206 - 1380, Mongolia" },
-  kulikovo:     { coords: [54,      39], msg: "Kulikovo – 8 Septembrie, Rusia" },
-  kalka:        { coords: [48,      37], msg: "Kalka - 31 Mai 1223, Ucraina" },
-  tokhtamysh:   { coords: [46,      48], msg: "Tokhtamysh - 2 Ianuarie 1381, Astrakhan" },
-  moscova:      { coords: [55,      37], msg: "Asediul - 23 August 1382, Moscova" },
-  razboi:       { coords: [43,      45], msg: "Războiul - 1 Ianuarie 1386, Munții Caucaz" },
-  kondurcha:    { coords: [54.5,   52.0], msg: "Kondurcha - 18 Iunie 1391, Rusia" },
-  terek:        { coords: [43.5402, 45.1698], msg: "Terek - 15 Aprilie 1395, Caucaz" },
-  vorskla:      { coords: [50,      35], msg: "Vorskla - 12 August 1399, Ucraina" },
-  declin:       { coords: [60,     105], msg: "Declin - 1 Ianuarie 1406, Siberia" },
-  dezintegrare: { coords: [46,      48], msg: "Dezintegrare - 1 Ianuarie 1419, Astrakhan" },
-  lipnic:       { coords: [53,      17], msg: "Lipnic - 20 August 1470, Polonia" },
-  sfarsit:      { coords: [54.6778, 36.2865], msg: "Sfârșit - 8 August 1480, Râul Ugra" },
-  ultimul:      { coords: [54.8985, 23.9036], msg: "Ultimul Khan - 1 Ianuarie 1502, Kaunas" },
+  prolog:       { coords: [46, 105],    popupLabel: "Mongolia – 1206" },
+  kulikovo:     { coords: [54, 39],     popupLabel: "Kulikovo – 1380" },
+  kalka:        { coords: [48, 37],     popupLabel: "Kalka – 1381" },
+  tokhtamysh:   { coords: [46, 48],     popupLabel: "Rusia – 1381" },
+  moscova:      { coords: [55, 37],     popupLabel: "Moscova – 1382" },
+  razboi:       { coords: [43, 45],     popupLabel: "Munții Caucaz – 1386" },
+  kondurcha:    { coords: [54.5, 52.0], popupLabel: "Kondurcha – 1391" },
+  terek:        { coords: [43.5402, 45.1698], popupLabel: "Terek – 1395" },
+  vorskla:      { coords: [50, 35],     popupLabel: "Vorskla – 1399" },
+  declin:       { coords: [60, 105],    popupLabel: "Rusia – 1406" },
+  dezintegrare: { coords: [46, 48],     popupLabel: "Rusia – 1419" },
+  lipnic:       { coords: [53, 17],     popupLabel: "Lipnic – 1470" },
+  sfarsit:      { coords: [54.6778, 36.2865], popupLabel: "Ugra – 1480" },
+  ultimul:      { coords: [54.8985, 23.9036], popupLabel: "Kaunas – 1502" },
   principal:    { coords: [48,      42] },
   note:         { coords: [44, 41]},
   recomandari:  { coords: [44, 41]},
@@ -483,32 +483,78 @@ function initMap() {
     attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
-  // Add pins only for historical sections, skip 'principal' and the rest
+  // --- Custom Leaflet Refresh Control (⟳) ---
+  L.Control.RefreshMap = L.Control.extend({
+    options: { position: 'topleft' },
+    onAdd: function (map) {
+      var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-refresh');
+      container.title = "Refresh/Redraw Map";
+      container.innerHTML = '<span style="font-size: 1.55em; font-weight:bold; line-height:1;">⟳</span>';
+      L.DomEvent.disableClickPropagation(container);
+      L.DomEvent.on(container, 'click', function (e) {
+        e.preventDefault();
+        map.invalidateSize(true);
+      });
+      return container;
+    }
+  });
+  map.addControl(new L.Control.RefreshMap());
+
+  // --- Custom Soyombo Icon ---
+  const customIcon = L.icon({
+    iconUrl: "assets/soyombo.svg",
+    iconSize: [48, 48],      // Adjust size as needed
+    iconAnchor: [24, 46],    // Pin point
+    popupAnchor: [0, -40]
+  });
+
+  // --- Popup labels, manual mapping for historical sections ---
+  const popupLabels = {
+    prolog:        "Mongolia – 1206",
+    kulikovo:      "Kulikovo – 1380",
+    kalka:         "Kalka – 1381",
+    tokhtamysh:    "Rusia – 1381",
+    moscova:       "Moscova – 1382",
+    razboi:        "Munții Caucaz – 1386",
+    kondurcha:     "Kondurcha – 1391",
+    terek:         "Terek – 1395",
+    vorskla:       "Vorskla – 1399",
+    declin:        "Rusia – 1406",
+    dezintegrare:  "Rusia – 1419",
+    lipnic:        "Lipnic – 1470",
+    sfarsit:       "Ugra – 1480",
+    ultimul:       "Kaunas – 1502"
+  };
+
+  // --- Add pins ---
   mapMarkers = {};
   for (const key in locations) {
     if (
       locations.hasOwnProperty(key) &&
-      !NO_MAP_SECTIONS.includes(key)
+      !NO_MAP_SECTIONS.includes(key) &&
+      popupLabels[key]
     ) {
       const loc = locations[key];
-      const marker = L.marker(loc.coords)
+      const label = popupLabels[key];
+      const marker = L.marker(loc.coords, { icon: customIcon })
         .addTo(map)
-        .bindPopup(loc.msg || "", { autoPan: false });
+        .bindPopup(
+          `<div class="custom-map-popup">${label}</div>`,
+          { autoPan: false }
+        );
       mapMarkers[key] = marker;
     }
   }
 
-  // Pin click scrolls to section
-// Pin click scrolls to section (safe)
-for (const key in mapMarkers) {
-  if (!mapMarkers.hasOwnProperty(key)) continue;
-  mapMarkers[key].on('click', function () {
-    if (document.getElementById(key)) {
-      smartSmoothJumpToSection(key);
-    }
-  });
-}
-
+  // Pin click scrolls to section (safe)
+  for (const key in mapMarkers) {
+    if (!mapMarkers.hasOwnProperty(key)) continue;
+    mapMarkers[key].on('click', function () {
+      if (document.getElementById(key)) {
+        smartSmoothJumpToSection(key);
+      }
+    });
+  }
 
   // Sidebar TOC link logic
   function updateActiveLink(activeId) {
@@ -522,7 +568,7 @@ for (const key in mapMarkers) {
   }
   window.updateActiveLink = updateActiveLink;
 
-  // Handle TOC clicks (no auto-jump on load, just on click)
+  // Handle TOC clicks
   document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
     link.addEventListener("click", function(e) {
       e.preventDefault();
@@ -540,25 +586,24 @@ for (const key in mapMarkers) {
 
   // Map follows section (only for those with pins)
   const observerOptions = { root: null, threshold: 0.5 };
-const observerCallback = (entries) => {
-  if (observerPaused) return;
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.id;
-      if (mapMarkers[id]) {
-        setTimeout(() => {
-          map.flyTo(mapMarkers[id].getLatLng(), mapFlyZoom, mapFlyAnim);
-          mapMarkers[id].openPopup();
-        }, 200);
+  const observerCallback = (entries) => {
+    if (observerPaused) return;
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        if (mapMarkers[id]) {
+          setTimeout(() => {
+            map.flyTo(mapMarkers[id].getLatLng(), mapFlyZoom, mapFlyAnim);
+            mapMarkers[id].openPopup();
+          }, 200);
+        }
+        updateCurrentSection(id, {
+          syncMap: false,
+          syncTOC: true
+        });
       }
-      updateCurrentSection(id, {
-        syncMap: false, // Map already handled above (or skipped)
-        syncTOC: true
-      });
-    }
-  });
-};
-
+    });
+  };
 
   document.querySelectorAll("section[id]").forEach(section => {
     const obs = new IntersectionObserver(observerCallback, observerOptions);
@@ -567,6 +612,8 @@ const observerCallback = (entries) => {
 
   window._leafletMap = map;
 }
+
+
 
 
 /* TEXT PRINCIPAL din text.txt */
@@ -799,59 +846,41 @@ function updateStatsPanel() {
     : "-";
   const debugPanelEnabled = localStorage.getItem('debugPanelEnabled') === 'true';
 
-statsDiv.innerHTML = `
-  <div class="debug-panel-interactive" style="margin-bottom: 10px;">
-    <div id="devToolsToggleWrap" style="margin-bottom: 8px;">
-      <label style="display:flex;align-items:center;justify-content:space-between;width:100%;font-size:15px;font-family:inherit;">
-        <span style="flex:1;text-align:center;">Dev Tools</span>
-        <input type="checkbox" id="devToolsToggle"
-          style="accent-color:#ed143d;width:20px;height:20px;margin-left:10px;outline:1.5px solid #444;border-radius:4px;cursor:pointer;">
-      </label>
+  statsDiv.innerHTML = `
+    <div class="debug-panel-interactive" style="margin-bottom: 10px;">
+      <div id="devToolsToggleWrap" style="margin-bottom: 8px;">
+        <label style="display:flex;align-items:center;justify-content:space-between;width:100%;font-size:15px;font-family:inherit;">
+          <span style="flex:1;text-align:center;">Dev Tools</span>
+          <input type="checkbox" id="devToolsToggle"
+            style="accent-color:#ed143d;width:20px;height:20px;margin-left:10px;outline:1.5px solid #444;border-radius:4px;cursor:pointer;">
+        </label>
+      </div>
+      <button id="forcePiPBtn"
+        style="margin-bottom:6px;width:100%;padding:8px 0;background:#d00000;color:#fff;border:none;border-radius:7px;font-weight:bold;font-size:15px;cursor:pointer;box-shadow:0 2px 16px #d0000030;">Picture in Picture</button>
+      <button id="forcePauseBtn"
+        style="margin-bottom:8px;width:100%;padding:8px 0;background:#333;color:#fff;border:none;border-radius:7px;font-weight:bold;font-size:15px;cursor:pointer;box-shadow:0 2px 16px #2227;">Pause Video</button>
+      <button id="refreshMapBtn"
+        style="margin-bottom:8px;width:100%;padding:8px 0;">Refresh Map</button>
     </div>
-    <button id="forcePiPBtn"
-      style="margin-bottom:6px;width:100%;padding:8px 0;background:#d00000;color:#fff;border:none;border-radius:7px;font-weight:bold;font-size:15px;cursor:pointer;box-shadow:0 2px 16px #d0000030;">Picture in Picture</button>
-    <button id="forcePauseBtn"
-      style="margin-bottom:8px;width:100%;padding:8px 0;background:#333;color:#fff;border:none;border-radius:7px;font-weight:bold;font-size:15px;cursor:pointer;box-shadow:0 2px 16px #2227;">Pause Video</button>
-  </div>
-  <hr>
-  <div class="debug-panel-info">
-    <div>Display size: <span id="stats-display">${window.innerWidth} × ${window.innerHeight}</span></div>
-    <div>Device type: <span id="stats-device-type">${getDeviceType()}</span></div>
-    <div>Container width: <span id="stats-container-width">${container ? `${container.offsetWidth}px` : '?'}</span></div>
-    <div>Sidebar width: <span id="stats-sidebar-width">${sidebarWidthDisplay}</span></div>
     <hr>
-    <div>Current section: <span id="stats-current">${currentSectionId || "?"}</span></div>
-    <div>Last saved: <span id="stats-last">${lastSavedSectionId || "-"}</span></div>
-    <div>Dark mode: <span id="stats-darkmode">${document.body.classList.contains('dark-mode') ? "Enabled" : "Disabled"}</span></div>
-    <div>Debug panel: <span id="stats-debugpanel">${debugPanelEnabled ? "Enabled" : "Disabled"}</span></div>
-    <div>Particles: <span id="stats-particles">${particlesVisible ? "Enabled" : "Disabled"}</span></div>
-    <div>FAB Status: <span id="stats-fab">${fabActive ? "Open" : "Closed"}</span></div>
-    <div>Video Behaviour: <span id="stats-video-behaviour">${videoText}</span></div>
-    <div>Current video: <span id="stats-video-id">${videoId || "-"}</span></div>
-  </div>
-`;
+    <div class="debug-panel-info">
+      <div>Display size: <span id="stats-display">${window.innerWidth} × ${window.innerHeight}</span></div>
+      <div>Device type: <span id="stats-device-type">${getDeviceType()}</span></div>
+      <div>Container width: <span id="stats-container-width">${container ? `${container.offsetWidth}px` : '?'}</span></div>
+      <div>Sidebar width: <span id="stats-sidebar-width">${sidebarWidthDisplay}</span></div>
+      <hr>
+      <div>Current section: <span id="stats-current">${currentSectionId || "?"}</span></div>
+      <div>Last saved: <span id="stats-last">${lastSavedSectionId || "-"}</span></div>
+      <div>Dark mode: <span id="stats-darkmode">${document.body.classList.contains('dark-mode') ? "Enabled" : "Disabled"}</span></div>
+      <div>Debug panel: <span id="stats-debugpanel">${debugPanelEnabled ? "Enabled" : "Disabled"}</span></div>
+      <div>Particles: <span id="stats-particles">${particlesVisible ? "Enabled" : "Disabled"}</span></div>
+      <div>FAB Status: <span id="stats-fab">${fabActive ? "Open" : "Closed"}</span></div>
+      <div>Video Behaviour: <span id="stats-video-behaviour">${videoText}</span></div>
+      <div>Current video: <span id="stats-video-id">${videoId || "-"}</span></div>
+    </div>
+  `;
 
-
-  // DEV TOOLS TOGGLE
-  let devToggleWrap = document.getElementById('devToolsToggleWrap');
-  if (!devToggleWrap) {
-    devToggleWrap = document.createElement('div');
-    devToggleWrap.id = 'devToolsToggleWrap';
-    devToggleWrap.style.marginTop = '12px';
-    devToggleWrap.style.marginBottom = '8px';
-    devToggleWrap.style.display = 'flex';
-    devToggleWrap.style.alignItems = 'center';
-    devToggleWrap.style.justifyContent = 'center';
-    devToggleWrap.innerHTML = `
-      <label style="display:flex;align-items:center;justify-content:space-between;width:100%;font-size:15px;font-family:inherit;">
-        <span style="flex:1;text-align:center;">Dev Tools</span>
-        <input type="checkbox" id="devToolsToggle"
-          style="accent-color:#ed143d;width:20px;height:20px;margin-left:10px;outline:1.5px solid #444;border-radius:4px;cursor:pointer;">
-      </label>
-    `;
-    // Place after main stats
-    statsDiv.appendChild(devToggleWrap);
-  }
+  // DEV TOOLS TOGGLE (checkbox)
   let devToolsToggle = document.getElementById('devToolsToggle');
   let devEnabled = localStorage.getItem('devToolsEnabled');
   if (devEnabled === null) devEnabled = false;
@@ -862,51 +891,68 @@ statsDiv.innerHTML = `
     updateDevToolsVisibility();
   };
 
-  // DEV BUTTONS
+  // DEV BUTTONS (show/hide by devToolsEnabled)
   let pipBtn = document.getElementById('forcePiPBtn');
-  if (!pipBtn) {
-    pipBtn = document.createElement('button');
-    pipBtn.id = 'forcePiPBtn';
-    pipBtn.textContent = 'Picture in Picture';
-    pipBtn.style.marginTop = '6px';
-    pipBtn.style.width = '100%';
-    pipBtn.style.padding = '8px 0';
-    pipBtn.style.background = '#d00000';
-    pipBtn.style.color = '#fff';
-    pipBtn.style.border = 'none';
-    pipBtn.style.borderRadius = '7px';
-    pipBtn.style.fontWeight = 'bold';
-    pipBtn.style.fontSize = '15px';
-    pipBtn.style.cursor = 'pointer';
-    pipBtn.style.boxShadow = '0 2px 16px #d0000030';
-    pipBtn.style.pointerEvents = 'auto';
-    statsDiv.appendChild(pipBtn);
-  }
   let pauseBtn = document.getElementById('forcePauseBtn');
-  if (!pauseBtn) {
-    pauseBtn = document.createElement('button');
-    pauseBtn.id = 'forcePauseBtn';
-    pauseBtn.textContent = 'Pause Video';
-    pauseBtn.style.marginTop = '7px';
-    pauseBtn.style.width = '100%';
-    pauseBtn.style.padding = '8px 0';
-    pauseBtn.style.background = '#333';
-    pauseBtn.style.color = '#fff';
-    pauseBtn.style.border = 'none';
-    pauseBtn.style.borderRadius = '7px';
-    pauseBtn.style.fontWeight = 'bold';
-    pauseBtn.style.fontSize = '15px';
-    pauseBtn.style.cursor = 'pointer';
-    pauseBtn.style.boxShadow = '0 2px 16px #2227';
-    pauseBtn.style.pointerEvents = 'auto';
-    statsDiv.appendChild(pauseBtn);
-  }
+  let refreshBtn = document.getElementById('refreshMapBtn');
+  
+  // Inline style for PiP
+  Object.assign(pipBtn.style, {
+    background: "#d00000",
+    color: "#fff",
+    marginBottom: "6px",
+    width: "100%",
+    padding: "8px 0",
+    border: "none",
+    borderRadius: "7px",
+    fontWeight: "bold",
+    fontSize: "15px",
+    cursor: "pointer",
+    boxShadow: "0 2px 16px #d0000030",
+    transition: "background 0.18s"
+  });
+
+  // Inline style for Pause
+  Object.assign(pauseBtn.style, {
+    background: "#333",
+    color: "#fff",
+    marginBottom: "8px",
+    width: "100%",
+    padding: "8px 0",
+    border: "none",
+    borderRadius: "7px",
+    fontWeight: "bold",
+    fontSize: "15px",
+    cursor: "pointer",
+    boxShadow: "0 2px 16px #2227",
+    transition: "background 0.18s"
+  });
+
+  // Inline style for Refresh Map (teal)
+  Object.assign(refreshBtn.style, {
+    background: "#177b83",
+    color: "#fff",
+    marginBottom: "8px",
+    width: "100%",
+    padding: "8px 0",
+    border: "none",
+    borderRadius: "7px",
+    fontWeight: "bold",
+    fontSize: "15px",
+    cursor: "pointer",
+    boxShadow: "0 2px 16px #177b8333",
+    transition: "background 0.18s"
+  });
+  refreshBtn.onmouseenter = () => refreshBtn.style.background = "#20a7b0";
+  refreshBtn.onmouseleave = () => refreshBtn.style.background = "#177b83";
 
   updateDevToolsVisibility();
 
   // Show/hide panel depending on Debug toggle
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 }
+
+
 
 
 
@@ -926,8 +972,8 @@ window.addEventListener('resize', () => {
 
 function updateDevToolsVisibility() {
   const show = localStorage.getItem('devToolsEnabled') === 'true';
-  // Toggle dev panel buttons
-  ['forcePiPBtn', 'forcePauseBtn'].forEach(id => {
+  // Toggle dev panel buttons (add refreshMapBtn)
+  ['forcePiPBtn', 'forcePauseBtn', 'refreshMapBtn'].forEach(id => {
     const btn = document.getElementById(id);
     if (btn) btn.style.display = show ? 'block' : 'none';
   });
@@ -949,6 +995,7 @@ function updateDevToolsVisibility() {
     }
   }
 }
+
 
 
 
@@ -1021,6 +1068,43 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
       video.pause();
+    }
+
+    // Refresh Map Button
+    if (e.target && e.target.id === 'refreshMapBtn') {
+      e.target.textContent = "Refreshing…";
+      setTimeout(() => { e.target.textContent = "Refresh Map"; }, 400);
+
+      // Remove leaflet instance if exists
+      if (window._leafletMap) {
+        window._leafletMap.remove();
+        window._leafletMap = null;
+      }
+      // Remove old map node
+      const oldMap = document.getElementById("map");
+      if (oldMap) oldMap.parentNode.removeChild(oldMap);
+
+      // Add new map node
+      const sidebarMap = document.querySelector('.sidebar-map');
+      if (sidebarMap) {
+        const newMap = document.createElement("div");
+        newMap.id = "map";
+        sidebarMap.appendChild(newMap);
+      }
+
+      // Re-init the map
+      setTimeout(() => {
+        initMap();
+        // Optionally fly to current section's marker if exists
+        if (window.currentSectionId && window.mapMarkers && window.mapMarkers[window.currentSectionId]) {
+          window._leafletMap.flyTo(
+            window.mapMarkers[window.currentSectionId].getLatLng(),
+            mapFlyZoom,
+            mapFlyAnim
+          );
+          window.mapMarkers[window.currentSectionId].openPopup();
+        }
+      }, 150);
     }
   });
 });

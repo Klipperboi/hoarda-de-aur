@@ -858,15 +858,31 @@ body.dark-mode #page-progress-bar::after {
 }
 
 .videoContainer {
+  max-width: 560px;
+  width: 100%;
+  margin: 20px auto;
   border: 3px solid var(--color-accent);
   border-radius: 12px;
   box-shadow: 0 4px 22px color-mix(in srgb, var(--color-accent) 38%, #111 62%);
   background-color: var(--color-bg, #fff);
   padding: 8px;
-  max-width: 560px;
-  margin: 20px auto;
-  transition: box-shadow 0.3s ease;
+  aspect-ratio: 16 / 9; /* Keeps perfect ratio! */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box; /* Ensures no x-overflow */
 }
+
+
+.videoContainer video, 
+.videoContainer iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 8px;
+  box-shadow: none;
+  object-fit: contain;
+}
+
 
 body.dark-mode .videoContainer {
   background-color: var(--color-bg-dark, #232325);
@@ -1267,21 +1283,53 @@ body.dark-mode img.centered-image {
     width: 100vw;
     max-width: 100vw;
     min-width: 0;
-    box-sizing: border-box;  /* This is key! */
-    padding: 14px;           /* Keep padding but no overflow */
+    box-sizing: border-box;
+    padding: 14px;
     margin: 0;
     border-radius: 0 0 10px 10px;
   }
-.fab-container {
-  position: fixed;
-  bottom: 5px;
-  right: 5px;
-  z-index: 5001 !important;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: flex-end;
+  .fab-container {
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    z-index: 5001 !important;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
+  .videoContainer {
+    max-width: calc(100vw - 28px); /* container padding x2 */
+    padding-left: 4px;
+    padding-right: 4px;
+  }
 }
+
+.video-source-link {
+  display: inline; /* <<--- inline, not inline-block! */
+  font-family: var(--font-accent, 'EB Garamond', serif);
+  font-size: 1.08em;
+  margin-top: 12px; /* Add spacing above if needed, not via margin auto */
 }
+
+.text-center {
+  text-align: center;
+}
+
+
+a.external-link::after {
+  content: " ↗";
+  font-size: 1.08em;
+  vertical-align: middle;
+  font-family: inherit;
+  opacity: 0.82;
+  margin-left: 1px;
+  transition: color 0.18s;
+    text-decoration: none !important;
+}
+a.external-link:hover::after {
+  color: var(--color-link-hover, #c70f25);
+}
+
 
 @media (max-width: 650px) {
   .settings-content {
@@ -1310,6 +1358,15 @@ body.dark-mode img.centered-image {
     /* optionally add some margin-bottom for each group if too cramped */
   }
 }
+
+@media (max-width: 700px) {
+  .videoContainer {
+    max-width: 98vw;
+    min-width: 0;
+    padding: 4px;
+  }
+}
+
 
 a, .gold-link {
   color: var(--color-accent);

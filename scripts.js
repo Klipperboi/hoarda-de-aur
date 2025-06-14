@@ -85,6 +85,25 @@ function initVideoIdStealOnPlay() {
   });
 }
 
+function enforceVideoBehaviour() {
+  if (!videoId || !currentSectionId || videoId === currentSectionId) return;
+  const mode = localStorage.getItem('videoBehaviour') || 'play';
+  const section = document.getElementById(videoId);
+  if (!section) return;
+  const video = section.querySelector('video');
+  if (!video) return;
+
+  if (mode === 'pause') {
+    video.pause();
+  } else if (mode === 'pip') {
+    if (video.requestPictureInPicture && document.pictureInPictureElement !== video) {
+      video.requestPictureInPicture().catch(() => {});
+    }
+  }
+  // 'play' mode: do nothing
+}
+
+
 /**
  * On section change: enforces the selected video behaviour
  * Call this whenever currentSectionId changes!
@@ -92,37 +111,6 @@ function initVideoIdStealOnPlay() {
 function setupVideoSectionBehaviour() {
   let lastSectionId = null;
   let lastVideoId = null;
-
-  function enforceVideoBehaviour() {
-    // Only if a video is playing and we have a current videoId
-    if (!currentVideoElement || !videoId) return;
-    const selected = document.getElementById('videoPlaybackSelect');
-    if (!selected) return;
-    const mode = selected.value;
-
-    // If we're still in the same section as the video, do nothing
-    if (videoId === currentSectionId) return;
-
-    // Oprește: Pause the video
-    if (mode === 'pause') {
-      currentVideoElement.pause();
-    }
-
-    // Picture in Picture: trigger PiP if supported
-    else if (mode === 'pip') {
-      // Only if not already in PiP
-      if (document.pictureInPictureElement !== currentVideoElement) {
-        if (currentVideoElement.requestPictureInPicture) {
-          currentVideoElement.requestPictureInPicture().catch(e => {
-            // Sometimes PiP fails (browser, or user denied)
-            // console.warn("PiP error", e);
-          });
-        }
-      }
-    }
-    // "Rulează în fundal": do nothing
-  }
-
   // Listen for section change (hook into observer)
   const observer = new MutationObserver(() => {
     if (lastSectionId !== currentSectionId || lastVideoId !== videoId) {
@@ -271,6 +259,28 @@ function initSidebar() {
   }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  // Set sidebar state based on device
+  const sidebar = document.getElementById("sidebar");
+  if (sidebar) {
+    if (getDeviceType() === "desktop") {
+      sidebar.classList.add('open');
+    } else {
+      sidebar.classList.remove('open');
+    }
+  }
+
+  // X button closes sidebar
+  const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+  if (sidebarCloseBtn && sidebar) {
+    sidebarCloseBtn.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      updateStatsPanel();
+    });
+  }
+});
+
+
 /* PARTICLES (background) */
 function loadParticles(mode) {
   if (!particlesVisible) {
@@ -376,6 +386,7 @@ function updateCurrentSection(newSectionId, { syncMap = true, syncTOC = true } =
   currentSectionId = newSectionId;
   highlightCurrentSectionTitle(currentSectionId);
   updateStatsPanel();
+  enforceVideoBehaviour();
   if (syncTOC) updateActiveLink(currentSectionId);
 
   // Only fly if marker exists!
@@ -651,10 +662,9 @@ function initTextSections() {
       applyDropCapToSections();
       setupTitleClicks();
       initImagePopups();
-
-      // 🟦 🟦 🟦  INIT TOOLTIP HANDLERS HERE  🟦 🟦 🟦
-      initAllTooltips();            // for .note-ref, etc
-      initExternalLinkTooltips();   // for external links
+      initAllTooltips();
+      initExternalLinkTooltips();
+      decorateExternalLinks(); // <-- move here
     })
     .catch(error => console.error("Eroare la procesarea text.txt:", error));
 }
@@ -787,7 +797,6 @@ fabTop && fabTop.addEventListener('click', () => {
 });
 
 fabLast && fabLast.addEventListener('click', () => {
-  saveCurrentSectionAsLast(currentSectionId); // Save the section before you jump back!
   if (lastSavedSectionId) {
     smartSmoothJumpToSection(lastSavedSectionId);
   } else {
@@ -860,7 +869,9 @@ function updateStatsPanel() {
       <button id="forcePauseBtn"
         style="margin-bottom:8px;width:100%;padding:8px 0;background:#333;color:#fff;border:none;border-radius:7px;font-weight:bold;font-size:15px;cursor:pointer;box-shadow:0 2px 16px #2227;">Pause Video</button>
       <button id="refreshMapBtn"
-        style="margin-bottom:8px;width:100%;padding:8px 0;">Refresh Map</button>
+        style="margin-bottom:8px;width:100%;padding:8px 0;background:#177b83;color:#fff;border:none;border-radius:7px;font-weight:bold;font-size:15px;cursor:pointer;box-shadow:0 2px 16px #177b8333;">Refresh Map</button>
+      <button id="restoreSettingsBtn"
+        style="margin-bottom:8px;width:100%;padding:8px 0;background:#f2992e;color:#fff;border:none;border-radius:7px;font-weight:bold;font-size:15px;cursor:pointer;box-shadow:0 2px 16px #f2992e33;">Restore Settings</button>
     </div>
     <hr>
     <div class="debug-panel-info">
@@ -868,15 +879,20 @@ function updateStatsPanel() {
       <div>Device type: <span id="stats-device-type">${getDeviceType()}</span></div>
       <div>Container width: <span id="stats-container-width">${container ? `${container.offsetWidth}px` : '?'}</span></div>
       <div>Sidebar width: <span id="stats-sidebar-width">${sidebarWidthDisplay}</span></div>
-      <hr>
+    </div>
+    <hr>
+    <div class="debug-panel-video">
+      <div>Video Behaviour: <span>${localStorage.getItem('videoBehaviour') || 'play'}</span></div>
+      <div>Video ID: <span>${videoId || '-'}${videoId && currentSectionId && videoId !== currentSectionId ? ' <b>(!)</b>' : ''}</span></div>    </div>
+    <hr>
+    <div class="debug-panel-info-bottom">
       <div>Current section: <span id="stats-current">${currentSectionId || "?"}</span></div>
       <div>Last saved: <span id="stats-last">${lastSavedSectionId || "-"}</span></div>
-      <div>Dark mode: <span id="stats-darkmode">${document.body.classList.contains('dark-mode') ? "Enabled" : "Disabled"}</span></div>
-      <div>Debug panel: <span id="stats-debugpanel">${debugPanelEnabled ? "Enabled" : "Disabled"}</span></div>
-      <div>Particles: <span id="stats-particles">${particlesVisible ? "Enabled" : "Disabled"}</span></div>
-      <div>FAB Status: <span id="stats-fab">${fabActive ? "Open" : "Closed"}</span></div>
-      <div>Video Behaviour: <span id="stats-video-behaviour">${videoText}</span></div>
-      <div>Current video: <span id="stats-video-id">${videoId || "-"}</span></div>
+      <div>Dark mode: <span>${localStorage.getItem('theme') || 'light'}</span></div>
+      <div>Debug panel: <span>${localStorage.getItem('debugPanelEnabled') === 'true' ? 'Enabled' : 'Disabled'}</span></div>
+      <div>Particles: <span>${localStorage.getItem('particlesEnabled') !== 'false' ? 'Enabled' : 'Disabled'}</span></div>
+      <div>Dyslexia Mode: <span>${localStorage.getItem('dyslexiaMode') === 'true' ? 'Enabled' : 'Disabled'}</span></div>
+      <div>Sidebar open: <span>${(localStorage.getItem('sidebarOpen') === null || localStorage.getItem('sidebarOpen') === 'true') ? 'Open' : 'Closed'}</span></div>
     </div>
   `;
 
@@ -892,65 +908,33 @@ function updateStatsPanel() {
   };
 
   // DEV BUTTONS (show/hide by devToolsEnabled)
-  let pipBtn = document.getElementById('forcePiPBtn');
-  let pauseBtn = document.getElementById('forcePauseBtn');
-  let refreshBtn = document.getElementById('refreshMapBtn');
-  
-  // Inline style for PiP
-  Object.assign(pipBtn.style, {
-    background: "#d00000",
-    color: "#fff",
-    marginBottom: "6px",
-    width: "100%",
-    padding: "8px 0",
-    border: "none",
-    borderRadius: "7px",
-    fontWeight: "bold",
-    fontSize: "15px",
-    cursor: "pointer",
-    boxShadow: "0 2px 16px #d0000030",
-    transition: "background 0.18s"
+  const showDev = localStorage.getItem('devToolsEnabled') === 'true';
+  ['forcePiPBtn', 'forcePauseBtn', 'refreshMapBtn', 'restoreSettingsBtn'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.style.display = showDev ? 'block' : 'none';
   });
 
-  // Inline style for Pause
-  Object.assign(pauseBtn.style, {
-    background: "#333",
-    color: "#fff",
-    marginBottom: "8px",
-    width: "100%",
-    padding: "8px 0",
-    border: "none",
-    borderRadius: "7px",
-    fontWeight: "bold",
-    fontSize: "15px",
-    cursor: "pointer",
-    boxShadow: "0 2px 16px #2227",
-    transition: "background 0.18s"
-  });
-
-  // Inline style for Refresh Map (teal)
-  Object.assign(refreshBtn.style, {
-    background: "#177b83",
-    color: "#fff",
-    marginBottom: "8px",
-    width: "100%",
-    padding: "8px 0",
-    border: "none",
-    borderRadius: "7px",
-    fontWeight: "bold",
-    fontSize: "15px",
-    cursor: "pointer",
-    boxShadow: "0 2px 16px #177b8333",
-    transition: "background 0.18s"
-  });
-  refreshBtn.onmouseenter = () => refreshBtn.style.background = "#20a7b0";
-  refreshBtn.onmouseleave = () => refreshBtn.style.background = "#177b83";
-
-  updateDevToolsVisibility();
+  // Restore Settings button logic
+  let restoreBtn = document.getElementById('restoreSettingsBtn');
+  if (restoreBtn) {
+    restoreBtn.onclick = function() {
+      if (confirm("Restore all settings to default?")) {
+        localStorage.removeItem('theme');
+        localStorage.removeItem('debugPanelEnabled');
+        localStorage.removeItem('devToolsEnabled');
+        localStorage.removeItem('particlesEnabled');
+        localStorage.removeItem('videoBehaviour');
+        localStorage.removeItem('sidebarOpen');
+        // Add/remove other project-specific settings as needed!
+        location.reload();
+      }
+    };
+  }
 
   // Show/hide panel depending on Debug toggle
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 }
+
 
 
 
@@ -972,8 +956,8 @@ window.addEventListener('resize', () => {
 
 function updateDevToolsVisibility() {
   const show = localStorage.getItem('devToolsEnabled') === 'true';
-  // Toggle dev panel buttons (add refreshMapBtn)
-  ['forcePiPBtn', 'forcePauseBtn', 'refreshMapBtn'].forEach(id => {
+  // Toggle dev panel buttons (add refreshMapBtn, etc)
+  ['forcePiPBtn', 'forcePauseBtn', 'refreshMapBtn', 'restoreSettingsBtn'].forEach(id => {
     const btn = document.getElementById(id);
     if (btn) btn.style.display = show ? 'block' : 'none';
   });
@@ -994,7 +978,18 @@ function updateDevToolsVisibility() {
       if (debugLine) debugLine.style.display = 'none';
     }
   }
+
+  // Show hover zone in dev mode
+  const hoverZone = document.getElementById('sidebarHoverZone');
+  if (hoverZone) {
+    if (show) {
+      hoverZone.classList.add('dev-visible');
+    } else {
+      hoverZone.classList.remove('dev-visible');
+    }
+  }
 }
+
 
 
 
@@ -1160,27 +1155,24 @@ function initSettingsPopup() {
 
 // -------- SETTINGS CONTROLS --------
 function initSettingsControls() {
+  // All input elements
   const themeToggle = document.getElementById('themeToggle');
   const debugToggle = document.getElementById('debugToggle');
   const particlesToggle = document.getElementById('particlesToggle');
   const videoSelect = document.getElementById('videoPlaybackSelect');
-  const savedTheme = localStorage.getItem('theme');
-  const savedDebug = localStorage.getItem('debugPanelEnabled') === 'true';
-  const savedParticles = localStorage.getItem('particlesEnabled');
-  const savedVideoBehaviour = localStorage.getItem('videoBehaviour');
+  const dyslexiaToggle = document.getElementById('dyslexiaToggle');
+  const sidebarOpenToggle = document.getElementById('sidebarOpenToggle');
 
-  // --- Restore Video Behaviour Select ---
-  if (videoSelect && savedVideoBehaviour) {
-    videoSelect.value = savedVideoBehaviour;
-  }
-  if (videoSelect) {
-    videoSelect.addEventListener('change', function() {
-      localStorage.setItem('videoBehaviour', videoSelect.value);
-      updateStatsPanel();
-    });
-  }
+  // Restore saved values or set defaults
+  const savedTheme         = localStorage.getItem('theme') || 'light';
+  const savedDebug         = localStorage.getItem('debugPanelEnabled') === 'true';
+  const savedParticles     = localStorage.getItem('particlesEnabled');
+  const savedVideoBehaviour= localStorage.getItem('videoBehaviour') || 'play';
+  const savedDyslexia      = localStorage.getItem('dyslexiaMode') === 'true';
+  const savedSidebarOpen   = localStorage.getItem('sidebarOpen');
+  const sidebarOpenDefault = (savedSidebarOpen === null) ? true : (savedSidebarOpen === 'true');
 
-  // --- Theme toggle ---
+  // Set states (dark mode, particles, etc.)
   themeToggle.checked = (savedTheme === 'dark');
   if (themeToggle.checked) {
     document.body.classList.add('dark-mode');
@@ -1190,31 +1182,41 @@ function initSettingsControls() {
     loadParticles('light');
   }
 
-  // --- Particles toggle ---
-  particlesToggle.checked = savedParticles !== 'false'; // default true
+  debugToggle.checked = savedDebug;
+  const statsDiv = document.getElementById('section-stats-indicator');
+  if (statsDiv) statsDiv.style.display = debugToggle.checked ? 'block' : 'none';
+
+  particlesToggle.checked = savedParticles !== 'false'; // default is true
   if (!particlesToggle.checked) {
     const particlesContainer = document.getElementById("particles-js");
     if (particlesContainer) particlesContainer.innerHTML = "";
   }
 
-  // --- Debug toggle ---
-  debugToggle.checked = savedDebug;
-  const statsDiv = document.getElementById('section-stats-indicator');
-  if (statsDiv) {
-    statsDiv.style.display = debugToggle.checked ? 'block' : 'none';
+  if (videoSelect) {
+    videoSelect.value = savedVideoBehaviour;
+    videoSelect.addEventListener('change', function() {
+      localStorage.setItem('videoBehaviour', videoSelect.value);
+      updateStatsPanel();
+    });
   }
 
-  // --- Event listeners for toggles ---
+  dyslexiaToggle.checked = savedDyslexia;
+  // Optionally, implement a class on body: document.body.classList.toggle('dyslexia-mode', savedDyslexia);
+
+sidebarOpenToggle.checked = sidebarOpenDefault;
+sidebarOpenToggle.addEventListener('change', () => {
+  localStorage.setItem('sidebarOpen', sidebarOpenToggle.checked);
+  // DO NOT touch sidebar state here! Only save for next visit.
+  updateStatsPanel();
+});
+
+
+  // Event listeners for all controls
   themeToggle.addEventListener('change', () => {
-    if (themeToggle.checked) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('theme', 'dark');
-      loadParticles('dark');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('theme', 'light');
-      loadParticles('light');
-    }
+    const isDark = themeToggle.checked;
+    document.body.classList.toggle('dark-mode', isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    loadParticles(isDark ? 'dark' : 'light');
     updateStatsPanel();
   });
 
@@ -1236,7 +1238,14 @@ function initSettingsControls() {
     }
     updateStatsPanel();
   });
+
+  dyslexiaToggle.addEventListener('change', () => {
+    localStorage.setItem('dyslexiaMode', dyslexiaToggle.checked);
+    // Optionally, update a class: document.body.classList.toggle('dyslexia-mode', dyslexiaToggle.checked);
+    updateStatsPanel();
+  });
 }
+
 
 
 // -------- SIDEBAR TOGGLE (UNCHANGED) --------
@@ -1267,24 +1276,53 @@ function initVideoIdStealOnPlay() {
 }
 
 function initVideoShowButtons() {
+  // Section ID -> YouTube link mapping
+  const ytLinks = {
+    acasa:    "https://www.youtube.com/watch?v=3eEhruOZXHA",
+    kulikovo: "https://www.youtube.com/watch?v=d4vROzoKElU",
+    terek:    "https://www.youtube.com/watch?v=y95sYUkQJuA"
+  };
+
   document.querySelectorAll('.toggleVideo').forEach(btn => {
-    btn.addEventListener('click', function() {
-      // Find the nearest .video-section, then .videoContainer
-      const videoSection = btn.closest('.video-section');
-      if (!videoSection) return;
-      const container = videoSection.querySelector('.videoContainer');
-      if (!container) return;
-      // Toggle display
-      if (container.style.display === 'none' || !container.style.display) {
-        container.style.display = 'block';
-        btn.textContent = 'Ascunde Video';
-      } else {
-        container.style.display = 'none';
-        btn.textContent = 'Arată Video';
-      }
+    const videoSection = btn.closest('section');
+    if (!videoSection) return;
+    const sectionId = videoSection.id;
+    const container = videoSection.querySelector('.videoContainer');
+    if (!container) return;
+
+    // If needed, add the YouTube link *below* the .videoContainer, not inside
+    let ytLinkDiv = videoSection.querySelector('.video-source-link');
+    if (!ytLinkDiv && ytLinks[sectionId]) {
+      ytLinkDiv = document.createElement('div');
+      ytLinkDiv.className = 'video-source-link';
+      ytLinkDiv.style.display = 'none';
+      ytLinkDiv.style.textAlign = 'center';
+      ytLinkDiv.innerHTML = `
+        <a href="${ytLinks[sectionId]}" target="_blank" rel="noopener" class="external-link">
+          Vizionează pe YouTube
+        </a>
+      `;
+      // Place AFTER the container, not inside
+      container.after(ytLinkDiv);
+    } else if (ytLinkDiv && ytLinks[sectionId]) {
+      ytLinkDiv.innerHTML = `
+        <a href="${ytLinks[sectionId]}" target="_blank" rel="noopener" class="external-link">
+          Vizionează pe YouTube
+        </a>
+      `;
+    }
+
+    // Button toggles both video and link
+    btn.addEventListener('click', function () {
+      const show = (container.style.display === 'none' || !container.style.display);
+      container.style.display = show ? 'block' : 'none';
+      btn.textContent = show ? 'Ascunde Video' : 'Arată Video';
+      if (ytLinkDiv) ytLinkDiv.style.display = show ? 'block' : 'none';
     });
   });
 }
+
+
 
 
 function updateProgressBar() {
@@ -1474,10 +1512,93 @@ function initExternalLinkTooltips() {
   });
 }
 
+function decorateExternalLinks() {
+  document.querySelectorAll('a.external-link').forEach(link => {
+    // Already decorated? (avoid duplicates if you run multiple times)
+    if (
+      link.nextSibling &&
+      link.nextSibling.nodeType === 1 &&
+      link.nextSibling.classList.contains('external-arrow')
+    ) return;
+
+    // Create the arrow span
+    const arrow = document.createElement('span');
+    arrow.textContent = '↗';
+    arrow.className = 'external-arrow';
+    link.after(arrow);
+  });
+}
+
+function jumpToSection(targetId, callback) {
+  if (currentSectionId && currentSectionId !== targetId) {
+    lastSavedSectionId = currentSectionId;
+    updateStatsPanel && updateStatsPanel();
+  }
+  smartSmoothJumpToSection(targetId, callback);
+}
+
+function setupSidebarHoverOpen() {
+  const hoverZone = document.getElementById("sidebarHoverZone");
+  const sidebar = document.getElementById("sidebar");
+  let hoverEnabled = true; // allow hover to open sidebar
+  let manuallyOpened = false; // tracks manual close
+
+  // Only for desktop!
+  function isDesktop() {
+    return window.innerWidth > 900;
+  }
+
+  // Hover opens and locks sidebar (desktop only)
+  hoverZone.addEventListener('mouseenter', () => {
+    if (!isDesktop()) return;
+    sidebar.classList.add('open');
+    hoverEnabled = false;
+    manuallyOpened = false;
+    updateStatsPanel && updateStatsPanel();
+  });
+
+  // Clicking close button always closes and re-enables hover
+  document.getElementById('sidebarCloseBtn')?.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    hoverEnabled = true;
+    manuallyOpened = false;
+    updateStatsPanel && updateStatsPanel();
+  });
+
+  // Clicking menu/settings locks sidebar open
+  document.getElementById('sidebarToc')?.addEventListener('click', () => { hoverEnabled = false; manuallyOpened = true; });
+  document.getElementById('sidebarSettings')?.addEventListener('click', () => { hoverEnabled = false; manuallyOpened = true; });
+}
+document.addEventListener("DOMContentLoaded", setupSidebarHoverOpen);
 
 
-// -------- MAIN INIT --------
-document.addEventListener("DOMContentLoaded", function() {
+function restoreSettings() {
+  // Remove only app-specific keys for safety, or clear all
+  [
+    'theme',
+    'debugPanelEnabled',
+    'particlesEnabled',
+    'videoBehaviour',
+    'dyslexiaMode',
+    'sidebarOpen'
+  ].forEach(key => localStorage.removeItem(key));
+  location.reload();
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Restore sidebar open/closed state
+  const sidebar = document.getElementById("sidebar");
+  if (sidebar) {
+    const sidebarOpen = localStorage.getItem('sidebarOpen');
+    if (sidebarOpen === null || sidebarOpen === 'true') {
+      sidebar.classList.add('open');
+    } else {
+      sidebar.classList.remove('open');
+    }
+  }
+
+  // --- your other init functions here ---
   setupTitleClicks();
   initSidebar();
   loadParticles(document.body.classList.contains("dark-mode") ? "dark" : "light");
@@ -1495,5 +1616,5 @@ document.addEventListener("DOMContentLoaded", function() {
   initSettingsControls();
   initGalleryTooltips();
   initVideoShowButtons();
-});
-
+  decorateExternalLinks(); // <-- This ensures static links have arrows immediately
+})

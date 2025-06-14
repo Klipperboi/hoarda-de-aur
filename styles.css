@@ -824,7 +824,7 @@ body.dark-mode .section-divider {
   top: 0; left: 0;
   height: 4px;
   width: 0;
-  z-index: 4000;
+  z-index: 99999;
   background: var(--color-accent, #ed143d);
   border-radius: 0 6px 6px 0;
   pointer-events: none;
@@ -1316,21 +1316,6 @@ body.dark-mode img.centered-image {
 }
 
 
-a.external-link::after {
-  content: " ↗";
-  font-size: 1.08em;
-  vertical-align: middle;
-  font-family: inherit;
-  opacity: 0.82;
-  margin-left: 1px;
-  transition: color 0.18s;
-    text-decoration: none !important;
-}
-a.external-link:hover::after {
-  color: var(--color-link-hover, #c70f25);
-}
-
-
 @media (max-width: 650px) {
   .settings-content {
     grid-template-columns: 1fr !important;
@@ -1407,6 +1392,25 @@ a.external-link:hover {
   text-decoration-style: wavy;
 }
 
+.external-arrow {
+  display: inline-block;
+  margin-left: 5px;
+  color: var(--color-link, #ed143d);
+  font-size: 1.05em;
+  font-family: inherit;
+  vertical-align: 0.04em;
+  text-decoration: none;
+  pointer-events: none; /* So it never “steals” clicks */
+  opacity: 0.88;
+  transition: color 0.18s;
+}
+
+/* Arrow hover/active color: match .external-link:hover for feedback! */
+a.external-link:hover + .external-arrow {
+  color: var(--color-link-hover, #c70f25);
+}
+
+
 /* --- SIDEBAR CUSTOM SCROLLBAR --- */
 .sidebar ::-webkit-scrollbar,
 .sidebar ::-webkit-scrollbar-corner {
@@ -1420,4 +1424,64 @@ a.external-link:hover {
 }
 .sidebar ::-webkit-scrollbar-thumb:hover {
   background: var(--color-accent-hover);
+}
+
+.close-btn,
+.sidebar-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 2.5em;
+  font-family: 'Lora', serif;
+  font-weight: bold;
+  line-height: 1;
+  color: var(--color-accent, #ed143d);     /* Accent color! */
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  opacity: 0.96;
+  box-shadow: none;
+  outline: none;
+  padding: 0;
+  transition: color 0.15s, opacity 0.14s;
+  z-index: 20;
+}
+
+/* Hover/focus/active: just color change, no glow, no bg */
+.close-btn:hover, .close-btn:focus,
+.sidebar-close-btn:hover, .sidebar-close-btn:focus {
+  color: var(--color-accent-hover, #c70f25);
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  opacity: 1;
+}
+
+.sidebar-close-btn {
+  position: absolute;
+  top: 3px;
+  right: 18px;
+}
+
+#sidebarHoverZone {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 100vh;
+  z-index: 5010;
+  background: transparent;
+  cursor: pointer;
+}
+#sidebarHoverZone.dev-visible {
+  background: color-mix(in srgb, var(--color-accent) 32%, transparent 68%) !important;
+  opacity: 0.25;
+  border-right: 2px solid var(--color-accent);
+  transition: opacity 0.23s;
+}
+#sidebarHoverZone.dev-visible:hover {
+  opacity: 0.55;
 }

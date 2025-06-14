@@ -16,6 +16,16 @@ TBA
 
 ## Changelog
 
+**1.0.12**
+- salvare setări utilizator
+  - buton restaurare setări implicite
+- sidebar (meniu) actualizat
+  - deschis la intrarea pe pagină
+  - setare pentru status
+  - reformatare stil închidere
+  - deschidere la hover
+- reimplementare logică comportament video
+
 **1.0.11**
 - buton refresh hartă
 - pin custom

@@ -16,6 +16,9 @@ TBA
 
 ## Changelog
 
+**1.0.13**
+- implementare logică oprire comportament video la oprire video
+
 **1.0.12**
 - salvare setări utilizator
   - buton restaurare setări implicite

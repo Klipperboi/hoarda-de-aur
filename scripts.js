@@ -65,10 +65,9 @@ document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
 
 }
 
-// Handle videoId and remember which is playing
 function initVideoIdStealOnPlay() {
   document.querySelectorAll('.videoContainer video').forEach(video => {
-    video.addEventListener('play', function () {
+    video.addEventListener('play', () => {
       const section = video.closest('section');
       if (section) {
         videoId = section.id;
@@ -78,12 +77,23 @@ function initVideoIdStealOnPlay() {
       }
     });
 
-    // Optional: clear on pause (not required)
-    video.addEventListener('pause', function () {
-      // Don't clear videoId, keep last played info for debug
+    video.addEventListener('pause', () => {
+      // Always update the panel, even if PiP is active
+      updateStatsPanel();
+    });
+
+    video.addEventListener('enterpictureinpicture', () => {
+      // Might have resumed in PiP
+      updateStatsPanel();
+    });
+
+    video.addEventListener('leavepictureinpicture', () => {
+      updateStatsPanel();
     });
   });
 }
+
+
 
 function enforceVideoBehaviour() {
   if (!videoId || !currentSectionId || videoId === currentSectionId) return;
@@ -835,7 +845,6 @@ function updateStatsPanel() {
     window.addEventListener('resize', updateStatsPanel);
   }
 
-  // Calculate the sidebar theoretical width (20vw)
   const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
   const sidebarOpenPx = Math.round(vw * 0.20);
   const sidebarClosedPx = 0;
@@ -845,7 +854,6 @@ function updateStatsPanel() {
     ? `${sidebarOpenPx}px (open)`
     : `${sidebarClosedPx}px (closed)`;
 
-  // Core stats
   const container = document.querySelector('.container');
   const fabContainer = document.querySelector('.fab-container');
   const fabActive = fabContainer && fabContainer.classList.contains('active');
@@ -883,7 +891,9 @@ function updateStatsPanel() {
     <hr>
     <div class="debug-panel-video">
       <div>Video Behaviour: <span>${localStorage.getItem('videoBehaviour') || 'play'}</span></div>
-      <div>Video ID: <span>${videoId || '-'}${videoId && currentSectionId && videoId !== currentSectionId ? ' <b>(!)</b>' : ''}</span></div>    </div>
+      <div>Video ID: <span>${videoId || '-'}${videoId && currentSectionId && videoId !== currentSectionId ? ' <b>(!)</b>' : ''}</span></div>
+      <div>Video Status: <span>${currentVideoElement ? (currentVideoElement.paused ? 'Paused' : 'Playing') : '-'}</span></div>
+    </div>
     <hr>
     <div class="debug-panel-info-bottom">
       <div>Current section: <span id="stats-current">${currentSectionId || "?"}</span></div>
@@ -896,28 +906,25 @@ function updateStatsPanel() {
     </div>
   `;
 
-  // DEV TOOLS TOGGLE (checkbox)
+  // DEV TOOLS TOGGLE
   let devToolsToggle = document.getElementById('devToolsToggle');
   let devEnabled = localStorage.getItem('devToolsEnabled');
-  if (devEnabled === null) devEnabled = false;
-  else devEnabled = devEnabled === 'true';
+  devEnabled = devEnabled === 'true';
   devToolsToggle.checked = devEnabled;
   devToolsToggle.onchange = function () {
     localStorage.setItem('devToolsEnabled', devToolsToggle.checked);
     updateDevToolsVisibility();
   };
 
-  // DEV BUTTONS (show/hide by devToolsEnabled)
-  const showDev = localStorage.getItem('devToolsEnabled') === 'true';
+  const showDev = devEnabled;
   ['forcePiPBtn', 'forcePauseBtn', 'refreshMapBtn', 'restoreSettingsBtn'].forEach(id => {
     const btn = document.getElementById(id);
     if (btn) btn.style.display = showDev ? 'block' : 'none';
   });
 
-  // Restore Settings button logic
-  let restoreBtn = document.getElementById('restoreSettingsBtn');
+  const restoreBtn = document.getElementById('restoreSettingsBtn');
   if (restoreBtn) {
-    restoreBtn.onclick = function() {
+    restoreBtn.onclick = function () {
       if (confirm("Restore all settings to default?")) {
         localStorage.removeItem('theme');
         localStorage.removeItem('debugPanelEnabled');
@@ -925,20 +932,13 @@ function updateStatsPanel() {
         localStorage.removeItem('particlesEnabled');
         localStorage.removeItem('videoBehaviour');
         localStorage.removeItem('sidebarOpen');
-        // Add/remove other project-specific settings as needed!
         location.reload();
       }
     };
   }
 
-  // Show/hide panel depending on Debug toggle
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 }
-
-
-
-
-
 
 window.addEventListener('resize', updateStatsPanel);
 
@@ -1262,18 +1262,6 @@ window.toggleSidebar = function() {
   updateStatsPanel();
 };
 
-function initVideoIdStealOnPlay() {
-  document.querySelectorAll('.videoContainer video').forEach(video => {
-    video.addEventListener('play', function () {
-      const section = video.closest('section');
-      if (section) {
-        videoId = section.id;
-        lastSavedSectionId = section.id;
-        updateStatsPanel();
-      }
-    });
-  });
-}
 
 function initVideoShowButtons() {
   // Section ID -> YouTube link mapping

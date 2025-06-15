@@ -1486,3 +1486,21 @@ a.external-link:hover + .external-arrow {
   opacity: 0.55;
 }
 
+@font-face {
+  font-family: 'OpenDyslexicThree-Regular';
+  src: url('assets/OpenDyslexicThree-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenDyslexicThree-Bold';
+  src: url('assets/OpenDyslexicThree-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+body.dyslexia-mode {
+  --font-body: 'OpenDyslexicThree-Regular', sans-serif !important;
+  --font-head: 'OpenDyslexicThree-Bold', sans-serif !important;
+  --font-accent: 'OpenDyslexicThree-Regular', sans-serif !important;
+}

@@ -18,7 +18,10 @@ TBA
 
 **1.0.13**
 - implementare logică oprire comportament video la oprire video
-- mod dislexie
+- stiluri text
+  - standard
+  - lizibil
+  - dislexic
 
 **1.0.12**
 - salvare setări utilizator

@@ -65,7 +65,7 @@ body.dark-mode {
 
 html { scroll-behavior: smooth; }
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-body) !important;
   background-color: var(--color-bg);
   color: var(--color-text);
   margin: 0;
@@ -308,7 +308,7 @@ h1, h2, h3, .title-centered, .section-header h1 {
 }
 .text-section,
 .section-content p {
-  font-family: var(--font-body);
+  font-family: var(--font-body) !important;
   font-size: 18px;
   text-align: justify;
   line-height: 1.6;
@@ -547,7 +547,7 @@ body.dark-mode .custom-map-popup {
   padding-left: 0;
   margin: 20px 0;
   counter-reset: fancy-item;
-  font-family: var(--font-body);
+  font-family: var(--font-body) !important;
   font-size: 1.08em;
   color: inherit;
 }
@@ -1119,7 +1119,7 @@ body.dark-mode .videoContainer {
   cursor: pointer;
   transition: border-color 0.25s ease;
   flex-shrink: 0;
-  font-family: var(--font-body);
+  font-family: var(--font-body) !important;
 }
 
 .settings-dropdown:hover,
@@ -1434,7 +1434,8 @@ a.external-link:hover + .external-arrow {
   width: 32px;
   height: 32px;
   font-size: 2.5em;
-  font-family: 'Lora', serif;
+  font-family: var(--font-body) !important;
+
   font-weight: bold;
   line-height: 1;
   color: var(--color-accent, #ed143d);     /* Accent color! */
@@ -1504,3 +1505,24 @@ body.dyslexia-mode {
   --font-head: 'OpenDyslexicThree-Bold', sans-serif !important;
   --font-accent: 'OpenDyslexicThree-Regular', sans-serif !important;
 }
+
+/* === FONT STYLE PRESETS === */
+
+body.font-default {
+  --font-body: 'Lora', serif;
+  --font-head: 'Cinzel', serif;
+  --font-accent: 'EB Garamond', serif;
+}
+
+body.font-dyslexia {
+  --font-body: 'OpenDyslexicThree-Regular', sans-serif;
+  --font-head: 'OpenDyslexicThree-Bold', sans-serif;
+  --font-accent: 'OpenDyslexicThree-Regular', sans-serif;
+}
+
+body.font-readable {
+  --font-body: 'Shantell Sans', sans-serif;
+  --font-head: 'Rubik', sans-serif;
+  --font-accent: 'Caveat', cursive;
+}
+

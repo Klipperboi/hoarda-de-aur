@@ -6,6 +6,7 @@
   <title>Hoarda de Aur</title>
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@1,400&family=Lora:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@700&family=Shantell+Sans:wght@400&family=Caveat:ital@1&display=swap&subset=latin-ext" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
@@ -418,43 +419,58 @@
       <h2 tabindex="0">Setări</h2>
       <div class="settings-content">
         <div class="settings-labels column-1">
-          <div class="settings-group">
-            <label class="settings-label" for="themeToggle">Mod întunecat</label>
-            <input type="checkbox" id="themeToggle" class="settings-checkbox" />
-            <span class="settings-toggle"></span>
-          </div>
-          <div class="settings-group">
-            <label class="settings-label" for="debugToggle">Show Debug Panel</label>
-            <input type="checkbox" id="debugToggle" class="settings-checkbox" />
-            <span class="settings-toggle"></span>
-          </div>
-          <div class="settings-group">
-            <label class="settings-label" for="particlesToggle">Show Particles</label>
-            <input type="checkbox" id="particlesToggle" class="settings-checkbox" />
-            <span class="settings-toggle"></span>
-          </div>
-          <div class="settings-group">
-            <label class="settings-label" for="videoPlaybackSelect">Video</label>
-            <select id="videoPlaybackSelect" class="settings-dropdown" name="videoPlayback">
-              <option value="play">Rulează în fundal</option> 
-              <option value="pause">Oprește</option> 
-              <option value="pip">Picture in Picture</option>
-            </select>
-          </div>
-        </div>
-        <div class="settings-labels column-2">
   <div class="settings-group">
-    <label class="settings-label" for="dyslexiaToggle">Dyslexia Mode</label>
+    <label class="settings-label" for="contrastToggle">Contrast ridicat</label>
+    <input type="checkbox" id="contrastToggle" class="settings-checkbox" />
+    <span class="settings-toggle"></span>
+  </div>
+  <div class="settings-group">
+    <label class="settings-label" for="themeToggle">Mod întunecat</label>
+    <input type="checkbox" id="themeToggle" class="settings-checkbox" />
+    <span class="settings-toggle"></span>
+  </div>
+  <div class="settings-group">
+    <label class="settings-label" for="debugToggle">Show Debug Panel</label>
+    <input type="checkbox" id="debugToggle" class="settings-checkbox" />
+    <span class="settings-toggle"></span>
+  </div>
+  <div class="settings-group">
+    <label class="settings-label" for="particlesToggle">Show Particles</label>
+    <input type="checkbox" id="particlesToggle" class="settings-checkbox" />
+    <span class="settings-toggle"></span>
+  </div>
+  <div class="settings-group">
+    <label class="settings-label" for="videoPlaybackSelect">Video</label>
+    <select id="videoPlaybackSelect" class="settings-dropdown" name="videoPlayback">
+      <option value="play">Rulează în fundal</option>
+      <option value="pause">Oprește</option>
+      <option value="pip">Picture in Picture</option>
+    </select>
+  </div>
+</div>
+<div class="settings-labels column-2">
+  <div class="settings-group">
+    <label class="settings-label" for="dyslexiaToggle">Mod Dislexie</label>
     <input type="checkbox" id="dyslexiaToggle" class="settings-checkbox" />
     <span class="settings-toggle"></span>
   </div>
-  <!-- NEW SIDEBAR TOGGLE -->
   <div class="settings-group">
     <label class="settings-label" for="sidebarOpenToggle">Sidebar deschis</label>
     <input type="checkbox" id="sidebarOpenToggle" class="settings-checkbox" />
     <span class="settings-toggle"></span>
   </div>
+  <div class="settings-group">
+    <label class="settings-label" for="fontStyleSelect">Stil font</label>
+    <select id="fontStyleSelect" class="settings-dropdown" name="fontStyle">
+      <option value="font-default">Standard</option>
+      <option value="font-dyslexia">Dislexie</option>
+      <option value="font-readable">Lizibil</option>
+    </select>
+  </div>
+  <!-- Add an empty group for visual balance if you want: -->
+  <div class="settings-group" style="opacity:0;pointer-events:none;"><!-- Filler --></div>
 </div>
+
 
       </div>
     </div>

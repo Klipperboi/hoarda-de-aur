@@ -1153,6 +1153,11 @@ function initSettingsPopup() {
   }
 }
 
+if (localStorage.getItem('dyslexiaMode') === 'true') {
+  document.body.classList.add('dyslexia-mode');
+}
+
+
 // -------- SETTINGS CONTROLS --------
 function initSettingsControls() {
   // All input elements
@@ -1200,8 +1205,9 @@ function initSettingsControls() {
     });
   }
 
-  dyslexiaToggle.checked = savedDyslexia;
-  // Optionally, implement a class on body: document.body.classList.toggle('dyslexia-mode', savedDyslexia);
+dyslexiaToggle.checked = savedDyslexia;
+document.body.classList.toggle('dyslexia-mode', savedDyslexia);
+
 
 sidebarOpenToggle.checked = sidebarOpenDefault;
 sidebarOpenToggle.addEventListener('change', () => {
@@ -1239,11 +1245,13 @@ sidebarOpenToggle.addEventListener('change', () => {
     updateStatsPanel();
   });
 
-  dyslexiaToggle.addEventListener('change', () => {
-    localStorage.setItem('dyslexiaMode', dyslexiaToggle.checked);
-    // Optionally, update a class: document.body.classList.toggle('dyslexia-mode', dyslexiaToggle.checked);
-    updateStatsPanel();
-  });
+dyslexiaToggle.addEventListener('change', () => {
+  const enabled = dyslexiaToggle.checked;
+  localStorage.setItem('dyslexiaMode', enabled);
+  document.body.classList.toggle('dyslexia-mode', enabled);
+  updateStatsPanel();
+});
+
 }
 
 

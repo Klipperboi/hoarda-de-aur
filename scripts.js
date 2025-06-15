@@ -821,7 +821,19 @@ fabLast && fabLast.addEventListener('click', () => {
   });
 }
 
-/* PANEL STATS (top right) */
+function getCurrentFontStyleKey() {
+  // Returns: 'font-default', 'font-dyslexia', 'font-readable'
+  return localStorage.getItem('fontStyle') || 'font-default';
+}
+function getCurrentFontStyleLabel() {
+  switch (getCurrentFontStyleKey()) {
+    case 'font-dyslexia': return 'Dyslexic';
+    case 'font-readable': return 'Readable';
+    case 'font-default':
+    default: return 'Standard';
+  }
+}
+
 function updateStatsPanel() {
   let statsDiv = document.getElementById('section-stats-indicator');
   if (!statsDiv) {
@@ -895,14 +907,16 @@ function updateStatsPanel() {
       <div>Video Status: <span>${currentVideoElement ? (currentVideoElement.paused ? 'Paused' : 'Playing') : '-'}</span></div>
     </div>
     <hr>
-    <div class="debug-panel-info-bottom">
+    <div class="debug-panel-info-bottom" style="margin-bottom: 0;">
       <div>Current section: <span id="stats-current">${currentSectionId || "?"}</span></div>
       <div>Last saved: <span id="stats-last">${lastSavedSectionId || "-"}</span></div>
-      <div>Dark mode: <span>${localStorage.getItem('theme') || 'light'}</span></div>
+      <div>Sidebar open: <span>${(localStorage.getItem('sidebarOpen') === null || localStorage.getItem('sidebarOpen') === 'true') ? 'Open' : 'Closed'}</span></div>
       <div>Debug panel: <span>${localStorage.getItem('debugPanelEnabled') === 'true' ? 'Enabled' : 'Disabled'}</span></div>
+      <hr style="margin:8px 0 5px 0;border-top:1.5px solid #444;">
+      <div>Dark mode: <span>${localStorage.getItem('theme') || 'light'}</span></div>
+      <div>Font style: <span>${getCurrentFontStyleLabel()}</span></div>
       <div>Particles: <span>${localStorage.getItem('particlesEnabled') !== 'false' ? 'Enabled' : 'Disabled'}</span></div>
       <div>Dyslexia Mode: <span>${localStorage.getItem('dyslexiaMode') === 'true' ? 'Enabled' : 'Disabled'}</span></div>
-      <div>Sidebar open: <span>${(localStorage.getItem('sidebarOpen') === null || localStorage.getItem('sidebarOpen') === 'true') ? 'Open' : 'Closed'}</span></div>
     </div>
   `;
 
@@ -939,6 +953,8 @@ function updateStatsPanel() {
 
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 }
+
+
 
 window.addEventListener('resize', updateStatsPanel);
 
@@ -1160,15 +1176,17 @@ if (localStorage.getItem('dyslexiaMode') === 'true') {
 
 // -------- SETTINGS CONTROLS --------
 function initSettingsControls() {
-  // All input elements
-  const themeToggle = document.getElementById('themeToggle');
-  const debugToggle = document.getElementById('debugToggle');
-  const particlesToggle = document.getElementById('particlesToggle');
-  const videoSelect = document.getElementById('videoPlaybackSelect');
-  const dyslexiaToggle = document.getElementById('dyslexiaToggle');
-  const sidebarOpenToggle = document.getElementById('sidebarOpenToggle');
+  const contrastToggle   = document.getElementById('contrastToggle');
+  const themeToggle      = document.getElementById('themeToggle');
+  const debugToggle      = document.getElementById('debugToggle');
+  const particlesToggle  = document.getElementById('particlesToggle');
+  const videoSelect      = document.getElementById('videoPlaybackSelect');
+  const dyslexiaToggle   = document.getElementById('dyslexiaToggle');
+  const sidebarOpenToggle= document.getElementById('sidebarOpenToggle');
+  const fontStyleSelect  = document.getElementById('fontStyleSelect');
 
   // Restore saved values or set defaults
+  const savedContrast      = localStorage.getItem('contrast') === 'true';
   const savedTheme         = localStorage.getItem('theme') || 'light';
   const savedDebug         = localStorage.getItem('debugPanelEnabled') === 'true';
   const savedParticles     = localStorage.getItem('particlesEnabled');
@@ -1176,27 +1194,36 @@ function initSettingsControls() {
   const savedDyslexia      = localStorage.getItem('dyslexiaMode') === 'true';
   const savedSidebarOpen   = localStorage.getItem('sidebarOpen');
   const sidebarOpenDefault = (savedSidebarOpen === null) ? true : (savedSidebarOpen === 'true');
+  const savedFontStyle     = localStorage.getItem('fontStyle') || 'font-default';
 
-  // Set states (dark mode, particles, etc.)
+  // --- High contrast toggle ---
+  contrastToggle.checked = savedContrast;
+  document.body.classList.toggle('high-contrast', contrastToggle.checked);
+  contrastToggle.addEventListener('change', () => {
+    const enabled = contrastToggle.checked;
+    localStorage.setItem('contrast', enabled);
+    document.body.classList.toggle('high-contrast', enabled);
+    updateStatsPanel();
+  });
+
+  // Theme toggle
   themeToggle.checked = (savedTheme === 'dark');
-  if (themeToggle.checked) {
-    document.body.classList.add('dark-mode');
-    loadParticles('dark');
-  } else {
-    document.body.classList.remove('dark-mode');
-    loadParticles('light');
-  }
+  document.body.classList.toggle('dark-mode', themeToggle.checked);
+  loadParticles(themeToggle.checked ? 'dark' : 'light');
 
+  // Debug panel
   debugToggle.checked = savedDebug;
   const statsDiv = document.getElementById('section-stats-indicator');
   if (statsDiv) statsDiv.style.display = debugToggle.checked ? 'block' : 'none';
 
-  particlesToggle.checked = savedParticles !== 'false'; // default is true
+  // Particles
+  particlesToggle.checked = savedParticles !== 'false';
   if (!particlesToggle.checked) {
     const particlesContainer = document.getElementById("particles-js");
     if (particlesContainer) particlesContainer.innerHTML = "";
   }
 
+  // Video playback behaviour
   if (videoSelect) {
     videoSelect.value = savedVideoBehaviour;
     videoSelect.addEventListener('change', function() {
@@ -1205,19 +1232,57 @@ function initSettingsControls() {
     });
   }
 
-dyslexiaToggle.checked = savedDyslexia;
-document.body.classList.toggle('dyslexia-mode', savedDyslexia);
+  // Sidebar open
+  sidebarOpenToggle.checked = sidebarOpenDefault;
+  sidebarOpenToggle.addEventListener('change', () => {
+    localStorage.setItem('sidebarOpen', sidebarOpenToggle.checked);
+    updateStatsPanel();
+  });
 
+  // === Font style logic: Dislexie/Readable/Standard, sync with Mod Dislexie ===
 
-sidebarOpenToggle.checked = sidebarOpenDefault;
-sidebarOpenToggle.addEventListener('change', () => {
-  localStorage.setItem('sidebarOpen', sidebarOpenToggle.checked);
-  // DO NOT touch sidebar state here! Only save for next visit.
-  updateStatsPanel();
-});
+  fontStyleSelect.value = savedFontStyle;
+  document.body.classList.remove('font-default', 'font-dyslexia', 'font-readable');
+  document.body.classList.add(savedFontStyle);
 
+  dyslexiaToggle.checked = (savedFontStyle === 'font-dyslexia');
 
-  // Event listeners for all controls
+  dyslexiaToggle.addEventListener('change', () => {
+    const enabled = dyslexiaToggle.checked;
+    localStorage.setItem('dyslexiaMode', enabled);
+    document.body.classList.toggle('dyslexia-mode', enabled);
+
+    if (enabled) {
+      fontStyleSelect.value = 'font-dyslexia';
+      localStorage.setItem('fontStyle', 'font-dyslexia');
+      document.body.classList.remove('font-default', 'font-readable');
+      document.body.classList.add('font-dyslexia');
+    }
+    updateStatsPanel();
+  });
+
+  fontStyleSelect.addEventListener('change', () => {
+    const value = fontStyleSelect.value;
+    localStorage.setItem('fontStyle', value);
+    document.body.classList.remove('font-default', 'font-dyslexia', 'font-readable');
+    document.body.classList.add(value);
+
+    if (value === 'font-dyslexia') {
+      if (!dyslexiaToggle.checked) {
+        dyslexiaToggle.checked = true;
+        localStorage.setItem('dyslexiaMode', true);
+        document.body.classList.add('dyslexia-mode');
+      }
+    } else {
+      if (dyslexiaToggle.checked) {
+        dyslexiaToggle.checked = false;
+        localStorage.setItem('dyslexiaMode', false);
+        document.body.classList.remove('dyslexia-mode');
+      }
+    }
+    updateStatsPanel();
+  });
+
   themeToggle.addEventListener('change', () => {
     const isDark = themeToggle.checked;
     document.body.classList.toggle('dark-mode', isDark);
@@ -1244,14 +1309,6 @@ sidebarOpenToggle.addEventListener('change', () => {
     }
     updateStatsPanel();
   });
-
-dyslexiaToggle.addEventListener('change', () => {
-  const enabled = dyslexiaToggle.checked;
-  localStorage.setItem('dyslexiaMode', enabled);
-  document.body.classList.toggle('dyslexia-mode', enabled);
-  updateStatsPanel();
-});
-
 }
 
 

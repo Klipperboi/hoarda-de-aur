@@ -22,6 +22,7 @@ TBA
   - standard
   - lizibil
   - dislexic
+- sistem high contrast & features
 
 **1.0.12**
 - salvare setări utilizator

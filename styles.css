@@ -189,6 +189,21 @@ body.high-contrast-light #note-tooltip {
   color: #fff !important;
 }
 
+/* Override footer text color for high contrast dark mode */
+body.high-contrast-dark #site-footer,
+body.high-contrast-dark #site-footer .footer-sections,
+body.high-contrast-dark #site-footer .footer-meta {
+  color: #fff !important; /* White text */
+}
+/* Override footer links for high contrast dark mode */
+body.high-contrast-dark #site-footer .footer-link {
+  color: #fff !important; /* White link color */
+}
+
+body.high-contrast-dark #site-footer .footer-link:hover {
+  color: var(--color-accent-hover) !important; /* Accent hover color */
+  text-decoration: none !important;
+}
 
 
 /* ==== DYSLEXIA FONT MODE ==== */
@@ -1551,7 +1566,7 @@ a, .gold-link {
 }
 
 a:visited, .gold-link:visited {
-  color: var(--color-accent-hover);
+  color: var(--color-accent) !important; /* Remove visited link style */
   text-decoration: none !important;
 }
 
@@ -1714,4 +1729,99 @@ body.font-readable {
 body {
   background-color: var(--color-bg) !important;
   color: var(--color-text) !important;
+}
+
+#site-footer {
+  padding: 30px 20px 15px 1px; /* Added more left padding */
+  background: var(--color-bg-sidebar, #111);
+  color: var(--color-text-contrast, #fff);
+  border-top: 2.5px solid var(--color-accent);
+  width: 100%; /* Ensure it spans the full width of the page */
+}
+
+.footer-sections {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 32px;
+  max-width: 860px; /* Same width as the main container */
+  margin: 0 auto 24px auto;
+  text-align: left;
+}
+
+.footer-sections div {
+  flex: 1 1 250px;
+  min-width: 220px;
+}
+
+.footer-sections h4 {
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  color: var(--color-accent);
+  margin-bottom: 8px;
+}
+
+.footer-sections p {
+  margin: 6px 0;
+}
+
+.footer-meta {
+  border-top: 1px solid var(--color-accent);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: var(--color-text-contrast);
+  max-width: 860px; /* Same width as the main container */
+  margin: 0 auto;
+  opacity: 0.8;
+}
+
+/* Footer links - default to white, turn to accent color on hover */
+footer .footer-link {
+  color: var(--color-text-contrast, #fff) !important; /* Ensure text color is white */
+  text-decoration: none !important;
+  transition: color 0.3s ease;
+}
+
+footer .footer-link:hover {
+  color: var(--color-accent) !important; /* Accent color on hover */
+  text-decoration: none !important;
+}
+
+/* For non-footer links (general page links) */
+a {
+  color: var(--color-link) !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-link-hover) !important;
+}
+
+a:visited {
+  color: var(--color-link) !important; /* Remove visited link style */
+}
+
+@media (max-width: 600px) {
+  .footer-sections {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-meta {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+footer .footer-link svg {
+  width: 14px; /* Reduced the size */
+  height: 14px;
+  margin-right: 8px; /* Slightly adjusted the margin between the icon and text */
 }

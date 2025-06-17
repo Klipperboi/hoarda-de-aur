@@ -16,6 +16,10 @@ TBA
 
 ## Changelog
 
+**1.0.14**
+- footer (subsol)
+- actualizare mod întunecat (contrast)
+
 **1.0.13**
 - implementare logică oprire comportament video la oprire video
 - stiluri text

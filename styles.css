@@ -777,8 +777,7 @@ body.high-contrast-dark .custom-map-popup {
   font-size: 1em;
 }
 
-.fancy-list .gold-link,
-.fancy-list .gold-link:visited {
+.fancy-list .gold-link {
   color: var(--color-accent);
   font-weight: bold;
   text-decoration: underline;
@@ -1565,11 +1564,6 @@ a, .gold-link {
   outline: none;
 }
 
-a:visited, .gold-link:visited {
-  color: var(--color-accent) !important; /* Remove visited link style */
-  text-decoration: none !important;
-}
-
 a:hover, a:focus,
 .gold-link:hover, .gold-link:focus {
   color: var(--color-accent-hover);
@@ -1577,8 +1571,7 @@ a:hover, a:focus,
 }
 
 /* External links: always underline, accent/hover colors */
-a.external-link,
-a.external-link:visited {
+a.external-link {
   color: var(--color-accent) !important;
   text-decoration: underline !important;
   text-underline-offset: 2px;
@@ -1784,26 +1777,6 @@ footer .footer-link {
   color: var(--color-text-contrast, #fff) !important; /* Ensure text color is white */
   text-decoration: none !important;
   transition: color 0.3s ease;
-}
-
-footer .footer-link:hover {
-  color: var(--color-accent) !important; /* Accent color on hover */
-  text-decoration: none !important;
-}
-
-/* For non-footer links (general page links) */
-a {
-  color: var(--color-link) !important;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: var(--color-link-hover) !important;
-}
-
-a:visited {
-  color: var(--color-link) !important; /* Remove visited link style */
 }
 
 @media (max-width: 600px) {

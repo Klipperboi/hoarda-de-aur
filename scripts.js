@@ -1748,6 +1748,7 @@ function disableDyslexiaMode() {
 }
 
 
+
 document.addEventListener('DOMContentLoaded', function() {
   // Restore sidebar open/closed state
   const sidebar = document.getElementById("sidebar");

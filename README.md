@@ -19,6 +19,7 @@ TBA
 **1.0.14**
 - footer (subsol)
 - actualizare mod întunecat (contrast)
+- actualizare mod contrast
 
 **1.0.13**
 - implementare logică oprire comportament video la oprire video

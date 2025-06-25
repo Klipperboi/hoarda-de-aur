@@ -16,6 +16,9 @@ TBA
 
 ## Changelog
 
+**1.0.15**
+- actualizare design mobil/desktop
+
 **1.0.14**
 - footer (subsol)
 - actualizare mod întunecat (contrast)

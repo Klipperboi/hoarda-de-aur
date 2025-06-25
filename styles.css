@@ -35,6 +35,7 @@
   --btn-font-size: 1rem;
 
   --sidebar-width: 350px;
+  --sidebar-bleed: 100px;
   --sidebar-min-width: 10px;
   --sidebar-bg: var(--color-bg-sidebar);
   --sidebar-bg-dark: var(--color-bg-sidebar-dark);
@@ -270,25 +271,43 @@ html, body {
 /* SIDEBAR & MENU */
 .sidebar {
   position: fixed;
-  top: 0; left: 0; height: 100vh;
-  width: 0;
+  top: 0;
+  left: calc(-1 * var(--sidebar-bleed));
+  height: 100vh;
+  width: calc(var(--sidebar-width) + var(--sidebar-bleed));
   min-width: 0;
   max-width: 100vw;
-  background: #181818ee; /* fixed for sidebar */
+  background: #181818ee;
   box-shadow: 0 6px 30px var(--color-shadow), 0 1.5px 0 var(--color-accent);
   color: var(--color-text-contrast, #fff);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   z-index: 5001 !important;
-  transition: width 0.42s cubic-bezier(.52,2,.33,1);
   border-right: 2.5px solid var(--color-accent);
+
+  /* Start hidden: translated left by sidebar-width (NOT including bleed) */
+  transform: translateX(calc(-1 * (var(--sidebar-width))));
+  transition: transform 0.42s cubic-bezier(.52,2,.33,1);
 }
 .sidebar.open {
-  width: 20vw;
-  min-width: var(--sidebar-min-width);
-  max-width: 100vw;
+  /* Slide in so only the bleed is offscreen */
+  transform: translateX(0);
 }
+
+/* Gradient "bleed" edge — looks like shadow on left */
+.sidebar::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: var(--sidebar-bleed);
+  height: 100%;
+  background: linear-gradient(90deg, #000 60%, transparent 100%);
+  opacity: 0.14;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .sidebar-top {
   flex: 1 1 auto;
   overflow-y: auto;
@@ -296,19 +315,21 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding-left: var(--sidebar-bleed);
 }
 .sidebar-map {
   flex: 0 0 auto;
   padding: 16px 12px 18px 12px;
-  background: rgba(0,0,0,0.12); /* semi-transparent overlay, fine as-is */
+  background: rgba(0,0,0,0.12);
   border-top: 1.5px solid color-mix(in srgb, var(--color-accent) 60%, transparent);
   box-shadow: 0 -2px 14px 0 color-mix(in srgb, var(--color-accent) 13%, transparent) inset;
   display: flex; justify-content: center; align-items: flex-end;
+  padding-left: var(--sidebar-bleed);
 }
 
 /* Unified Menu Buttons */
 .menu-btn, .dropbtn {
-  background: #252525; /* fixed: menu button dark bg */
+  background: #252525;
   color: var(--color-text-contrast, #fff);
   padding: 10px 15px;
   font-size: 1.18em;
@@ -337,8 +358,6 @@ html, body {
   border-radius: 8px;
   margin-top: 0;
 }
-
-
 .dropdown-content a {
   display: block;
   color: var(--color-text-contrast, #fff);
@@ -355,7 +374,6 @@ html, body {
     color 0.15s,
     border-left 0.18s;
 }
-
 /* Active link styles */
 .dropdown-content a.active-link,
 .dropdown-content a.active-link:hover {
@@ -364,7 +382,6 @@ html, body {
   background: var(--color-bg-sidebar-dark, #232326);
   border-left: 3.5px solid var(--color-accent);
 }
-
 /* Hover, but not active */
 .dropdown-content a:hover:not(.active-link) {
   background: var(--color-hover-bg, #28282b);
@@ -372,6 +389,25 @@ html, body {
   border-left: 3.5px solid var(--color-accent);
 }
 
+/* Responsive: On mobile, sidebar full width, no bleed, no gradient */
+@media (max-width: 900px) {
+  .sidebar {
+    left: 0;
+    width: 100vw !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    transform: translateX(-100vw);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    width: 100vw !important;
+  }
+  .sidebar-top,
+  .sidebar-map {
+    padding-left: 0;
+  }
+  .sidebar::before { display: none; }
+}
 /* =======================
           TITLE
    ======================= */
@@ -399,8 +435,16 @@ html, body {
   border-radius: 2px;
   margin-top: 8px;
   margin-left: 0;
+  left: 0;
   animation: pop-in-underline 0.35s cubic-bezier(.4,2,.6,1);
 }
+@media (max-width: 800px) {
+  .title-text.current-section-title::after {
+    width: 100%;
+  }
+}
+
+
 @keyframes pop-in-underline {
   from { width: 0; opacity: 0; }
   to   { width: 120%; opacity: 1; }
@@ -410,6 +454,13 @@ html, body {
 /* ===========================
    TYPOGRAPHY (GENERAL)
    =========================== */
+
+.section-header,
+.section-header h1,
+.section-header .info {
+  text-align: left !important;
+}
+
 h1, h2, h3, .title-centered, .section-header h1 {
   font-family: var(--font-head);
   font-weight: 700;
@@ -997,21 +1048,7 @@ body.dark-mode #page-progress-bar::after {
   background: linear-gradient(90deg, transparent, #fff0, var(--color-accent) 40%, transparent 100%);
 }
 
-.videoContainer {
-  max-width: 560px;
-  width: 100%;
-  margin: 20px auto;
-  border: 3px solid var(--color-accent);
-  border-radius: 12px;
-  box-shadow: 0 4px 22px var(--video-box-shadow, #ed143d38);
-  background-color: var(--color-bg, #fff);
-  padding: 8px;
-  aspect-ratio: 16 / 9; /* Keeps perfect ratio! */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box; /* Ensures no x-overflow */
-}
+
 .videoContainer video, 
 .videoContainer iframe {
   width: 100% !important;
@@ -1030,10 +1067,6 @@ body.dark-mode .videoContainer {
   height: 315px;
   box-shadow: none;
 }
-.videoContainer:hover {
-  box-shadow: 0 6px 25px var(--video-box-shadow-hover, #ed143d70);
-}
-
 /* Modal Overlay */
 .modal-overlay {
   z-index: 6000;
@@ -1315,30 +1348,13 @@ body.dark-mode .videoContainer {
   width: 100%;
 }
 
-.gallery-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
 .gallery-item img {
   width: 100%;
-  max-width: 230px;
+  max-width: 230px;   /* <--- keep this! */
   height: auto;
-  border-radius: 10px;
-  border: 2.5px solid var(--color-accent);
-  box-shadow: none;
-  transition: box-shadow 0.2s, border-color 0.18s;
   cursor: pointer;
-  background: var(--gallery-img-bg, #222);
-}
-
-.gallery-item img:hover {
-  box-shadow:
-    0 0 0 3px var(--color-accent-hover),
-    0 14px 38px 0 var(--color-accent-hover, #ed143dcc);
-  border-color: var(--color-accent-hover);
+  background: var(--gallery-img-bg, #222); /* if you want */
+  /* No border, border-radius, box-shadow here */
 }
 
 .gallery-caption {
@@ -1358,29 +1374,6 @@ body.dark-mode .videoContainer {
 body.dark-mode .gallery-caption {
   color: var(--color-accent);
 }
-
-img.centered-image {
-  display: block;
-  margin: 0 auto 50px auto;
-  margin-top: 36px;
-  width: 70%;
-  height: auto;
-  border-radius: 12px;
-  border: 3px solid var(--color-accent);
-  background: var(--color-bg, #fff);
-  box-shadow: 0 4px 15px rgba(var(--color-accent-rgb, 237,20,61), 0.35);
-  cursor: pointer;
-  transition: box-shadow 0.3s ease, border-color 0.22s;
-}
-img.centered-image:hover {
-  box-shadow: 0 7px 32px rgba(var(--color-accent-rgb, 237,20,61), 0.43);
-  border-color: var(--color-accent-hover);
-}
-body.dark-mode img.centered-image {
-  background: var(--gallery-img-dark, #232325);
-  box-shadow: 0 6px 18px rgba(215,172,60,0.26), 0 0 0 3px #181818;
-}
-
 .rec-list {
   list-style: none;
   margin: 0 0 1.6em 0;
@@ -1434,7 +1427,18 @@ body.dark-mode img.centered-image {
     padding-right: 4px;
   }
 }
-
+.videoContainer {
+  max-width: 560px;   /* <--- keep this! */
+  width: 100%;
+  margin: 20px auto;
+  padding: 8px;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  /* No border, border-radius, box-shadow here */
+}
 .video-source-link {
   display: inline;
   font-family: var(--font-accent, 'EB Garamond', serif);
@@ -1729,4 +1733,35 @@ footer .footer-link svg {
   width: 14px; /* Reduced the size */
   height: 14px;
   margin-right: 8px; /* Slightly adjusted the margin between the icon and text */
+}
+
+/* --- UNIFIED FRAME & HIGHLIGHT FOR IMAGES/VIDEOS --- */
+.centered-image,
+.gallery-item img,
+.videoContainer,
+.popup img {
+  border: 3px solid var(--color-accent);
+  border-radius: 12px;
+  box-shadow: 0 0 16px 2px color-mix(in srgb, var(--color-accent) 40%, transparent 60%);
+  background: var(--color-bg, #fff);
+  transition: box-shadow 0.2s, border-color 0.18s;
+}
+
+/* Video & images: accent glow on hover/focus */
+.centered-image:hover,
+.gallery-item img:hover,
+.videoContainer:hover,
+.popup img:hover {
+  box-shadow: 0 0 32px 4px color-mix(in srgb, var(--color-accent) 60%, transparent 40%);
+  border-color: var(--color-accent-hover);
+}
+
+/* Remove any other glow or border override that uses pink/red! */
+.videoContainer {
+  /* Remove box-shadow if you had a pink one */
+  box-shadow: 0 0 16px 2px color-mix(in srgb, var(--color-accent) 40%, transparent 60%);
+  background-color: var(--color-bg, #fff); /* match site bg */
+}
+body.dark-mode .videoContainer {
+  background-color: var(--color-bg-dark, #232325);
 }

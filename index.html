@@ -12,6 +12,48 @@
 </head>
 
 <body>
+
+  <!-- === MOBILE RIBBON NAV (mobile only) === -->
+<nav id="mobileRibbon" class="mobile-ribbon">
+  <button id="mobileTocBtn" class="mobile-ribbon-btn" aria-label="Cuprins">
+    <!-- Bookmark SVG (TOC) -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="26" height="26"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg>
+    <span class="mobile-ribbon-label">Cuprins</span>
+  </button>
+  <button id="mobileSettingsBtn" class="mobile-ribbon-btn" aria-label="Setări">
+    <!-- Unicode gear -->
+    <span style="font-size:1.45em; vertical-align:middle; margin-right:2px;">⚙</span>
+    <span class="mobile-ribbon-label">Setări</span>
+  </button>
+  <button id="mobileMapBtn" class="mobile-ribbon-btn" aria-label="Hartă">
+    <!-- Map SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="26" height="26"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" /></svg>
+    <span class="mobile-ribbon-label">Hartă</span>
+  </button>
+  <!-- DROPDOWN -->
+  <div id="mobileTocDropdown" class="mobile-toc-dropdown">
+    <a href="#acasa">Acasă</a>
+    <a href="#prolog">1206 – Prolog</a>
+    <a href="#kulikovo">1380 – Kulikovo</a>
+    <a href="#kalka">1381 – Kalka</a>
+    <a href="#tokhtamysh">1381 – Tokhtamysh</a>
+    <a href="#moscova">1382 – Moscova</a>
+    <a href="#razboi">1386 – Caucaz</a>
+    <a href="#kondurcha">1391 – Kondurcha</a>
+    <a href="#terek">1395 – Terek</a>
+    <a href="#vorskla">1399 – Vorskla</a>
+    <a href="#declin">1406 – Declinul</a>
+    <a href="#dezintegrare">1419 – Dezintegrare</a>
+    <a href="#lipnic">1470 – Lipnic</a>
+    <a href="#sfarsit">1480 – Sfârșitul</a>
+    <a href="#ultimul">1502 – Ultimul Khan</a>
+    <a href="#recomandari">Recomandări</a>
+    <a href="#galerie">Galerie</a>
+    <a href="#bibliografie">Bibliografie</a>
+    <a href="#note">Note</a>
+  </div>
+</nav>
+
   <div id="sidebarHoverZone"></div>
   <!-- === Fixed UI: Progress Bar, Tooltip, Particles === -->
   <div id="scroll-bar"></div>
@@ -53,6 +95,7 @@
   </div>
 
   <!-- === Main Content: Title, Sections, Dynamic Text, Gallery === -->
+  <div id="mobileMapHolder" style="display: none;"></div>
   <div class="main-container">
     <div class="container">
       <section id="top"></section>

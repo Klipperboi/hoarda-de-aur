@@ -16,6 +16,9 @@ TBA
 
 ## Changelog
 
+**1.0.16**
+- implementare meniu specific mobil & funcții
+
 **1.0.15**
 - actualizare design mobil/desktop
 

@@ -1,3 +1,4 @@
+
 :root {
   /* Primary Brand Colors */
   --color-accent: #ed143d;
@@ -1764,4 +1765,287 @@ footer .footer-link svg {
 }
 body.dark-mode .videoContainer {
   background-color: var(--color-bg-dark, #232325);
+}
+
+/* === Mobile: sidebar hidden, map above content === */
+@media (max-width: 900px) {
+  .sidebar {
+    display: none !important;
+  }
+  #mobileMapHolder {
+    display: block !important;
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    max-width: 300px;
+    min-width: 145px;
+    z-index: 1100; /* UNDER FAB, MODALS, etc */
+    pointer-events: auto;
+    text-align: center;
+    background: none;
+    box-shadow: none;
+    
+  }
+#mobileMapHolder #map {
+  margin: 0 auto !important;
+  width: 100vw !important;
+  max-width: 300px !important;
+  min-width: 140px !important;
+  height: 210px !important;
+  border-radius: 16px;
+  /* New, subtle shadow: */
+  box-shadow:
+    0 2px 10px 0 color-mix(in srgb, var(--color-accent) 38%, transparent 62%),
+    0 2px 18px 0 #0002;
+  display: block;
+  background: var(--color-bg-dark, #222);
+  border: 3px solid var(--color-accent);
+  opacity: 0.98;
+  transition: box-shadow 0.2s, border-color 0.18s, width 0.18s, height 0.18s;
+}
+
+  .main-container {
+    margin-top: 0 !important;
+    margin-bottom: 230px !important; /* Room for map */
+  }
+  .fab-container, 
+  .modal-overlay, 
+  #note-tooltip, 
+  #imagePopup, 
+  #settingsOverlay {
+    z-index: 1200 !important; /* Always above map */
+  }
+}
+
+
+
+/* === MOBILE RIBBON NAVIGATION === */
+@media (max-width: 900px) {
+  .mobile-ribbon {
+    display: flex;
+    position: fixed;
+    left: 0; right: 0; top: 0;
+    z-index: 3020;
+    background: #181614fa;
+    box-shadow: 0 2px 16px #0006, 0 1px 0 #0003;
+    height: 60px;
+    width: 100vw;
+    min-width: 0;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 0;
+    user-select: none;
+    padding: 0;
+  }
+  .mobile-ribbon::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 3px;
+    width: 100%;
+    background: var(--color-accent, #ed143d);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .mobile-ribbon-btn {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 60px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    font: inherit;
+    color: inherit;
+    transition: background 0.17s, color 0.17s;
+    cursor: pointer;
+    position: relative;
+    gap: 0;
+    padding: 0;
+  }
+  .mobile-ribbon-btn:not(:first-child)::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0; top: 9px; bottom: 9px;
+    width: 3px;
+    background: var(--color-accent, #ed143d);
+    border-radius: 6px;
+    opacity: 0.92;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .mobile-ribbon-btn:active,
+  .mobile-ribbon-btn:focus {
+    background: #292423;
+    color: var(--color-accent, #ed143d);
+    outline: none;
+  }
+  .mobile-ribbon-label {
+    font-size: 13.5px;
+    font-weight: 500;
+    margin-top: 2px;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    pointer-events: none;
+    user-select: none;
+    text-align: center;
+  }
+  /* Highlight active section in mobile TOC */
+  .mobile-toc-dropdown a.active-link {
+    background: var(--color-accent, #ed143d);
+    color: #fff;
+  }
+}
+
+@media (max-width: 900px) {
+  .mobile-ribbon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.mobile-ribbon-btn {
+  flex: 1 1 0;
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  color: #fff;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  gap: 1px;
+  font-size: 16px;
+  transition: background 0.13s;
+  cursor: pointer;
+  position: relative;
+}
+
+.mobile-ribbon-btn:active,
+.mobile-ribbon-btn:focus,
+.mobile-ribbon-btn:hover {
+  background: #292422e6;
+}
+
+.mobile-ribbon-label {
+  display: block;
+  font-size: 11.5px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  padding-top: 1px;
+  color: #f9f9f9;
+  text-shadow: 0 1px 2px #000b;
+  font-weight: 500;
+}
+
+.mobile-toc-dropdown {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 3040;
+  background: #23201d;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: 0 8px 30px #0006, 0 1px 0 #0003;
+  width: 180px;
+  min-width: 130px;
+  padding: 4px 0;
+  border: 1px solid #34302c;
+  border-top: none;
+  animation: fadeIn 0.19s;
+}
+.mobile-toc-dropdown.open {
+  display: block;
+}
+
+.mobile-toc-dropdown a {
+  display: block;
+  color: #f2f2f2;
+  padding: 10px 18px 8px 16px;
+  font-size: 15px;
+  border-radius: 0;
+  text-decoration: none;
+  border-left: 3.5px solid transparent;
+  transition: background 0.14s, color 0.13s, border-color 0.14s;
+}
+.mobile-toc-dropdown a:hover,
+.mobile-toc-dropdown a:focus {
+  background: #312c2a;
+  color: var(--color-accent, #ffcb44);
+  border-left: 3.5px solid var(--color-accent, #ffcb44);
+}
+
+/* To prevent mobile ribbon from overlapping content */
+@media (max-width: 900px) {
+  body {
+    padding-top: 52px !important;
+  }
+  .main-container {
+    padding-top: 0 !important;
+  }
+}
+
+/* Prevent main page content from being overlapped by the ribbon (if fixed) */
+@media (max-width: 900px) {
+  body {
+    padding-top: 52px !important;
+  }
+  .main-container {
+    padding-top: 0 !important;
+  }
+}
+
+/* Mobile Map Close Button (same style as refresh) */
+#mobileMapHolder .map-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  background: #fff !important;
+  color: #111 !important;
+  border: 1.5px solid #111 !important;
+  border-radius: 8px;
+  font-size: 1.6em;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px #0002;
+  transition: background 0.18s, color 0.15s, border-color 0.15s;
+  opacity: 0.96;
+  padding: 0;
+}
+#mobileMapHolder .map-close-btn:active,
+#mobileMapHolder .map-close-btn:hover {
+  background: #faf8f7 !important;
+  color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  #fabMeniu {
+    display: none !important;
+  }
 }

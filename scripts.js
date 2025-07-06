@@ -908,6 +908,16 @@ function updateStatsPanel() {
     : "-";
   const debugPanelEnabled = localStorage.getItem('debugPanelEnabled') === 'true';
 
+  // ==== MOBILE MAP STATUS ====
+  let mapStatusLine = "";
+  const mapHolder = document.getElementById('mobileMapHolder');
+  if (mapHolder && window.innerWidth <= 900) {
+    const isMapVisible = mapHolder.style.display !== 'none' && mapHolder.style.display !== '';
+    mapStatusLine = `<div>Mobile Map: <span id="stats-mobile-map">${isMapVisible ? 'Shown' : 'Hidden'}</span></div>`;
+    // Save to localStorage so it persists across reloads
+    localStorage.setItem('mobileMapVisible', isMapVisible ? 'true' : 'false');
+  }
+
   statsDiv.innerHTML = `
     <div class="debug-panel-interactive" style="margin-bottom: 10px;">
       <div id="devToolsToggleWrap" style="margin-bottom: 8px;">
@@ -932,6 +942,7 @@ function updateStatsPanel() {
       <div>Device type: <span id="stats-device-type">${getDeviceType()}</span></div>
       <div>Container width: <span id="stats-container-width">${container ? `${container.offsetWidth}px` : '?'}</span></div>
       <div>Sidebar width: <span id="stats-sidebar-width">${sidebarWidthDisplay}</span></div>
+      ${mapStatusLine}
     </div>
     <hr>
     <div class="debug-panel-video">
@@ -969,26 +980,26 @@ function updateStatsPanel() {
     if (btn) btn.style.display = showDev ? 'block' : 'none';
   });
 
-const restoreBtn = document.getElementById('restoreSettingsBtn');
-if (restoreBtn) {
-  restoreBtn.onclick = function () {
-    if (!confirm("Restore all settings to default?")) return;
+  const restoreBtn = document.getElementById('restoreSettingsBtn');
+  if (restoreBtn) {
+    restoreBtn.onclick = function () {
+      if (!confirm("Restore all settings to default?")) return;
 
-    // Save defaults
-    localStorage.setItem('contrast', 'false');
-    localStorage.setItem('theme', 'light');
-    localStorage.setItem('debugPanelEnabled', 'false');
-    localStorage.setItem('particlesEnabled', getDeviceType() === 'mobile' ? 'false' : 'true');
-    localStorage.setItem('videoBehaviour', 'pause');
-    localStorage.setItem('sidebarOpen', 'true');
-    localStorage.setItem('fontStyle', 'font-default');
-    localStorage.setItem('dyslexiaMode', 'false');
-    localStorage.removeItem('previousFontStyle');
+      // Save defaults
+      localStorage.setItem('contrast', 'false');
+      localStorage.setItem('theme', 'light');
+      localStorage.setItem('debugPanelEnabled', 'false');
+      localStorage.setItem('particlesEnabled', getDeviceType() === 'mobile' ? 'false' : 'true');
+      localStorage.setItem('videoBehaviour', 'pause');
+      localStorage.setItem('sidebarOpen', 'true');
+      localStorage.setItem('fontStyle', 'font-default');
+      localStorage.setItem('dyslexiaMode', 'false');
+      localStorage.removeItem('previousFontStyle');
 
-    // Reload to apply visually
-    location.reload();
-  };
-}
+      // Reload to apply visually
+      location.reload();
+    };
+  }
   statsDiv.style.display = debugPanelEnabled ? 'block' : 'none';
 }
 
@@ -1179,6 +1190,7 @@ function initSettingsPopup() {
   const overlay = document.getElementById('settingsOverlay');
   const popup = document.getElementById('settingsPopup');
   const closeBtn = document.getElementById('closeSettingsBtn');
+  
   function toggleSettings() {
     if (overlay.style.display === 'flex') {
       overlay.style.display = 'none';
@@ -1186,19 +1198,35 @@ function initSettingsPopup() {
     } else {
       overlay.style.display = 'flex';
       document.body.style.overflow = 'hidden';
-      popup.querySelector('h2').focus();
+      // focus on popup header if possible (for accessibility)
+      const h2 = popup.querySelector('h2');
+      if (h2) h2.focus();
     }
   }
-  closeBtn.addEventListener('click', toggleSettings);
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) toggleSettings(); });
+
+  // Close modal on X button click
+  if (closeBtn) closeBtn.addEventListener('click', toggleSettings);
+
+  // Close when clicking outside popup (on overlay)
+  if (overlay) {
+    overlay.addEventListener('click', (e) => { 
+      if (e.target === overlay) toggleSettings();
+    });
+  }
+
+  // Close with Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && overlay.style.display === 'flex') toggleSettings();
   });
+
+  // Buttons that open the settings modal
   const sidebarSettingsBtn = document.getElementById('sidebarSettings');
   const fabSettingsBtn = document.getElementById('fabSettings');
   [sidebarSettingsBtn, fabSettingsBtn].forEach(btn => {
     if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); toggleSettings(); });
   });
+
+  // Update stats panel when changing video playback mode
   const videoPlaybackSelect = document.getElementById('videoPlaybackSelect');
   if (videoPlaybackSelect) {
     videoPlaybackSelect.addEventListener('change', updateStatsPanel);
@@ -1747,6 +1775,198 @@ function disableDyslexiaMode() {
   localStorage.removeItem('previousFontStyle');
 }
 
+// === RESPONSIVE MAP SWAP: Sidebar->Mobile Top ===
+function moveMapForMobile() {
+  const isMobile = window.innerWidth <= 900;
+  const sidebarMap = document.querySelector('.sidebar-map');
+  const mapDiv = document.getElementById('map');
+  const mobileHolder = document.getElementById('mobileMapHolder');
+  if (!mapDiv || !mobileHolder || !sidebarMap) return;
+
+  if (isMobile) {
+    // Move #map into mobileMapHolder if not already there
+    if (!mobileHolder.contains(mapDiv)) {
+      mobileHolder.appendChild(mapDiv);
+      mobileHolder.style.display = 'block';
+      if (window._leafletMap) window._leafletMap.invalidateSize();
+    }
+  } else {
+    // Move #map back to sidebar if not already there
+    if (!sidebarMap.contains(mapDiv)) {
+      sidebarMap.appendChild(mapDiv);
+      mobileHolder.style.display = 'none';
+      if (window._leafletMap) window._leafletMap.invalidateSize();
+    }
+  }
+}
+window.addEventListener('DOMContentLoaded', moveMapForMobile);
+window.addEventListener('resize', moveMapForMobile);
+
+
+// === MOBILE RIBBON, TOC, MAP TOGGLE, RIBBON HIDE ON SCROLL ===
+function setupMobileRibbon() {
+  const tocBtn = document.getElementById('mobileTocBtn');
+  const settingsBtn = document.getElementById('mobileSettingsBtn');
+  const mapBtn = document.getElementById('mobileMapBtn');
+  const tocDropdown = document.getElementById('mobileTocDropdown');
+  const mapHolder = document.getElementById('mobileMapHolder');
+  const settingsOverlay = document.getElementById('settingsOverlay');
+
+  // TOC DROPDOWN
+  if (tocBtn && tocDropdown) {
+    tocBtn.onclick = function(e) {
+      e.stopPropagation();
+      tocDropdown.classList.toggle('open');
+    };
+    // Clicking anywhere else closes the dropdown
+    document.addEventListener('click', function(e) {
+      if (
+        tocDropdown.classList.contains('open') &&
+        !tocBtn.contains(e.target) &&
+        !tocDropdown.contains(e.target)
+      ) {
+        tocDropdown.classList.remove('open');
+      }
+    });
+    // Smooth scroll on click
+    tocDropdown.querySelectorAll('a').forEach(link => {
+      link.onclick = function(e) {
+        e.preventDefault();
+        tocDropdown.classList.remove('open');
+        const targetId = this.getAttribute('href').replace('#', '');
+        if (document.getElementById(targetId)) {
+          // Use your project’s jump if available, else fallback:
+          if (window.smartSmoothJumpToSection) {
+            smartSmoothJumpToSection(targetId);
+          } else {
+            document.getElementById(targetId).scrollIntoView({behavior: "smooth"});
+          }
+        }
+      };
+    });
+  }
+
+  // SETTINGS MODAL
+  if (settingsBtn && settingsOverlay) {
+    settingsBtn.onclick = function(e) {
+      e.stopPropagation();
+      settingsOverlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    };
+    // Close on clicking overlay background or X
+    settingsOverlay.onclick = function(e) {
+      if (e.target === settingsOverlay) {
+        settingsOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    };
+  }
+
+  // MAP TOGGLE
+  if (mapBtn && mapHolder) {
+    mapBtn.onclick = function(e) {
+      e.stopPropagation();
+      const visible = mapHolder.style.display !== 'none' && mapHolder.style.display !== '';
+      if (visible) {
+        mapHolder.style.setProperty('display', 'none', 'important');
+        mapHolder.hidden = true;
+        localStorage.setItem('mobileMapVisible', 'false');
+      } else {
+        mapHolder.style.removeProperty('display');
+        mapHolder.hidden = false;
+        localStorage.setItem('mobileMapVisible', 'true');
+        setTimeout(() => {
+          if (window._leafletMap) window._leafletMap.invalidateSize();
+          // Ensure close button (X) exists
+          if (!mapHolder.querySelector('.map-close-btn')) {
+            const btn = document.createElement('button');
+            btn.className = 'map-close-btn';
+            btn.type = "button";
+            btn.title = "Închide harta";
+            btn.innerHTML = '<span style="font-size:1.7em;">×</span>';
+            btn.onclick = () => {
+              mapHolder.style.setProperty('display', 'none', 'important');
+              mapHolder.hidden = true;
+              localStorage.setItem('mobileMapVisible', 'false');
+            };
+            mapHolder.appendChild(btn);
+          }
+        }, 170);
+      }
+      // Always close TOC dropdown if open
+      const dropdown = document.getElementById('mobileTocDropdown');
+      if (dropdown) dropdown.classList.remove('open');
+    };
+  }
+}
+
+// Always run this on DOMContentLoaded and on page resize for safety
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.innerWidth <= 900) setupMobileRibbon();
+});
+window.addEventListener('resize', () => {
+  if (window.innerWidth <= 900) setupMobileRibbon();
+});
+
+function hideMobileMap(force = false) {
+  const mapHolder = document.getElementById('mobileMapHolder');
+  if (mapHolder) {
+    mapHolder.style.setProperty('display', 'none', 'important');
+    if (force) mapHolder.hidden = true; // hide for good measure
+  }
+}
+
+function hideMobileMap(force = false) {
+  if (!mapHolder) return;
+  mapHolder.style.setProperty('display', 'none', 'important');
+  if (force) mapHolder.hidden = true;
+  localStorage.setItem('mobileMapVisible', 'false');
+}
+function showMobileMap() {
+  if (!mapHolder) return;
+  mapHolder.style.removeProperty('display');
+  mapHolder.hidden = false;
+  localStorage.setItem('mobileMapVisible', 'true');
+  setTimeout(() => {
+    if (window._leafletMap) window._leafletMap.invalidateSize();
+    ensureMapCloseBtn();
+  }, 170);
+}
+
+function ensureMapCloseBtn() {
+  const mapHolder = document.getElementById('mobileMapHolder');
+  if (!mapHolder) return;
+  // Remove any duplicate buttons
+  mapHolder.querySelectorAll('.map-close-btn').forEach(btn => btn.remove());
+  // Only add if visible
+  if (mapHolder.style.display === 'none') return;
+  // Add X close button (same style as refresh)
+  const btn = document.createElement('button');
+  btn.className = 'map-close-btn';
+  btn.type = "button";
+  btn.title = "Închide harta";
+  btn.innerHTML = '&times;';
+  btn.onclick = () => {
+    mapHolder.style.setProperty('display', 'none', 'important');
+    mapHolder.hidden = true;
+    localStorage.setItem('mobileMapVisible', 'false');
+  };
+  mapHolder.appendChild(btn);
+}
+
+
+if (window.innerWidth <= 900) {
+  setupMobileRibbon();
+  // Restore map visibility
+  const mapHolder = document.getElementById('mobileMapHolder');
+  const vis = localStorage.getItem('mobileMapVisible');
+  if (vis === 'false') {
+    if (mapHolder) mapHolder.style.setProperty('display', 'none', 'important');
+  } else {
+    if (mapHolder) mapHolder.style.removeProperty('display');
+    ensureMapCloseBtn(); // <---- ADD THIS!
+  }
+}
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -1760,7 +1980,18 @@ document.addEventListener('DOMContentLoaded', function() {
       sidebar.classList.remove('open');
     }
   }
-  
+
+  if (window.innerWidth <= 900) {
+    setupMobileRibbon();
+    // Restore map visibility
+    const mapHolder = document.getElementById('mobileMapHolder');
+    const vis = localStorage.getItem('mobileMapVisible');
+    if (vis === 'false') {
+      if (mapHolder) mapHolder.style.setProperty('display', 'none', 'important');
+    } else {
+      if (mapHolder) mapHolder.style.removeProperty('display');
+    }
+  }  
 
   // --- your other init functions here ---
   setupTitleClicks();

@@ -7,33 +7,41 @@ let videoId = null;
 let mapUpdateTimeout = null;
 let mobileMapInstance = null; // To track the Leaflet map object
 
-// MAP LOCATIONS
-const locations = {
-  prolog:       { coords: [46, 105],    popupLabel: "Mongolia – 1206" },
-  kulikovo:     { coords: [54, 39],     popupLabel: "Kulikovo – 1380" },
-  kalka:        { coords: [48, 37],     popupLabel: "Kalka – 1381" },
-  tokhtamysh:   { coords: [46, 48],     popupLabel: "Rusia – 1381" },
-  moscova:      { coords: [55, 37],     popupLabel: "Moscova – 1382" },
-  razboi:       { coords: [43, 45],     popupLabel: "Munții Caucaz – 1386" },
-  kondurcha:    { coords: [54.5, 52.0], popupLabel: "Kondurcha – 1391" },
-  terek:        { coords: [43.5402, 45.1698], popupLabel: "Terek – 1395" },
-  vorskla:      { coords: [50, 35],     popupLabel: "Vorskla – 1399" },
-  declin:       { coords: [60, 105],    popupLabel: "Rusia – 1406" },
-  dezintegrare: { coords: [46, 48],     popupLabel: "Rusia – 1419" },
-  lipnic:       { coords: [53, 17],     popupLabel: "Lipnic – 1470" },
-  sfarsit:      { coords: [54.6778, 36.2865], popupLabel: "Ugra – 1480" },
-  ultimul:      { coords: [54.8985, 23.9036], popupLabel: "Kaunas – 1502" },
-  principal:    { coords: [48,      42] },
-  note:         { coords: [44, 41]},
-  recomandari:  { coords: [44, 41]},
-  galerie:      { coords: [44, 41]},
-  bibliografie: { coords: [44,      41]},
-};
+
 const mapFlyZoom = 6;
 const mapFlyAnim = { animate: true, duration: 1.15, easeLinearity: 0.27 };
 let map = null;
 let mapMarkers = {};
 let particlesVisible = true;
+
+const TEXT_SECTIONS = [
+  "acasa", "prolog", "kulikovo", "kalka", "tokhtamysh", "moscova", "razboi",
+  "kondurcha", "terek", "vorskla", "declin", "dezintegrare", "lipnic", "sfarsit", "ultimul",
+  "recomandari", "bibliografie", "note"
+];
+
+// MAP LOCATIONS
+const locations = {
+  prolog:       { coords: [46, 105]},
+  kulikovo:     { coords: [54, 39]},
+  kalka:        { coords: [48, 37]},
+  tokhtamysh:   { coords: [46, 48]},
+  moscova:      { coords: [55, 37]},
+  razboi:       { coords: [43, 45]},
+  kondurcha:    { coords: [54.5, 52.0]},
+  terek:        { coords: [43.5402, 45.1698]},
+  vorskla:      { coords: [50, 35]},
+  declin:       { coords: [60, 105]},
+  dezintegrare: { coords: [46, 48]},
+  lipnic:       { coords: [53, 17]},
+  sfarsit:      { coords: [54.6778, 36.2865]},
+  ultimul:      { coords: [54.8985, 23.9036]},
+  principal:    { coords: [48,      42]},
+  note:         { coords: [44, 41]},
+  recomandari:  { coords: [44, 41]},
+  galerie:      { coords: [44, 41]},
+  bibliografie: { coords: [44,      41]},
+};
 
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'auto'; // or 'manual' if you want to handle everything yourself
@@ -564,11 +572,17 @@ function initMap() {
       popupLabels[key]
     ) {
       const loc = locations[key];
-      const label = popupLabels[key];
-      const marker = L.marker(loc.coords, { icon: customIcon })
-        .addTo(map)
-        .bindPopup(`<div class="custom-map-popup">${label}</div>`, { autoPan: false });
-      mapMarkers[key] = marker;
+      // Get the translated label for map popups:
+const currentLang = getCurrentLanguage ? getCurrentLanguage() : 'ro'; // fallback for safety
+
+const labelKey = `map_${key}`;
+const translatedLabel = translations[currentLang][labelKey] || ""; // fallback to blank if missing
+
+const marker = L.marker(loc.coords, { icon: customIcon, labelKey })
+  .addTo(map)
+  .bindPopup(`<div class="custom-map-popup">${translatedLabel}</div>`, { autoPan: false });
+mapMarkers[key] = marker;
+
     }
   }
 
@@ -713,47 +727,65 @@ map.addControl(new L.Control.CloseMap());
   });
 }
 
+function updateMapPopups() {
+  if (!mapMarkers) return;
+  const lang = getCurrentLanguage ? getCurrentLanguage() : 'ro';
+  Object.entries(mapMarkers).forEach(([key, marker]) => {
+    const labelKey = `map_${key}`;
+    const translatedLabel = translations[lang][labelKey] || "";
+    marker.setPopupContent(`<div class="custom-map-popup">${translatedLabel}</div>`);
+  });
+}
+window.updateMapPopups = updateMapPopups;
+
 
 /* TEXT PRINCIPAL din text.txt */
 function initTextSections() {
+  const lang = getCurrentLanguage ? getCurrentLanguage() : 'ro';
+
   fetch("text.txt")
     .then(response => {
       if (!response.ok) throw new Error(`Eroare la încărcarea fișierului: ${response.status}`);
       return response.text();
     })
     .then(text => {
-      const regex = /--([\w-]+)--\s*([\s\S]*?)(?=--[\w-]+--|$)/g;
+      // Build a mapping: { sectionId: { ro: "...", en: "...", de: "..." } }
+      const sectionLangRegex = /--([a-z0-9_-]+)-(ro|en|de)--\s*([\s\S]*?)(?=--[a-z0-9_-]+-(?:ro|en|de)--|$)/gi;
       let match;
-      while ((match = regex.exec(text)) !== null) {
+      let contentMap = {};
+
+      while ((match = sectionLangRegex.exec(text)) !== null) {
         const sectionId = match[1].trim();
-        const content = match[2].trim();
-        if (sectionId === "principal") {
-          const principalP = document.getElementById("principal");
-          if (principalP) {
-            principalP.innerHTML = content;
-          }
-        } else {
-          const sectionElement = document.getElementById(sectionId);
-          if (sectionElement) {
-            let container = sectionElement.querySelector(".section-content");
-            if (container) {
-              if (!content.trim().startsWith('<p')) {
-                container.innerHTML = `<p>${content}</p>`;
-              } else {
-                container.innerHTML = content;
-              }
-            }
-          }
-        }
+        const sectionLang = match[2].trim();
+        const sectionContent = match[3].trim();
+
+        if (!contentMap[sectionId]) contentMap[sectionId] = {};
+        contentMap[sectionId][sectionLang] = sectionContent;
       }
-      applyDropCapToSections();
-      setupTitleClicks();
-      initImagePopups();
-      initAllTooltips();
-      initExternalLinkTooltips();
-      decorateExternalLinks(); // <-- move here
+
+      // For each section in DOM, fill the correct language text
+TEXT_SECTIONS.forEach(id => {
+  const section = document.getElementById(id);
+  if (!section) return;
+  let langContent = contentMap[id]?.[lang];
+  if (!langContent) {
+    langContent = contentMap[id]?.['ro'] || `[No content for "${id}" in "${lang}"]`;
+  }
+  let contentDiv = section.querySelector('.section-content') || section.querySelector('#principal');
+  if (contentDiv) {
+    contentDiv.innerHTML = langContent.match(/^</) ? langContent : `<p>${langContent}</p>`;
+  }
+});
+
+
+      applyDropCapToSections?.();
+      setupTitleClicks?.();
+      initImagePopups?.();
+      initAllTooltips?.();
+      initExternalLinkTooltips?.();
+      decorateExternalLinks?.();
     })
-    .catch(error => console.error("Eroare la procesarea text.txt:", error));
+    .catch(error => console.error("Eroare la procesarea textului:", error));
 }
 
 
@@ -1434,9 +1466,6 @@ function detectCurrentSectionByTitle() {
   });
   return bestId;
 }
-
-
-
 
 
 function initExternalLinkTooltips() {

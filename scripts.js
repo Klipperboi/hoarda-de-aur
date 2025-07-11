@@ -5,7 +5,7 @@ let currentSectionId = null;
 let observerPaused = false;
 let videoId = null;
 let mapUpdateTimeout = null;
-
+let mobileMapInstance = null; // To track the Leaflet map object
 
 // MAP LOCATIONS
 const locations = {
@@ -39,6 +39,24 @@ if ('scrollRestoration' in history) {
   history.scrollRestoration = 'auto'; // or 'manual' if you want to handle everything yourself
 }
 
+function updateActiveLink(activeId) {
+  document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
+    if (link.dataset.loc === activeId) {
+      link.classList.add("active-link");
+    } else {
+      link.classList.remove("active-link");
+    }
+  });
+  document.querySelectorAll("#mobileTocDropdown a").forEach(link => {
+    const linkTarget = link.getAttribute("href")?.replace(/^#/, "");
+    if (linkTarget === activeId) {
+      link.classList.add("active-link");
+    } else {
+      link.classList.remove("active-link");
+    }
+  });
+}
+window.updateActiveLink = updateActiveLink; // optional, but good if you use window. in other places
 
 
 // -------- VIDEO TOGGLE & ADVANCED BEHAVIOUR --------
@@ -145,6 +163,26 @@ function requestPiPForCurrentVideo() {
         }
       }
     }
+  }
+}
+
+function updateCurrentSection(newSectionId, { syncMap = true, syncTOC = true } = {}) {
+  currentSectionId = newSectionId;
+  highlightCurrentSectionTitle(currentSectionId);
+  updateStatsPanel();
+  enforceVideoBehaviour();
+  if (syncTOC) updateActiveLink(currentSectionId);
+
+  // Only fly if marker exists!
+  if (syncMap && mapMarkers[currentSectionId]) {
+    if (mapUpdateTimeout) clearTimeout(mapUpdateTimeout);
+    mapUpdateTimeout = setTimeout(() => {
+      // Only call if marker is still there (paranoia)
+      if (mapMarkers[currentSectionId]) {
+        map.flyTo(mapMarkers[currentSectionId].getLatLng(), mapFlyZoom, mapFlyAnim);
+        mapMarkers[currentSectionId].openPopup();
+      }
+    }, 250);
   }
 }
 
@@ -268,27 +306,6 @@ function initSidebar() {
     });
   }
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Set sidebar state based on device
-  const sidebar = document.getElementById("sidebar");
-  if (sidebar) {
-    if (getDeviceType() === "desktop") {
-      sidebar.classList.add('open');
-    } else {
-      sidebar.classList.remove('open');
-    }
-  }
-
-  // X button closes sidebar
-  const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
-  if (sidebarCloseBtn && sidebar) {
-    sidebarCloseBtn.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      updateStatsPanel();
-    });
-  }
-});
 
 
 
@@ -425,26 +442,6 @@ function setupTitleClicks() {
   });
 }
 
-function updateCurrentSection(newSectionId, { syncMap = true, syncTOC = true } = {}) {
-  currentSectionId = newSectionId;
-  highlightCurrentSectionTitle(currentSectionId);
-  updateStatsPanel();
-  enforceVideoBehaviour();
-  if (syncTOC) updateActiveLink(currentSectionId);
-
-  // Only fly if marker exists!
-  if (syncMap && mapMarkers[currentSectionId]) {
-    if (mapUpdateTimeout) clearTimeout(mapUpdateTimeout);
-    mapUpdateTimeout = setTimeout(() => {
-      // Only call if marker is still there (paranoia)
-      if (mapMarkers[currentSectionId]) {
-        map.flyTo(mapMarkers[currentSectionId].getLatLng(), mapFlyZoom, mapFlyAnim);
-        mapMarkers[currentSectionId].openPopup();
-      }
-    }, 250);
-  }
-}
-
 /* HIGHLIGHT CURRENT SECTION TITLE */
 function highlightCurrentSectionTitle(sectionId) {
   document.querySelectorAll('.title-text').forEach(span => {
@@ -509,12 +506,7 @@ function initImagePopups() {
     });
   }
 
-  document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape" && popup && popup.style.display === "flex") {
-      popup.style.display = "none";
-      document.body.style.overflow = "auto";
-    }
-  });
+
 
   if (popup) {
     popup.addEventListener("click", function(event) {
@@ -537,32 +529,15 @@ function initMap() {
     attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
-  // --- Custom Leaflet Refresh Control (⟳) ---
-  L.Control.RefreshMap = L.Control.extend({
-    options: { position: 'topleft' },
-    onAdd: function (map) {
-      var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-refresh');
-      container.title = "Refresh/Redraw Map";
-      container.innerHTML = '<span style="font-size: 1.55em; font-weight:bold; line-height:1;">⟳</span>';
-      L.DomEvent.disableClickPropagation(container);
-      L.DomEvent.on(container, 'click', function (e) {
-        e.preventDefault();
-        map.invalidateSize(true);
-      });
-      return container;
-    }
-  });
-  map.addControl(new L.Control.RefreshMap());
-
   // --- Custom Soyombo Icon ---
   const customIcon = L.icon({
     iconUrl: "assets/soyombo.svg",
-    iconSize: [48, 48],      // Adjust size as needed
-    iconAnchor: [24, 46],    // Pin point
+    iconSize: [48, 48],
+    iconAnchor: [24, 46],
     popupAnchor: [0, -40]
   });
 
-  // --- Popup labels, manual mapping for historical sections ---
+  // --- Popup labels ---
   const popupLabels = {
     prolog:        "Mongolia – 1206",
     kulikovo:      "Kulikovo – 1380",
@@ -592,15 +567,12 @@ function initMap() {
       const label = popupLabels[key];
       const marker = L.marker(loc.coords, { icon: customIcon })
         .addTo(map)
-        .bindPopup(
-          `<div class="custom-map-popup">${label}</div>`,
-          { autoPan: false }
-        );
+        .bindPopup(`<div class="custom-map-popup">${label}</div>`, { autoPan: false });
       mapMarkers[key] = marker;
     }
   }
 
-  // Pin click scrolls to section (safe)
+  // Pin click scrolls to section
   for (const key in mapMarkers) {
     if (!mapMarkers.hasOwnProperty(key)) continue;
     mapMarkers[key].on('click', function () {
@@ -610,30 +582,95 @@ function initMap() {
     });
   }
 
-  // Sidebar TOC link logic
-function updateActiveLink(activeId) {
-  // Desktop (sidebar) TOC
-  document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
-    if (link.dataset.loc === activeId) {
-      link.classList.add("active-link");
-    } else {
-      link.classList.remove("active-link");
-    }
-  });
-  // Mobile TOC: uses href (not data-loc)
-  document.querySelectorAll("#mobileTocDropdown a").forEach(link => {
-    const linkTarget = link.getAttribute("href")?.replace(/^#/, "");
-    if (linkTarget === activeId) {
-      link.classList.add("active-link");
-    } else {
-      link.classList.remove("active-link");
-    }
-  });
-}
+  // --- DESKTOP/Sidebar refresh control ---
+  if (window.innerWidth > 900) {
+    L.Control.RefreshMap = L.Control.extend({
+      options: { position: 'topleft' },
+      onAdd: function (map) {
+        var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-refreshmap');
+        container.title = "Refresh Map";
+        container.innerHTML = '<span style="font-size:1.13em;font-weight:bold;">⟳</span>';
+        container.style.cursor = 'pointer';
+container.onclick = function(e) {
+  e.stopPropagation();
+  closeMobileMap();
+};
 
+        return container;
+      }
+    });
+    map.addControl(new L.Control.RefreshMap());
+  }
+
+  // --- MOBILE: close (X) and refresh (⟳) controls ---
+  const mapHolder = document.getElementById('mobileMapHolder');
+  if (
+    window.innerWidth <= 900 &&
+    mapHolder &&
+    mapHolder.contains(document.getElementById('map'))
+  ) {
+    // CLOSE
+L.Control.CloseMap = L.Control.extend({
+  options: { position: 'topright' },
+  onAdd: function(map) {
+    var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-closemap');
+    container.title = "Închide harta";
+    container.innerHTML = '<span style="font-size:1.3em;font-weight:bold;">&times;</span>';
+    container.style.cursor = 'pointer';
+    container.onclick = function(e) {
+      e.stopPropagation();
+      closeMobileMap('[from X button]');  // <--- now calls your central close function with a label
+    };
+    return container;
+  }
+});
+map.addControl(new L.Control.CloseMap());
+
+
+    // REFRESH
+    L.Control.RefreshMapMobile = L.Control.extend({
+      options: { position: 'topleft' },
+      onAdd: function(map) {
+        var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-refreshmap');
+        container.title = "Refresh Map";
+        container.innerHTML = '<span style="font-size:1.13em;font-weight:bold;">⟳</span>';
+        container.style.cursor = 'pointer';
+        container.onclick = function(e) {
+          e.stopPropagation();
+          map.invalidateSize(true);
+          container.style.background = '#ededed';
+          setTimeout(() => {
+            container.style.background = '';
+          }, 150);
+        };
+        return container;
+      }
+    });
+    map.addControl(new L.Control.RefreshMapMobile());
+  }
+
+  window._leafletMap = map;
+
+  // --- TOC link logic (unchanged) ---
+  function updateActiveLink(activeId) {
+    document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
+      if (link.dataset.loc === activeId) {
+        link.classList.add("active-link");
+      } else {
+        link.classList.remove("active-link");
+      }
+    });
+    document.querySelectorAll("#mobileTocDropdown a").forEach(link => {
+      const linkTarget = link.getAttribute("href")?.replace(/^#/, "");
+      if (linkTarget === activeId) {
+        link.classList.add("active-link");
+      } else {
+        link.classList.remove("active-link");
+      }
+    });
+  }
   window.updateActiveLink = updateActiveLink;
 
-  // Handle TOC clicks
   document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
     link.addEventListener("click", function(e) {
       e.preventDefault();
@@ -674,11 +711,7 @@ function updateActiveLink(activeId) {
     const obs = new IntersectionObserver(observerCallback, observerOptions);
     obs.observe(section);
   });
-
-  window._leafletMap = map;
 }
-
-
 
 
 /* TEXT PRINCIPAL din text.txt */
@@ -830,20 +863,6 @@ function initFab() {
     updateStatsPanel();
   });
 
-  if (AUTO_CLOSE_FAB) {
-    document.addEventListener('click', function(e) {
-      if (!fabContainer.contains(e.target)) {
-        fabContainer.classList.remove('active');
-        updateStatsPanel();
-      }
-    });
-    fabActions.forEach(btn => {
-      btn.addEventListener('click', () => {
-        fabContainer.classList.remove('active');
-        updateStatsPanel();
-      });
-    });
-  }
 
 fabTop && fabTop.addEventListener('click', () => {
   saveCurrentSectionAsLast(currentSectionId); // Always save before jumping
@@ -1066,18 +1085,6 @@ function updateDevToolsVisibility() {
 
 
 
-
-
-// Run this once at startup so it respects the stored state on reload
-document.addEventListener('DOMContentLoaded', updateDevToolsVisibility);
-
-
-// Make sure to call updateDevToolsVisibility once at startup!
-document.addEventListener('DOMContentLoaded', () => {
-  updateDevToolsVisibility();
-});
-
-
 function toggleDevToolsPanel(show) {
   const panel = document.getElementById('debug-tools-panel');
   if (panel) {
@@ -1085,98 +1092,7 @@ function toggleDevToolsPanel(show) {
   }
 }
 
-// On page load, restore panel state
-document.addEventListener('DOMContentLoaded', function() {
-  const enabled = localStorage.getItem('devToolsEnabled') === 'true';
-  toggleDevToolsPanel(enabled);
-});
 
-
-// --- BUTTONS WIRING (use event delegation for robustness) ---
-document.addEventListener("DOMContentLoaded", function () {
-  document.body.addEventListener('click', function (e) {
-    // PIP BUTTON
-    if (e.target && e.target.id === 'forcePiPBtn') {
-      if (!videoId) {
-        alert("Niciun video nu este activ.");
-        return;
-      }
-      const section = document.getElementById(videoId);
-      if (!section) {
-        alert("Nu s-a găsit secțiunea video.");
-        return;
-      }
-      const video = section.querySelector('video');
-      if (!video) {
-        alert("Nu s-a găsit video-ul în secțiunea curentă.");
-        return;
-      }
-      if (video.requestPictureInPicture) {
-        video.requestPictureInPicture().catch((err) => {
-          alert("Nu am putut activa modul Picture in Picture: " + err.message);
-        });
-      } else {
-        alert("Picture in Picture nu este suportat de browserul tău.");
-      }
-    }
-
-    // PAUSE BUTTON
-    if (e.target && e.target.id === 'forcePauseBtn') {
-      if (!videoId) {
-        alert("Niciun video nu este activ.");
-        return;
-      }
-      const section = document.getElementById(videoId);
-      if (!section) {
-        alert("Nu s-a găsit secțiunea video.");
-        return;
-      }
-      const video = section.querySelector('video');
-      if (!video) {
-        alert("Nu s-a găsit video-ul în secțiunea curentă.");
-        return;
-      }
-      video.pause();
-    }
-
-    // Refresh Map Button
-    if (e.target && e.target.id === 'refreshMapBtn') {
-      e.target.textContent = "Refreshing…";
-      setTimeout(() => { e.target.textContent = "Refresh Map"; }, 400);
-
-      // Remove leaflet instance if exists
-      if (window._leafletMap) {
-        window._leafletMap.remove();
-        window._leafletMap = null;
-      }
-      // Remove old map node
-      const oldMap = document.getElementById("map");
-      if (oldMap) oldMap.parentNode.removeChild(oldMap);
-
-      // Add new map node
-      const sidebarMap = document.querySelector('.sidebar-map');
-      if (sidebarMap) {
-        const newMap = document.createElement("div");
-        newMap.id = "map";
-        sidebarMap.appendChild(newMap);
-      }
-
-      // Re-init the map
-      setTimeout(() => {
-        initMap();
-        // Optionally fly to current section's marker if exists
-        if (window.currentSectionId && window.mapMarkers && window.mapMarkers[window.currentSectionId]) {
-          window._leafletMap.flyTo(
-            window.mapMarkers[window.currentSectionId].getLatLng(),
-            mapFlyZoom,
-            mapFlyAnim
-          );
-          window.mapMarkers[window.currentSectionId].openPopup();
-        }
-      }, 150);
-    }
-  });
-});
 
 function pauseCurrentVideo() {
   if (videoId) {
@@ -1225,10 +1141,7 @@ function initSettingsPopup() {
     });
   }
 
-  // Close with Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay.style.display === 'flex') toggleSettings();
-  });
+
 
   // Buttons that open the settings modal
   const sidebarSettingsBtn = document.getElementById('sidebarSettings');
@@ -1479,7 +1392,6 @@ function updateProgressBar() {
 }
 window.addEventListener("scroll", updateProgressBar);
 window.addEventListener("resize", updateProgressBar);
-document.addEventListener("DOMContentLoaded", updateProgressBar);
 
 function initGalleryTooltips() {
   const tooltipDiv = document.getElementById("note-tooltip");
@@ -1524,69 +1436,7 @@ function detectCurrentSectionByTitle() {
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Get or create the tooltip
-  let tooltip = document.getElementById('note-tooltip'); // <-- this line must be active!
-  if (!tooltip) {
-    tooltip = document.createElement('div');
-    tooltip.id = "note-tooltip";
-    document.body.appendChild(tooltip);
-  }
 
-  // Returns only the domain (no www.)
-  function getBaseDomain(url) {
-    try {
-      const { hostname } = new URL(url, window.location.href);
-      return hostname.replace(/^www\./, '');
-    } catch {
-      return url;
-    }
-  }
-
-  // True if link is external
-  function isExternal(link) {
-    const href = link.getAttribute('href');
-    if (!href) return false;
-    if (href.startsWith('#') || href.startsWith('/') || href.startsWith('mailto:')) return false;
-    try {
-      const parsed = new URL(href, window.location.href);
-      return parsed.hostname !== window.location.hostname;
-    } catch {
-      return false;
-    }
-  }
-
-  document.querySelectorAll('a[href]').forEach(link => {
-    if (isExternal(link)) link.classList.add('external-link');
-    else link.classList.remove('external-link');
-    if (!isExternal(link)) return;
-    link.addEventListener('mouseenter', function (e) {
-      tooltip.textContent = getBaseDomain(link.href);
-      tooltip.style.opacity = '1';
-      function move(ev) {
-        tooltip.style.left = (ev.pageX + 12) + "px";
-        tooltip.style.top = (ev.pageY - 40) + "px";
-      }
-      move(e);
-      link.addEventListener('mousemove', move);
-      link._moveTooltip = move;
-    });
-    link.addEventListener('mouseleave', function () {
-      tooltip.style.opacity = '0';
-      if (link._moveTooltip) link.removeEventListener('mousemove', link._moveTooltip);
-    });
-    link.addEventListener('focus', function (e) {
-      tooltip.textContent = getBaseDomain(link.href);
-      tooltip.style.opacity = '1';
-      const rect = link.getBoundingClientRect();
-      tooltip.style.left = (rect.left + window.scrollX + 20) + "px";
-      tooltip.style.top = (rect.top + window.scrollY - 40) + "px";
-    });
-    link.addEventListener('blur', function () {
-      tooltip.style.opacity = '0';
-    });
-  });
-});
 
 
 function initExternalLinkTooltips() {
@@ -1714,7 +1564,6 @@ function setupSidebarHoverOpen() {
   document.getElementById('sidebarToc')?.addEventListener('click', () => { hoverEnabled = false; manuallyOpened = true; });
   document.getElementById('sidebarSettings')?.addEventListener('click', () => { hoverEnabled = false; manuallyOpened = true; });
 }
-document.addEventListener("DOMContentLoaded", setupSidebarHoverOpen);
 
 
 function restoreSettings() {
@@ -1764,6 +1613,61 @@ themeToggle.addEventListener('change', () => {
   updateStatsPanel();
 });
 
+function openMobileMap(from = "unknown") {
+  const mapHolder = document.getElementById('mobileMapHolder');
+  if (!mapHolder) return;
+  // 1. Remove any existing #map DOM node
+  let oldMapDiv = document.getElementById('map');
+  if (oldMapDiv && oldMapDiv.parentNode === mapHolder) {
+    oldMapDiv.parentNode.removeChild(oldMapDiv);
+    // Defensive: kill leaflet
+    if (window._leafletMap) {
+      window._leafletMap.remove();
+      window._leafletMap = null;
+    }
+  }
+  // 2. Create a new #map node (always, fresh)
+  const newMapDiv = document.createElement('div');
+  newMapDiv.id = 'map';
+  newMapDiv.style.width = '100%';
+  newMapDiv.style.height = '100%';
+  mapHolder.appendChild(newMapDiv);
+
+  // 3. Show the mapHolder
+  mapHolder.style.display = '';
+  mapHolder.hidden = false;
+  localStorage.setItem('mobileMapVisible', 'true');
+
+  // 4. Re-initialize leaflet
+  initMap();
+
+  // 5. Debug state
+  console.log(`[openMobileMap] [${from}] - SHOWN. Exists:`, !!document.getElementById('map'));
+}
+
+function closeMobileMap(from = "unknown") {
+  const mapHolder = document.getElementById('mobileMapHolder');
+  if (!mapHolder) return;
+  // 1. Remove Leaflet instance if exists
+  if (window._leafletMap) {
+    window._leafletMap.remove();
+    window._leafletMap = null;
+  }
+  // 2. Remove the #map node for real
+  let oldMapDiv = document.getElementById('map');
+  if (oldMapDiv && oldMapDiv.parentNode === mapHolder) {
+    oldMapDiv.parentNode.removeChild(oldMapDiv);
+  }
+  // 3. Hide the mapHolder
+  mapHolder.style.display = 'none';
+  mapHolder.hidden = true;
+  localStorage.setItem('mobileMapVisible', 'false');
+
+  // 4. Debug state
+  console.log(`[closeMobileMap] [${from}] - HIDDEN. Exists:`, !!document.getElementById('map'));
+}
+
+
 // Helper to save/restore previous font style
 function enableDyslexiaMode() {
   const currentFontStyle = localStorage.getItem('fontStyle') || 'font-default';
@@ -1811,8 +1715,6 @@ function moveMapForMobile() {
   }
 }
 window.addEventListener('DOMContentLoaded', moveMapForMobile);
-window.addEventListener('resize', moveMapForMobile);
-
 
 // === MOBILE RIBBON, TOC, MAP TOGGLE, RIBBON HIDE ON SCROLL ===
 function setupMobileRibbon() {
@@ -1828,30 +1730,18 @@ function setupMobileRibbon() {
     tocBtn.onclick = function(e) {
       e.stopPropagation();
       tocDropdown.classList.toggle('open');
-      // --- NEW: close settings modal if open (on mobile only) ---
       if (window.innerWidth <= 900 && settingsOverlay) {
         settingsOverlay.style.display = 'none';
         document.body.style.overflow = '';
       }
     };
-    // Clicking anywhere else closes the dropdown
-    document.addEventListener('click', function(e) {
-      if (
-        tocDropdown.classList.contains('open') &&
-        !tocBtn.contains(e.target) &&
-        !tocDropdown.contains(e.target)
-      ) {
-        tocDropdown.classList.remove('open');
-      }
-    });
-    // Smooth scroll on click
+
     tocDropdown.querySelectorAll('a').forEach(link => {
       link.onclick = function(e) {
         e.preventDefault();
         tocDropdown.classList.remove('open');
         const targetId = this.getAttribute('href').replace('#', '');
         if (document.getElementById(targetId)) {
-          // Use your project’s jump if available, else fallback:
           if (window.smartSmoothJumpToSection) {
             smartSmoothJumpToSection(targetId);
           } else {
@@ -1863,85 +1753,115 @@ function setupMobileRibbon() {
   }
 
   // SETTINGS MODAL
-  if (settingsBtn && settingsOverlay) {
-    settingsBtn.onclick = function(e) {
-      e.stopPropagation();
+if (settingsBtn && settingsOverlay) {
+  settingsBtn.onclick = function(e) {
+    e.stopPropagation();
+    const isOpen = isSettingsOpen();
+    if (isOpen) {
+      settingsOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+      console.log('[settingsBtn] CLOSE settings');
+    } else {
       settingsOverlay.style.display = 'flex';
       document.body.style.overflow = 'hidden';
-      // --- NEW: close TOC dropdown if open (on mobile only) ---
       if (window.innerWidth <= 900 && tocDropdown) {
         tocDropdown.classList.remove('open');
       }
-    };
-    // Close on clicking overlay background or X
-    settingsOverlay.onclick = function(e) {
-      if (e.target === settingsOverlay) {
-        settingsOverlay.style.display = 'none';
-        document.body.style.overflow = '';
-      }
-    };
-  }
-
-  // MAP TOGGLE
-  if (mapBtn && mapHolder) {
-    mapBtn.onclick = function(e) {
-      e.stopPropagation();
-      const visible = mapHolder.style.display !== 'none' && mapHolder.style.display !== '';
-      if (visible) {
-        mapHolder.style.setProperty('display', 'none', 'important');
-        mapHolder.hidden = true;
-        localStorage.setItem('mobileMapVisible', 'false');
-      } else {
-        mapHolder.style.removeProperty('display');
-        mapHolder.hidden = false;
-        localStorage.setItem('mobileMapVisible', 'true');
-        setTimeout(() => {
-          if (window._leafletMap) window._leafletMap.invalidateSize();
-          // Ensure close button (X) exists
-          if (!mapHolder.querySelector('.map-close-btn')) {
-            const btn = document.createElement('button');
-            btn.className = 'map-close-btn';
-            btn.type = "button";
-            btn.title = "Închide harta";
-            btn.innerHTML = '<span style="font-size:1.7em;">×</span>';
-            btn.onclick = () => {
-              mapHolder.style.setProperty('display', 'none', 'important');
-              mapHolder.hidden = true;
-              localStorage.setItem('mobileMapVisible', 'false');
-            };
-            mapHolder.appendChild(btn);
-          }
-        }, 170);
-      }
-      // Always close TOC dropdown if open
-      const dropdown = document.getElementById('mobileTocDropdown');
-      if (dropdown) dropdown.classList.remove('open');
-    };
-  }
+      console.log('[settingsBtn] OPEN settings');
+    }
+  };
+  settingsOverlay.onclick = function(e) {
+    if (e.target === settingsOverlay) {
+      settingsOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+      console.log('[settingsOverlay] CLOSE by overlay');
+    }
+  };
 }
 
-// Always run this on DOMContentLoaded and on page resize for safety
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.innerWidth <= 900) setupMobileRibbon();
-});
-window.addEventListener('resize', () => {
-  if (window.innerWidth <= 900) setupMobileRibbon();
-});
+// MAP TOGGLE (Harta)
+if (mapBtn && mapHolder) {
+mapBtn.onclick = function(e) {
+  e.stopPropagation();
+
+  if (isMobileMapVisible()) {
+    console.log('[mapBtn] requests CLOSE (ribbon)');
+    closeMobileMap('[from ribbon]');
+  } else {
+    console.log('[mapBtn] requests OPEN (ribbon)');
+    openMobileMap('[from ribbon]');
+    if (tocDropdown) tocDropdown.classList.remove('open');
+    if (settingsOverlay) settingsOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+};
+}
+}
+
+function isSettingsOpen() {
+  const overlay = document.getElementById('settingsOverlay');
+  return overlay && overlay.style.display === 'flex';
+}
+
+window._debugMapStatus = function(label = '') {
+  const mapHolder = document.getElementById('mobileMapHolder');
+  const mapDiv = document.getElementById('map');
+  const lsState = localStorage.getItem('mobileMapVisible');
+  let display, hidden, exists;
+
+  if (!mapHolder) {
+    console.log(`[MAP STATUS${label ? ' ' + label : ''}] mobileMapHolder missing!`);
+    return;
+  }
+
+  display = mapHolder.style.display;
+  hidden = mapHolder.hidden;
+  exists = !!mapDiv;
+
+  // Better test for "visible"
+  const actuallyVisible =
+    exists &&
+    display !== 'none' &&
+    !hidden &&
+    mapHolder.offsetWidth > 0 &&
+    mapHolder.offsetHeight > 0;
+
+  // Print all!
+  console.log(`[MAP STATUS${label ? ' ' + label : ''}] visible? ${actuallyVisible ? 'YES' : 'NO'}`);
+  console.log({
+    display,
+    hidden,
+    exists,
+    offsetWidth: mapHolder.offsetWidth,
+    offsetHeight: mapHolder.offsetHeight,
+    lsState,
+  });
+};
+
+function isMobileMapVisible() {
+  const mapHolder = document.getElementById('mobileMapHolder');
+  const mapDiv = document.getElementById('map');
+  if (!mapHolder || !mapDiv) return false;
+  // Check true DOM visibility
+  return (
+    mapHolder.style.display !== 'none' &&
+    !mapHolder.hidden &&
+    mapHolder.offsetWidth > 0 &&
+    mapHolder.offsetHeight > 0
+  );
+}
+
 
 function hideMobileMap(force = false) {
   const mapHolder = document.getElementById('mobileMapHolder');
   if (mapHolder) {
     mapHolder.style.setProperty('display', 'none', 'important');
     if (force) mapHolder.hidden = true; // hide for good measure
+    localStorage.setItem('mobileMapVisible', 'false');
   }
 }
 
-function hideMobileMap(force = false) {
-  if (!mapHolder) return;
-  mapHolder.style.setProperty('display', 'none', 'important');
-  if (force) mapHolder.hidden = true;
-  localStorage.setItem('mobileMapVisible', 'false');
-}
+
 function showMobileMap() {
   if (!mapHolder) return;
   mapHolder.style.removeProperty('display');
@@ -1975,22 +1895,9 @@ function ensureMapCloseBtn() {
 }
 
 
-if (window.innerWidth <= 900) {
-  setupMobileRibbon();
-  // Restore map visibility
-  const mapHolder = document.getElementById('mobileMapHolder');
-  const vis = localStorage.getItem('mobileMapVisible');
-  if (vis === 'false') {
-    if (mapHolder) mapHolder.style.setProperty('display', 'none', 'important');
-  } else {
-    if (mapHolder) mapHolder.style.removeProperty('display');
-    ensureMapCloseBtn(); // <---- ADD THIS!
-  }
-}
-
-
+// ----------- MAIN BOOTSTRAP -----------
 document.addEventListener('DOMContentLoaded', function() {
-  // Restore sidebar open/closed state
+  // Sidebar state
   const sidebar = document.getElementById("sidebar");
   if (sidebar) {
     const sidebarOpen = localStorage.getItem('sidebarOpen');
@@ -2001,24 +1908,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  if (window.innerWidth <= 900) {
-    setupMobileRibbon();
-    // Restore map visibility
-    const mapHolder = document.getElementById('mobileMapHolder');
-    const vis = localStorage.getItem('mobileMapVisible');
-    if (vis === 'false') {
-      if (mapHolder) mapHolder.style.setProperty('display', 'none', 'important');
-    } else {
-      if (mapHolder) mapHolder.style.removeProperty('display');
-    }
-  }  
+  // Always DOM-move the map to the right place
+  moveMapForMobile();
 
-  // --- your other init functions here ---
+  // Desktop map init (only if desktop at load)
+  if (window.innerWidth > 900) {
+    initMap();
+  }
+
+  // --- All your other init functions, just once each ---
   setupTitleClicks();
   initSidebar();
   loadParticles();
   initImagePopups();
-  initMap();
   initTextSections();
   initThemeToggle();
   initParticlesToggle();
@@ -2033,4 +1935,24 @@ document.addEventListener('DOMContentLoaded', function() {
   initVideoShowButtons();
   decorateExternalLinks();
   updateHighContrastClass();
-})
+  setupSidebarHoverOpen();
+  updateDevToolsVisibility();
+
+  // --- Only ONCE on load, restore map visibility on mobile ---
+// ...
+if (window.innerWidth <= 900) {
+  setupMobileRibbon();
+  const vis = localStorage.getItem('mobileMapVisible');
+  if (vis === 'true') {
+    console.log('[DOMContentLoaded] requests OPEN (restore)');
+    openMobileMap('[from restore]');
+  } else {
+    console.log('[DOMContentLoaded] requests CLOSE (restore)');
+    closeMobileMap('[from restore]');
+  }
+}
+
+});
+
+// Only this for map DOM swap!
+window.addEventListener('resize', moveMapForMobile);

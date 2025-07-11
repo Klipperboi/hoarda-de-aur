@@ -18,6 +18,7 @@ TBA
 
 **1.0.16**
 - implementare meniu specific mobil & funcții
+- reiterare funcții butoane dispozitiv mobil
 
 **1.0.15**
 - actualizare design mobil/desktop

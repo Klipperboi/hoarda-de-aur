@@ -2067,3 +2067,12 @@ body.dark-mode .videoContainer {
   color: #222 !important;           /* Always black icon/text */
   border-color: #bbb !important;    /* Border stays grey */
 }
+
+@media (min-width: 901px) {
+  #mobileRibbon,
+  #mobileTocBtn,
+  #mobileSettingsBtn,
+  #mobileMapBtn {
+    display: none !important;
+  }
+}

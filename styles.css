@@ -1,4 +1,3 @@
-
 :root {
   /* Primary Brand Colors */
   --color-accent: #ed143d;
@@ -2047,5 +2046,47 @@ body.dark-mode .videoContainer {
 @media (max-width: 900px) {
   #fabMeniu {
     display: none !important;
+  }
+}
+@media (max-width: 900px) {
+  /* MOBILE TOC: Left align links, match desktop highlight, remove hover */
+  .mobile-toc-dropdown a {
+    text-align: left;
+    padding-left: 18px;
+    padding-right: 0;
+    font-weight: 600;
+    color: #f2f2f2;
+    border-left: 3.5px solid transparent;
+    background: none;
+    transition: color 0.16s, border-left 0.18s, background 0.2s;
+  }
+  .mobile-toc-dropdown a.active-link {
+    color: var(--color-accent);
+    font-weight: bold;
+    border-left: 3.5px solid var(--color-accent);
+    background: var(--color-bg-sidebar-dark, #232326);
+  }
+  .mobile-toc-dropdown a:hover,
+  .mobile-toc-dropdown a:focus {
+    /* On mobile: NO hover effect! */
+    background: none !important;
+    color: inherit !important;
+    border-left: 3.5px solid transparent !important;
+    text-decoration: none !important;
+  }
+}
+@media (max-width: 700px) {
+  .settings-popup {
+    overflow-x: hidden !important;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  .settings-content,
+  .settings-labels,
+  .settings-labels.column-1,
+  .settings-labels.column-2 {
+    min-width: 0 !important;
+    overflow-x: hidden;
+    box-sizing: border-box;
   }
 }

@@ -1,109 +1,153 @@
---acasa--
-Hoarda de Aur a fost inițial un hanat mongol și ulterior turcizat, înființat în secolul al XIII-lea și originar ca sectorul de nord-vest al Imperiului Mongol.
-Odată cu fragmentarea Imperiului Mongol după 1259, acesta a devenit un hanat separat funcțional. Este cunoscut și sub numele de Kipchak Khanate sau ca Ulusul lui Jochi <span class="note-ref" data-note="1">(1)</span>. 
-După moartea lui Batu Khan (fondatorul Hoardei de Aur) în 1255, dinastia sa a înflorit timp de un secol întreg, până în 1359, deși intrigile lui Nogai au instigat
-un război civil parțial la sfârșitul anilor 1290. Puterea militară a Hoardei a atins apogeul în timpul domniei lui Uzbeg Khan (1312–1341), care a adoptat islamul.
-Teritoriul Hoardei de Aur, la apogeul ei, se întindea din Siberia și Asia Centrală până în părți ale Europei de Est, de la Urali până la Dunăre în vest și de la
-Marea Neagră până la Marea Caspică la sud, învecinandu-se cu Munții Caucaz și teritoriile dinastiei mongole cunoscute sub numele de Ilkhanat <span class="note-ref" data-note="2">(2)</span>.
-Hanatul a experimentat dezordine politică internă violentă începând cu 1359, înainte de a se reuni pentru scurt timp (1381–1395) sub Tokhtamysh. 
-Cu toate acestea, la scurt timp după invazia din 1396 a lui Timur, fondatorul Imperiului Timurid, Hoarda de Aur s-a spart în hanate tătare mai mici, 
-care au scăzut constant în putere. La începutul secolului al XV-lea, Hoarda a început să se destrame. Până în 1466, era denumită pur și simplu „Marea Hoardă”. 
-În teritoriile sale au apărut numeroase hanate predominant vorbitoare de turcă.
+--acasa-ro--
+Hoarda de Aur a fost inițial un hanat mongol, devenit ulterior turcizat, apărut în secolul al XIII-lea ca ramură de nord-vest a vastului Imperiu Mongol. Odată cu dezmembrarea imperiului după 1259, Hoarda de Aur a evoluat într-un hanat de sine stătător, cunoscut și sub numele de Hanatul Kipchak sau Ulusul lui Jochi <span class="note-ref" data-note="1">(1)</span>. După moartea fondatorului Batu Han în 1255, dinastia acestuia a prosperat aproape un secol, până la 1359, în ciuda intrigilor și conflictelor interne – precum războiul civil provocat de Nogai la sfârșitul anilor 1290. Sub domnia lui Uzbeg Han (1312–1341), care a adoptat islamul, Hoarda a atins apogeul puterii sale militare.
 
---prolog--
-În anul 1206, sub conducerea vizionară a lui Genghis Han, Imperiul Mongol începea o expansiune fără precedent, cucerind vaste teritorii din Asia Centrală, 
-Orientul Mijlociu și Europa de Est. În această perioadă, în urma campaniilor militare conduse de generalul Subotai și de alți comandanți, mongolii au înfrânt 
-importante puteri regionale, inclusiv Imperiul Khwarazmian și alianțele rusești de pe râul Kalka. Această serie de victorii militare a pus bazele formării unor 
-entități administrative distincte în cadrul imperiului mongol.
-După moartea lui Genghis Han, imperiul a fost împărțit între fiii și nepoții săi, iar în anul 1242, sub conducerea lui Batu Khan, Hoarda de Aur a fost oficial 
-înființată, devenind una dintre cele mai puternice ramuri ale mongolilor <span class="note-ref" data-note="3">(3)</span>. Hoarda de Aur controla un teritoriu vast, ce se întindea de la stepele Volgăi și regiunile 
-sudice ale Rusiei până la Munții Caucaz și Marea Neagră.
+Teritoriul Hoardei de Aur, la apogeu, se întindea din Siberia și Asia Centrală până în Europa de Est, de la Munții Urali până la Dunăre și de la Marea Neagră la Marea Caspică, atingând Caucazul și vecinătatea Ilhanatului Persan <span class="note-ref" data-note="2">(2)</span>. Din 1359, hanatul a fost zdruncinat de crize interne și războaie, reunindu-se temporar sub Tokhtamysh (1381–1395), dar după invazia lui Timur din 1396 s-a fragmentat în hanate tătare mai mici. În secolul al XV-lea, Hoarda de Aur a intrat în declin ireversibil, fiind cunoscută, din 1466, drept „Marea Hoardă”. Pe ruinele sale au apărut noi hanate, majoritatea turcice, ce au marcat harta Eurasiei pentru secolele următoare.
 
-În perioada de apogeu, Hoarda de Aur s-a remarcat printr-un sistem administrativ și economic eficient. Drumurile comerciale, în special cele care făceau parte din 
-Drumul Mătăsii, au asigurat o circulație constantă a bunurilor, a tehnologiilor și a culturilor, ceea ce a contribuit la o prosperitate economică durabilă. Sub domnia 
-hanilor precum Berkă Khan și Ozbeg Khan, hoarda a promovat comerțul internațional, stabilitatea politică și o toleranță religioasă relativă, devenind o punte între 
-civilizațiile estice și cele vestice <span class="note-ref" data-note="4">(4)</span>.
-Această perioadă de prosperitate a fost susținută de un control ferm asupra vasalilor, inclusiv asupra principatelor rusești, care plăteau tribut pentru a-și menține 
-autonomia. Cu toate acestea, tensiunile politice interne, precum și amenințările externe, aveau să pună treptat capăt acestei stabilități, conducând în cele din urmă 
-la declinul inevitabil al Hoardei de Aur.
+--acasa-en--
+The Golden Horde was originally a Mongol khanate, later Turkicized, that emerged in the 13th century as the northwestern branch of the vast Mongol Empire. Following the empire’s breakup after 1259, the Golden Horde became an independent khanate, also known as the Kipchak Khanate or the Ulus of Jochi <span class="note-ref" data-note="1">(1)</span>. After the death of its founder, Batu Khan, in 1255, his dynasty flourished for nearly a century until 1359, despite internal intrigues and civil conflict—most notably the civil war instigated by Nogai at the end of the 1290s. Under the rule of Uzbeg Khan (1312–1341), who converted to Islam, the Horde reached the height of its military power.
 
---kulikovo--
-Bătălia de la Kulikovo a fost purtată între armatele Hoardei de Aur, sub comanda lui Mamai, și diferite principate rusești, sub comanda unită a prințului 
-Dmitri al Moscovei. Bătălia a avut loc la 8 septembrie 1380, la Câmpul Kulikovo de lângă râul Don (acum Oblast Tula, Rusia) și a fost câștigată de Dmitri, 
-care a devenit cunoscut sub numele de Donskoy, „al Don” după bătălie <span class="note-ref" data-note="5">(5)</span>. Deși victoria nu a pus capăt dominației mongole asupra Rusiei, este considerată pe scară 
-largă de către istoricii ruși drept punctul de cotitură în care influența mongolă a început să scadă și puterea Moscovei a început să crească. Procesul a dus 
-în cele din urmă la independența Marelui Ducat al Moscovei și la formarea statului rus modern.
+At its peak, the Golden Horde’s territory stretched from Siberia and Central Asia to Eastern Europe, from the Urals to the Danube and from the Black Sea to the Caspian Sea, reaching the Caucasus and bordering the Persian Ilkhanate <span class="note-ref" data-note="2">(2)</span>. From 1359, the khanate was shaken by internal crises and wars, briefly reunified under Tokhtamysh (1381–1395), but after Timur’s invasion in 1396, it fragmented into smaller Tatar khanates. By the 15th century, the Golden Horde was in irreversible decline, becoming known after 1466 as the “Great Horde.” On its ruins arose new khanates, most of them Turkic, which would shape the Eurasian landscape for centuries to come.
 
---kalka--
-Bătălia de pe râul Kalka din 1381 a fost purtată între stăpânii războinici mongoli Mamai și Toqtamish pentru controlul Hoardei de Aur. Toqtamish a fost învingătorul 
-și a devenit singurul conducător al Hoardei. Mamai a avut anterior control de facto asupra Hoardei, dar controlul lui a început să se prăbușească când Toqtamish din 
-Hoarda Albă a invadat. În același timp, prinții ruși s-au răzvrătit împotriva stăpânirii mongole, înlăturând o sursă valoroasă de venit fiscal din Mamai. Mamai a 
-invadat Rusia, dar a fost învins la celebra bătălie de la Kulikovo. Între timp, Toqtamish din est a pus mâna pe capitala Hoardei de Aur, Sarai. Mamai și-a folosit 
-banii rămași pentru a strânge o mică armată și l-a întâlnit pe Toqtamish în regiunea din jurul nordului râurilor Doneț și Kalka <span class="note-ref" data-note="6">(6)</span>. Nu au rămas detalii despre bătălie, 
-dar Toqtamish, care probabil avea o armată mai mare, a câștigat o victorie decisivă. Ulterior a preluat Hoarda de Aur.
+--acasa-de--
+Die Goldene Horde war ursprünglich ein mongolisches Khanat, das später turkisiert wurde und im 13. Jahrhundert als nordwestlicher Zweig des gewaltigen Mongolenreiches entstand. Nach der Auflösung des Imperiums nach 1259 entwickelte sich die Goldene Horde zu einem eigenständigen Khanat, das auch als Kiptschak-Khanat oder Ulus des Jochi bekannt war <span class="note-ref" data-note="1">(1)</span>. Nach dem Tod ihres Gründers Batu Khan im Jahr 1255 florierte seine Dynastie fast ein Jahrhundert lang bis 1359, trotz innerer Intrigen und Bürgerkriege – allen voran des von Nogai ausgelösten Bürgerkriegs Ende der 1290er Jahre. Unter der Herrschaft von Usbek Khan (1312–1341), der den Islam annahm, erreichte die Horde den Höhepunkt ihrer militärischen Macht.
 
---tokhtamysh--
-Tokhtamysh devenise un monarh puternic, primul khan din peste două decenii care a condus ambele jumătăți (aripi) ale Hoardei de Aur. În puțin peste un an, se făcuse 
-stăpân pe aripa stângă (estică), fostul Ulus al Ordei (numit Hoarda Albă în unele surse persane și Hoarda Albastră în cele turcești), iar apoi și stăpânul aripa dreaptă 
-(vestică), Ulus al lui Batu (numită Hoarda Albastră în unele surse persane și Hoarda Albă în cele turcești). Aceasta promitea să restabilească măreția Hoardei de Aur după 
-o lungă perioadă de diviziune și conflicte intestine.
+Auf dem Höhepunkt erstreckte sich das Gebiet der Goldenen Horde von Sibirien und Zentralasien bis nach Osteuropa, von den Uralbergen bis zur Donau und vom Schwarzen Meer bis zum Kaspischen Meer; es reichte bis zum Kaukasus und grenzte an das persische Ilchanat <span class="note-ref" data-note="2">(2)</span>. Ab 1359 wurde das Khanat von Krisen und inneren Kriegen erschüttert, vereinigte sich kurzzeitig unter Tokhtamysh (1381–1395), zerfiel jedoch nach Timurs Invasion 1396 in kleinere tatarische Khanate. Im 15. Jahrhundert geriet die Goldene Horde in einen unumkehrbaren Niedergang und wurde ab 1466 als „Große Horde“ bezeichnet. Auf ihren Trümmern entstanden neue, meist türkische Khanate, die die eurasische Landkarte für Jahrhunderte prägten.
 
---moscova--
-Asediul Moscovei din 1382 a fost o bătălie între forțele moscovite și Tokhtamysh <span class="note-ref" data-note="7">(7)</span>, hanul Hoardei de Aur, Marelui Ducat al Moscovei, sustinut de Timur și intervenția prințiilor Ruși. 
-Înfrângerea Rusiei a reafirmat stăpânirea Hoardei asupra unora dintre ținuturile rusești, care a răsturnat stăpânirea tătară 98 de ani mai târziu, prin marea stație de pe râul Ugra. 
-De asemenea, Tokhtamysh a restabilit Hoarda de Aur ca putere regională dominantă, a reunit ținuturile mongole din Crimeea până la Lacul Balkash și a invins lituanienii la Poltava în anul următor. 
-Cu toate acestea, a luat decizia dezastruoasă de a duce un război împotriva fostului său stăpân, Tamerlan, iar Hoarda de Aur nu și-a revenit niciodată.
+--prolog-ro--
+În 1206, sub conducerea vizionară a lui Ginghis Han, Imperiul Mongol a pornit o expansiune fără precedent, cucerind vaste teritorii din Asia Centrală, Orientul Mijlociu și Europa de Est. Campaniile strălucite conduse de generali precum Subotai au adus victorii asupra unor puteri regionale majore, inclusiv Imperiul Khwarezmian și coalițiile rusești de pe râul Kalka. Aceste succese militare au deschis calea pentru crearea unor entități administrative autonome în cadrul imperiului mongol.
+După moartea lui Ginghis Han, imperiul a fost împărțit între fiii și nepoții săi. În 1242, sub conducerea lui Batu Han, Hoarda de Aur a fost oficial fondată, devenind rapid una dintre cele mai puternice ramuri ale mongolilor <span class="note-ref" data-note="3">(3)</span>. Hoarda de Aur controla teritorii întinse, de la stepele Volgăi și sudul Rusiei până la Munții Caucaz și Marea Neagră.
 
---razboi--
-Războiul Tokhtamysh-Timur a fost purtat din 1386 până în 1395 între Tokhtamysh, hanul Hoardei de Aur, și stăpânul și cuceritorul Timur, fondatorul Imperiului Timurid, 
-în zonele din Munții Caucaz, Turkistan și Europa de Est <span class="note-ref" data-note="8">(8)</span>. Bătălia dintre cei doi conducători mongoli a jucat un rol cheie în declinul puterii mongole asupra principatelor 
-ruse timpurii.
+--prolog-en--
+In 1206, under the visionary leadership of Genghis Khan, the Mongol Empire embarked on an unprecedented expansion, conquering vast territories in Central Asia, the Middle East, and Eastern Europe. Brilliant campaigns led by generals such as Subotai brought victories over major regional powers, including the Khwarazmian Empire and Russian coalitions on the Kalka River. These military successes paved the way for the creation of autonomous administrative entities within the Mongol Empire.
+After Genghis Khan’s death, the empire was divided among his sons and grandsons. In 1242, under the command of Batu Khan, the Golden Horde was officially established and quickly became one of the most powerful Mongol branches <span class="note-ref" data-note="3">(3)</span>. The Golden Horde controlled vast territories, from the Volga steppes and southern Russia to the Caucasus Mountains and the Black Sea.
 
---kondurcha--
-Bătălia de pe râul Kondurcha a fost prima bătălie majoră a războiului Tokhtamysh-Timur. A avut loc la râul Kondurcha, în Ulusul Bulgar al Hoardei de Aur, în ceea ce 
-astăzi este regiunea Samara din Rusia <span class="note-ref" data-note="9">(9)</span>. Cavaleria lui Tokhtamysh a încercat să încercuiască armata lui Timur de pe flancuri. Cu toate acestea, armata din Asia Centrală 
-a rezistat asaltului, după care atacul său frontal brusc a pus pe fugă trupele Hoardei.
+--prolog-de--
+Im Jahr 1206 begann das Mongolenreich unter der visionären Führung von Dschingis Khan eine beispiellose Expansion und eroberte riesige Gebiete in Zentralasien, im Nahen Osten und in Osteuropa. Glänzende Feldzüge unter Generälen wie Subotai brachten Siege über wichtige Regionalmächte, darunter das Choresmische Reich und russische Koalitionen am Fluss Kalka. Diese militärischen Erfolge ebneten den Weg für die Bildung autonomer Verwaltungseinheiten innerhalb des Mongolenreiches.
+Nach dem Tod von Dschingis Khan wurde das Imperium unter seinen Söhnen und Enkeln aufgeteilt. 1242 wurde unter der Führung von Batu Khan die Goldene Horde offiziell gegründet und entwickelte sich rasch zu einem der mächtigsten mongolischen Zweige <span class="note-ref" data-note="3">(3)</span>. Die Goldene Horde kontrollierte weite Gebiete von den Steppen der Wolga und Südrusslands bis zu den Kaukasusbergen und zum Schwarzen Meer.
 
---terek--
-Bătălia râului Terek a fost ultima bătălie majoră din războiul Tokhtamysh-Timur și a avut loc pe râul Terek, în Caucazul de Nord. 
-<span class="note-ref" data-note="10">(10)</span>. Rezultatul a fost o victorie pentru Timur, care a luat Azerbaidjanul după această confruntare. 
+--kulikovo-ro--
+Bătălia de la Kulikovo, desfășurată la 8 septembrie 1380, a opus armata Hoardei de Aur condusă de Mamai și o alianță a principatelor rusești, sub comanda lui Dmitri al Moscovei. Victoria lui Dmitri, care i-a adus supranumele „Donskoy”, nu a pus capăt dominației mongole asupra Rusiei, dar este considerată momentul de cotitură în care influența Hoardei a început să scadă, iar puterea Moscovei să crească <span class="note-ref" data-note="5">(5)</span>. Această bătălie a deschis calea spre independența Marelui Ducat al Moscovei și, în timp, la formarea statului rus modern.
 
---vorskla--
-Bătălia de pe râul Vorskla a fost o mare bătălie în istoria medievală a Europei de Est. S-a luptat la 12 august 1399 între tătari, sub Edigu și Temur Qutlugh, și 
-armatele lui Tokhtamysh și forțele moscovit-lituaniane ale al lituaniei, cu o victorie decisivă tătară.
+--kulikovo-en--
+The Battle of Kulikovo, fought on September 8, 1380, pitted the army of the Golden Horde led by Mamai against an alliance of Russian principalities under Dmitry of Moscow. Dmitry’s victory, which earned him the nickname “Donskoy,” did not end Mongol rule over Russia, but is considered the turning point when the Horde’s influence began to wane and Moscow’s power began to grow <span class="note-ref" data-note="5">(5)</span>. This battle paved the way for the independence of the Grand Duchy of Moscow and, eventually, the formation of the modern Russian state.
 
---declin--
-Intră și exacerbând conflictul cu fostul său protector Timur, Tokhtamysh a stabilit un curs pentru distrugerea tuturor realizărilor sale și pentru propria sa distrugere. 
-Autoritatea lui Tokhtamysh a suferit eșecuri severe din cauza celor două mari invazii ale lui Timur în teritoriile de bază ale Hoardei de Aur (în 1391 și 1395–1396), 
-lăsându-l să concureze cu hanii rivali, până când a fost alungat definitiv și urmărit până la moartea sa la Siber în 1406 <span class="note-ref" data-note="11">(11)</span>. Consolidarea autorității lui Tokhtamysh 
-a durat doar o perioadă scurtă, influențată de rivalitățile interne și de intervențiile externe, iar, după 1411, a urmat o lungă perioadă de război civil care a dus la 
-dezintegrarea Hoardei de Aur. Distrugerea principalelor centre urbane și a coloniei italiene Tana a afectat profund economia bazată pe comerț a hanatului.
+--kulikovo-de--
+Die Schlacht auf dem Kulikowo-Feld, die am 8. September 1380 stattfand, stellte das Heer der Goldenen Horde unter Mamai einer Allianz russischer Fürstentümer unter Dmitri von Moskau gegenüber. Dmitris Sieg, der ihm den Beinamen „Donskoy“ einbrachte, beendete zwar nicht die mongolische Herrschaft über Russland, gilt jedoch als Wendepunkt, an dem der Einfluss der Horde nachließ und die Macht Moskaus wuchs <span class="note-ref" data-note="5">(5)</span>. Diese Schlacht ebnete den Weg zur Unabhängigkeit des Großfürstentums Moskau und schließlich zur Entstehung des modernen russischen Staates.
 
---dezintegrare--
-După 1419, Hoarda de Aur a încetat să mai funcționeze ca entitate unificată. Ulugh Muhammad a fost desemnat Khan, însă autoritatea sa s-a limitat la malurile inferioare 
-ale Volgăi, unde a domnit și fiul lui Tokhtamysh, Kepek. Influența Hoardei de Aur a fost treptat înlocuită în Europa de Est de către Marele Ducat al Lituaniei, către 
-care Ulugh Muhammad a apelat pentru sprijin.
+--kalka-ro--
+Bătălia de pe râul Kalka din 1381 a fost confruntarea decisivă dintre Mamai și Toqtamish pentru controlul Hoardei de Aur. Toqtamish a ieșit victorios și a devenit unicul han al Hoardei. Mamai, care deținea anterior puterea, și-a pierdut influența după ce Toqtamish, conducătorul Hoardei Albe, a invadat teritoriul. În aceeași perioadă, principii ruși s-au răzvrătit împotriva dominației mongole, iar Mamai a pierdut o sursă importantă de venituri. Înfrânt la Kulikovo, Mamai a încercat să strângă o nouă armată, dar Toqtamish a cucerit capitala Sarai și, în cele din urmă, l-a învins decisiv în bătălia de pe Kalka <span class="note-ref" data-note="6">(6)</span>. Această victorie l-a transformat pe Toqtamish în stăpânul absolut al Hoardei de Aur.
 
---lipnic--
-Bătălia de la Lipnic (sau Lipnica, sau Lipniți) a fost purtată între forțele moldovenești conduse de Ștefan cel Mare și tătarii din Volga, sub conducerea lui Ahmed Khan, 
-la 20 august 1470 <span class="note-ref" data-note="12">(12)</span>.
+--kalka-en--
+The Battle of the Kalka River in 1381 was the decisive showdown between Mamai and Toqtamish for control of the Golden Horde. Toqtamish emerged victorious and became the sole khan of the Horde. Mamai, who had previously held power, lost his influence after Toqtamish, ruler of the White Horde, invaded his territory. At the same time, Russian princes rebelled against Mongol rule, depriving Mamai of crucial revenue. Defeated at Kulikovo, Mamai tried to assemble a new army, but Toqtamish captured the capital Sarai and ultimately defeated him at Kalka <span class="note-ref" data-note="6">(6)</span>. This victory made Toqtamish the undisputed ruler of the Golden Horde.
 
---sfarsit--
-Marea Stand pe râul Ugra a fost o confruntare între forțele lui Akhmat Khan din Marea Hoardă și Marele Prinț Ivan al III-lea al Moscovei în 1480 <span class="note-ref" data-note="13">(13)</span>, care s-a încheiat 
-fără un conflict major, când tătarii s-au retras. Această înfrângere este privită în istoriografia rusă ca sfârșitul dominației tătare/mongole asupra Moscovei.
+--kalka-de--
+Die Schlacht am Fluss Kalka im Jahr 1381 war die entscheidende Auseinandersetzung zwischen Mamai und Toqtamish um die Kontrolle über die Goldene Horde. Toqtamish ging als Sieger hervor und wurde der einzige Khan der Horde. Mamai, der zuvor die Macht innehatte, verlor seinen Einfluss, nachdem Toqtamish, Herrscher der Weißen Horde, das Gebiet überfallen hatte. Zur selben Zeit rebellierten russische Fürsten gegen die mongolische Herrschaft, sodass Mamai eine wichtige Einnahmequelle verlor. Nach seiner Niederlage bei Kulikowo versuchte Mamai, eine neue Armee aufzustellen, doch Toqtamish eroberte die Hauptstadt Sarai und besiegte ihn schließlich am Kalka <span class="note-ref" data-note="6">(6)</span>. Dieser Sieg machte Toqtamish zum unangefochtenen Herrscher der Goldenen Horde.
 
---ultimul--
-În 1500, s-a reluat războiul moscovit-lituanian. Lituania s-a aliat din nou cu Marea Hoardă. În 1501, Khan Sheikh Ahmed a atacat forțele moscovite lângă Rylsk, 
-Novhorod-Siverskyi și Starodub <span class="note-ref" data-note="14">(14)</span>. Marele Duce lituanian Alexander Jagiellon, preocupat de succesiunea sa în regatul poloniei, nu a participat la campanie. O iarnă aspră, combinată cu arderea stepei de către Meñli I Giray, 
-hanul Hanatului Crimeei, a dus la foamete în rândul forțelor lui Sheikh Ahmed. Mulți dintre oamenii săi l-au părăsit, iar restul a fost învins pe râul Sula în iunie 1502.
-De asemenea, intervenția imperiului otoman a marcat o schimbare, iar în cele din urmă, puterea a fost consolidată de marele ducat al moscovei.
+--tokhtamysh-ro--
+Tokhtamysh a devenit primul han după două decenii care a condus ambele jumătăți ale Hoardei de Aur – aripa estică (fostul Ulus al Ordei, cunoscută ca Hoarda Albă) și aripa vestică (Ulusul lui Batu, numită uneori Hoarda Albastră). În mai puțin de doi ani, Tokhtamysh a reușit să reunifice hoarda, promițând restaurarea puterii de odinioară după o lungă perioadă de dezbinare și lupte interne. Unificarea realizată de el a marcat apogeul renașterii Hoardei de Aur, chiar dacă domnia sa avea să fie curând amenințată de noi conflicte și de ascensiunea lui Timur.
 
---recomandari--
-<h2>Cărți</h2>
+--tokhtamysh-en--
+Tokhtamysh became the first khan in over two decades to rule both halves of the Golden Horde—the eastern wing (formerly the Ulus of Orda, known as the White Horde) and the western wing (the Ulus of Batu, sometimes called the Blue Horde). In less than two years, Tokhtamysh succeeded in reuniting the horde, promising to restore its former glory after a long period of division and internal conflict. His reunification marked the peak of the Golden Horde’s revival, even though his rule would soon be threatened by new conflicts and the rise of Timur.
+
+--tokhtamysh-de--
+Tokhtamysh wurde der erste Khan seit über zwanzig Jahren, der beide Hälften der Goldenen Horde regierte – den östlichen Flügel (das frühere Ulus der Orda, bekannt als Weiße Horde) und den westlichen Flügel (Ulus von Batu, manchmal als Blaue Horde bezeichnet). Innerhalb von weniger als zwei Jahren gelang es Tokhtamysh, die Horde wieder zu vereinen und damit nach langer Zeit der Spaltung und inneren Kämpfe neue Größe zu versprechen. Diese Einigung bedeutete den Höhepunkt der Wiedergeburt der Goldenen Horde, auch wenn seine Herrschaft bald durch neue Konflikte und den Aufstieg Timurs bedroht werden sollte.
+
+--moscova-ro--
+Asediul Moscovei din 1382 a fost o bătălie dramatică între Tokhtamysh, hanul Hoardei de Aur, și forțele Marelui Ducat al Moscovei. Tokhtamysh, aliat temporar cu Timur, a reușit să pătrundă în oraș printr-un șiretlic și a distrus mare parte din Moscova <span class="note-ref" data-note="7">(7)</span>. Această victorie a reafirmat dominația Hoardei de Aur asupra Rusiei pentru aproape un secol, dar a arătat și vulnerabilitatea statului rus în fața forțelor mongole reunificate. Deși Moscova a fost grav afectată, Tokhtamysh a deschis astfel calea spre noi campanii în vest, precum și spre conflictul cu Timur, care avea să-i fie fatal Hoardei de Aur.
+
+--moscova-en--
+The siege of Moscow in 1382 was a dramatic battle between Tokhtamysh, the khan of the Golden Horde, and the forces of the Grand Duchy of Moscow. Tokhtamysh, temporarily allied with Timur, managed to enter the city through a ruse and destroyed much of Moscow <span class="note-ref" data-note="7">(7)</span>. This victory reaffirmed the Golden Horde’s dominance over Russia for almost another century, but also highlighted the vulnerability of the Russian state to the power of a reunited Mongol horde. Although Moscow was severely damaged, Tokhtamysh thus paved the way for new campaigns in the west, as well as for the coming conflict with Timur, which would prove fatal for the Golden Horde.
+
+--moscova-de--
+Die Belagerung von Moskau im Jahr 1382 war eine dramatische Auseinandersetzung zwischen Tokhtamysh, dem Khan der Goldenen Horde, und den Streitkräften des Großfürstentums Moskau. Tokhtamysh, zeitweise mit Timur verbündet, gelang es, durch eine List in die Stadt einzudringen und große Teile Moskaus zu zerstören <span class="note-ref" data-note="7">(7)</span>. Dieser Sieg festigte die Vorherrschaft der Goldenen Horde über Russland für fast ein weiteres Jahrhundert, zeigte aber auch die Verwundbarkeit des russischen Staates gegenüber einer wiedervereinigten mongolischen Horde. Obwohl Moskau schwer beschädigt wurde, ebnete Tokhtamysh so den Weg für neue Feldzüge im Westen sowie für den bevorstehenden Konflikt mit Timur, der der Goldenen Horde zum Verhängnis werden sollte.
+
+--razboi-ro--
+Războiul dintre Tokhtamysh și Timur (1386–1395) a reprezentat ultima mare confruntare dintre două puteri descendente din mongoli. Tokhtamysh, care reunise Hoarda de Aur, și Timur, fondatorul Imperiului Timurid, s-au înfruntat pentru controlul asupra stepelor eurasiatice și a rutelor comerciale vitale, în special în Caucaz, Turkistan și Europa de Est <span class="note-ref" data-note="8">(8)</span>. Conflictul s-a soldat cu o serie de bătălii devastatoare, care au subminat decisiv autoritatea Hoardei de Aur asupra principatelor ruse și au accelerat declinul mongolilor în regiune.
+
+--razboi-en--
+The war between Tokhtamysh and Timur (1386–1395) was the last major confrontation between two great powers descended from the Mongols. Tokhtamysh, who had reunified the Golden Horde, and Timur, founder of the Timurid Empire, clashed for control over the Eurasian steppes and vital trade routes, especially in the Caucasus, Turkestan, and Eastern Europe <span class="note-ref" data-note="8">(8)</span>. The conflict led to a series of devastating battles that decisively undermined the Golden Horde’s authority over the Russian principalities and hastened the decline of Mongol power in the region.
+
+--razboi-de--
+Der Krieg zwischen Tokhtamysh und Timur (1386–1395) war die letzte große Auseinandersetzung zwischen zwei Mächten, die von den Mongolen abstammten. Tokhtamysh, der die Goldene Horde wiedervereinigt hatte, und Timur, Gründer des Timuridenreichs, kämpften um die Kontrolle über die eurasischen Steppen und wichtige Handelswege, insbesondere im Kaukasus, in Turkestan und Osteuropa <span class="note-ref" data-note="8">(8)</span>. Der Konflikt führte zu einer Reihe verheerender Schlachten, die die Autorität der Goldenen Horde über die russischen Fürstentümer entscheidend schwächten und den Niedergang der Mongolen in der Region beschleunigten.
+
+--kondurcha-ro--
+Bătălia de pe râul Kondurcha a fost prima mare ciocnire din cadrul războiului Tokhtamysh-Timur. Luptele s-au desfășurat pe râul Kondurcha, în Ulusul Bulgar al Hoardei de Aur, pe teritoriul actualei regiuni Samara din Rusia <span class="note-ref" data-note="9">(9)</span>. Tokhtamysh a încercat să-și folosească cavaleria pentru a încercui armata lui Timur, însă trupele central-asiatice au rezistat și, în final, un atac frontal neașteptat a determinat retragerea forțelor Hoardei. Această înfrângere a slăbit semnificativ poziția lui Tokhtamysh înaintea confruntărilor decisive cu Timur.
+
+--kondurcha-en--
+The Battle of the Kondurcha River was the first major clash in the Tokhtamysh–Timur war. The fighting took place on the Kondurcha River in the Bulgar Ulus of the Golden Horde, in what is now the Samara region of Russia <span class="note-ref" data-note="9">(9)</span>. Tokhtamysh tried to use his cavalry to encircle Timur’s army, but the Central Asian troops held their ground, and a sudden frontal assault forced the Horde’s forces to retreat. This defeat significantly weakened Tokhtamysh’s position before the decisive confrontations with Timur.
+
+--kondurcha-de--
+Die Schlacht am Fluss Kondurcha war das erste große Aufeinandertreffen im Krieg zwischen Tokhtamysh und Timur. Die Kämpfe fanden am Fluss Kondurcha im Ulus der Bulgaren der Goldenen Horde statt, im heutigen Gebiet Samara in Russland <span class="note-ref" data-note="9">(9)</span>. Tokhtamysh versuchte, mit seiner Kavallerie die Armee Timurs einzukreisen, doch die zentralasiatischen Truppen hielten stand, und ein unerwarteter Frontalangriff zwang die Streitkräfte der Horde zum Rückzug. Diese Niederlage schwächte Tokhtamysh erheblich vor den entscheidenden Auseinandersetzungen mit Timur.
+
+--terek-ro--
+Bătălia de pe râul Terek a reprezentat ultima mare confruntare din războiul dintre Tokhtamysh și Timur. Luptele au avut loc pe râul Terek, în nordul Caucazului <span class="note-ref" data-note="10">(10)</span>. Timur a obținut o victorie decisivă: Tokhtamysh a pierdut cea mai mare parte a armatei sale, iar Timur a cucerit Azerbaidjanul. Această înfrângere a pecetluit declinul definitiv al Hoardei de Aur ca forță regională.
+
+--terek-en--
+The Battle of the Terek River was the final major engagement in the war between Tokhtamysh and Timur. The fighting took place on the Terek River, in the North Caucasus <span class="note-ref" data-note="10">(10)</span>. Timur achieved a decisive victory: Tokhtamysh lost most of his army, and Timur conquered Azerbaijan. This defeat sealed the Golden Horde’s definitive decline as a regional power.
+
+--terek-de--
+Die Schlacht am Fluss Terek war das letzte große Gefecht im Krieg zwischen Tokhtamysh und Timur. Die Kämpfe fanden am Fluss Terek im Nordkaukasus statt <span class="note-ref" data-note="10">(10)</span>. Timur errang einen entscheidenden Sieg: Tokhtamysh verlor den Großteil seiner Armee, und Timur eroberte Aserbaidschan. Diese Niederlage besiegelte den endgültigen Niedergang der Goldenen Horde als regionale Macht.
+
+--vorskla-ro--
+Bătălia de pe râul Vorskla, desfășurată la 12 august 1399, a fost una dintre cele mai mari confruntări din Europa de Est medievală. Armata tătară, condusă de Edigu și Temur Qutlugh, a învins forțele lui Tokhtamysh, sprijinite de alianța moscovito-lituaniană. Victoria tătară a consolidat temporar controlul Hoardei de Aur în regiune, dar a marcat și începutul sfârșitului pentru dominația mongolă asupra stepelor ucrainene.
+
+--vorskla-en--
+The Battle of the Vorskla River, fought on August 12, 1399, was one of the largest confrontations in medieval Eastern Europe. The Tatar army, led by Edigu and Temur Qutlugh, defeated Tokhtamysh’s forces, which were supported by the Muscovite-Lithuanian alliance. The Tatar victory temporarily strengthened the Golden Horde’s control in the region, but also marked the beginning of the end for Mongol dominance over the Ukrainian steppes.
+
+--vorskla-de--
+Die Schlacht am Fluss Worskla, die am 12. August 1399 stattfand, war eine der größten Auseinandersetzungen im mittelalterlichen Osteuropa. Die tatarische Armee unter Edigu und Temur Qutlugh besiegte die Truppen von Tokhtamysh, die von der moskowitisch-litauischen Allianz unterstützt wurden. Der tatarische Sieg festigte die Kontrolle der Goldenen Horde in der Region vorübergehend, markierte aber auch den Anfang vom Ende der mongolischen Vorherrschaft über die ukrainischen Steppen.
+
+--declin-ro--
+Prin escaladarea conflictului cu fostul său protector Timur, Tokhtamysh și-a pecetluit practic propria cădere și sfârșitul Hoardei de Aur. Autoritatea sa a fost zdruncinată de cele două invazii majore ale lui Timur (1391 și 1395–1396), care au devastat teritoriile de bază ale hoardei și au distrus orașe, inclusiv colonii comerciale italiene ca Tana. Tokhtamysh a fost nevoit să concureze cu hani rivali, iar după 1406 a murit în exil la Siber <span class="note-ref" data-note="11">(11)</span>. Consolidarea autorității lui Tokhtamysh a durat doar o perioadă scurtă, urmată de o lungă eră de război civil, ce a dus la dezintegrarea Hoardei de Aur. Distrugerea centrelor urbane și a economiei bazate pe comerț a grăbit sfârșitul vechii puteri mongole.
+
+--declin-en--
+By escalating the conflict with his former protector Timur, Tokhtamysh effectively sealed his own downfall and the end of the Golden Horde. His authority was shattered by two major invasions led by Timur (1391 and 1395–1396), which devastated the Horde’s core territories and destroyed cities, including Italian trading colonies such as Tana. Tokhtamysh was forced to compete with rival khans and died in exile at Sibir after 1406 <span class="note-ref" data-note="11">(11)</span>. His brief consolidation of authority was followed by a long period of civil war that led to the disintegration of the Golden Horde. The destruction of urban centers and the trade-based economy hastened the end of Mongol power.
+
+--declin-de--
+Durch die Eskalation des Konflikts mit seinem früheren Beschützer Timur besiegelte Tokhtamysh praktisch seinen eigenen Untergang und das Ende der Goldenen Horde. Seine Autorität wurde durch zwei große Invasionen Timurs (1391 und 1395–1396) erschüttert, die die Kerngebiete der Horde verwüsteten und Städte wie die italienische Handelskolonie Tana zerstörten. Tokhtamysh musste mit rivalisierenden Khans um die Macht kämpfen und starb nach 1406 im Exil in Sibir <span class="note-ref" data-note="11">(11)</span>. Seine kurzzeitige Festigung der Herrschaft wurde von einer langen Phase des Bürgerkriegs abgelöst, die zur Auflösung der Goldenen Horde führte. Die Zerstörung städtischer Zentren und der auf Handel basierenden Wirtschaft beschleunigte das Ende der mongolischen Macht.
+
+--dezintegrare-ro--
+După anul 1419, Hoarda de Aur a încetat să mai existe ca entitate unificată. Ulugh Muhammad a fost proclamat han, dar autoritatea lui era limitată la malurile inferioare ale Volgăi, unde domnea și fiul lui Tokhtamysh, Kepek. Influența Hoardei a fost treptat înlocuită de Marele Ducat al Lituaniei, către care Ulugh Muhammad a apelat pentru sprijin. Dezmembrarea hoardei a permis apariția unor hanate independente, precum Hanatul Crimeei, Hanatul Kazanului și Hanatul Astrahanului, ce au marcat sfârșitul erei mongole în Europa de Est.
+
+--dezintegrare-en--
+After 1419, the Golden Horde ceased to exist as a unified entity. Ulugh Muhammad was proclaimed khan, but his authority was limited to the lower banks of the Volga, where Tokhtamysh’s son Kepek also ruled. The Horde’s influence was gradually replaced by the Grand Duchy of Lithuania, which Ulugh Muhammad approached for support. The dissolution of the Horde allowed the emergence of independent khanates such as the Crimean Khanate, the Kazan Khanate, and the Astrakhan Khanate, marking the end of the Mongol era in Eastern Europe.
+
+--dezintegrare-de--
+Nach 1419 existierte die Goldene Horde nicht mehr als einheitliches Gebilde. Ulugh Muhammad wurde zum Khan ernannt, doch seine Herrschaft beschränkte sich auf das untere Wolgaufer, wo auch Kepek, der Sohn von Tokhtamysh, regierte. Der Einfluss der Horde wurde schrittweise vom Großfürstentum Litauen ersetzt, an das sich Ulugh Muhammad um Unterstützung wandte. Die Auflösung der Horde ermöglichte die Entstehung unabhängiger Khanate wie des Krim-, Kasan- und Astrachan-Khanats, was das Ende der mongolischen Epoche in Osteuropa markierte.
+
+--lipnic-ro--
+Bătălia de la Lipnic (sau Lipnica, sau Lipniți) a avut loc la 20 august 1470 între forțele moldovenești, conduse de Ștefan cel Mare, și tătarii din Volga, sub comanda lui Ahmed Han <span class="note-ref" data-note="12">(12)</span>. Victoria moldovenilor a oprit incursiunile tătărești asupra Moldovei pentru o perioadă, întărind prestigiul domnitorului și marcând una dintre cele mai importante lupte anti-tătare din secolul al XV-lea.
+
+--lipnic-en--
+The Battle of Lipnic (also called Lipnica or Lipniți) took place on August 20, 1470, between Moldavian forces led by Stephen the Great and the Volga Tatars under the command of Ahmed Khan <span class="note-ref" data-note="12">(12)</span>. The Moldavian victory halted Tatar incursions into Moldova for a time, strengthened the ruler’s prestige, and marked one of the most important anti-Tatar battles of the 15th century.
+
+--lipnic-de--
+Die Schlacht bei Lipnic (auch Lipnica oder Lipniți genannt) fand am 20. August 1470 zwischen moldauischen Truppen unter der Führung von Ștefan cel Mare und den Wolga-Tataren unter dem Kommando von Ahmed Khan statt <span class="note-ref" data-note="12">(12)</span>. Der moldauische Sieg stoppte für eine Zeitlang die tatarischen Einfälle in die Moldau, stärkte das Ansehen des Fürsten und stellte eine der wichtigsten antitatarischen Schlachten des 15. Jahrhunderts dar.
+
+--sfarsit-ro--
+Marea Stand pe râul Ugra din 1480 a fost confruntarea finală dintre Akhmat Han al Marii Hoarde și Ivan al III-lea al Moscovei <span class="note-ref" data-note="13">(13)</span>. Fără o bătălie majoră, tătarii s-au retras, iar evenimentul este considerat de istoriografia rusă ca momentul sfârșitului dominației mongole asupra Moscovei. După această retragere, Rusia și-a consolidat independența, iar Marea Hoardă a intrat rapid în declin, nemaifiind niciodată o amenințare majoră pentru stepele rusești.
+
+--sfarsit-en--
+The Great Stand on the Ugra River in 1480 was the final confrontation between Akhmat Khan of the Great Horde and Ivan III of Moscow <span class="note-ref" data-note="13">(13)</span>. Without a major battle, the Tatars retreated, and this event is considered by Russian historiography as the end of Mongol domination over Moscow. After this withdrawal, Russia consolidated its independence, and the Great Horde quickly declined, never again posing a major threat to the Russian steppes.
+
+--sfarsit-de--
+Das Große Stehen an der Ugra im Jahr 1480 war die letzte Konfrontation zwischen Akhmat Khan von der Großen Horde und Iwan III. von Moskau <span class="note-ref" data-note="13">(13)</span>. Ohne größere Schlacht zogen sich die Tataren zurück; das Ereignis gilt in der russischen Geschichtsschreibung als Ende der mongolischen Vorherrschaft über Moskau. Nach diesem Rückzug festigte Russland seine Unabhängigkeit, und die Große Horde geriet rasch in Verfall und stellte nie wieder eine ernsthafte Bedrohung für die russischen Steppen dar.
+
+--ultimul-ro--
+În 1500, războiul moscovit-lituanian a reizbucnit, Lituania aliindu-se din nou cu Marea Hoardă. În 1501, hanul Sheikh Ahmed a atacat forțele moscovite lângă Rylsk, Novhorod-Siverskyi și Starodub <span class="note-ref" data-note="14">(14)</span>. Marele Duce lituanian Alexandru Iagello, preocupat de succesiunea sa în Polonia, nu a participat activ la campanie. O iarnă aspră, combinată cu arderea stepelor de către Meñli I Giray, hanul Hanatului Crimeei, a provocat foamete printre tătari, mulți dintre ei părăsindu-și conducătorul, iar restul fiind înfrânți la Sula în iunie 1502. Intervenția otomană a schimbat balanța de putere, iar la scurt timp, Marea Hoardă a dispărut definitiv din istorie.
+
+--ultimul-en--
+In 1500, the Muscovite-Lithuanian War broke out again, with Lithuania once more allying with the Great Horde. In 1501, Khan Sheikh Ahmed attacked Muscovite forces near Rylsk, Novhorod-Siverskyi, and Starodub <span class="note-ref" data-note="14">(14)</span>. Grand Duke Alexander Jagiellon of Lithuania, preoccupied with his succession in Poland, did not actively participate in the campaign. A harsh winter, combined with the burning of the steppes by Meñli I Giray, khan of the Crimean Khanate, caused famine among the Tatars; many deserted Sheikh Ahmed, and the rest were defeated at Sula in June 1502. Ottoman intervention shifted the balance of power, and soon after, the Great Horde disappeared from history.
+
+--ultimul-de--
+Im Jahr 1500 brach der Moskauer-Litauische Krieg erneut aus, wobei Litauen wieder mit der Großen Horde verbündet war. 1501 griff Khan Scheich Ahmed die Moskauer Truppen bei Rylsk, Nowgorod-Sewerskij und Starodub an <span class="note-ref" data-note="14">(14)</span>. Der litauische Großfürst Alexander Jagiello, beschäftigt mit seiner Nachfolge in Polen, nahm nicht aktiv an der Kampagne teil. Ein harter Winter, kombiniert mit dem Niederbrennen der Steppe durch Meñli I Giray, den Khan des Krim-Khanats, führte zu Hungersnot unter den Tataren; viele verließen ihren Führer, der Rest wurde im Juni 1502 an der Sula besiegt. Das Eingreifen der Osmanen veränderte das Kräfteverhältnis und bald darauf verschwand die Große Horde endgültig aus der Geschichte.
+
+--recomandari-ro--
+<h2>Cărți recomandate</h2>
 <ul class="rec-list">
   <li>
     <a href="https://www.goodreads.com/book/show/40718726-genghis-khan-and-the-making-of-the-modern-world" target="_blank" rel="noopener">
-      Genghis Khan and the Making of the Modern World
+      Genghis Khan and the Making of the Modern World 
     </a> – Jack Weatherford
   </li>
   <li>
@@ -234,8 +278,279 @@ De asemenea, intervenția imperiului otoman a marcat o schimbare, iar în cele d
   </li>
 </ul>
 
+--recomandari-en--
+<h2>Recommended Books</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://www.goodreads.com/book/show/40718726-genghis-khan-and-the-making-of-the-modern-world" target="_blank" rel="noopener">
+      Genghis Khan and the Making of the Modern World 
+    </a> – Jack Weatherford
+  </li>
+  <li>
+    <a href="https://www.goodreads.com/book/show/718607.The_Mongol_Art_of_War" target="_blank" rel="noopener">
+      The Mongol Art of War
+    </a> – Timothy May
+  </li>
+  <li>
+    <a href="https://www.goodreads.com/book/show/2341973.A_History_of_Russia_Vol_3" target="_blank" rel="noopener">
+      A History of Russia, Vol 3
+    </a> – George Vernadsky
+  </li>
+  <li>
+    <a href="https://www.goodreads.com/book/show/706951.Russia_and_the_Golden_Horde" target="_blank" rel="noopener">
+      Russia and the Golden Horde
+    </a> – Charles J. Halperin
+  </li>
+  <li>
+    <a href="https://www.goodreads.com/en/book/show/32073312-the-mongols-and-the-islamic-world" target="_blank" rel="noopener">
+      The Mongols and the Islamic World
+    </a> – Peter Jackson
+  </li>
+</ul>
 
---bibliografie--
+<h2>Movies</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://www.imdb.com/title/tt2331066/" target="_blank" rel="noopener">
+      The Horde (Orda)
+    </a> (2012)
+  </li>
+  <li>
+    <a href="https://www.imdb.com/title/tt0043593/" target="_blank" rel="noopener">
+      The Golden Horde
+    </a> (1951)
+  </li>
+  <li>
+    <a href="https://www.imdb.com/title/tt0416044/" target="_blank" rel="noopener">
+      Mongol: The Rise of Genghis Khan
+    </a> (2007)
+  </li>
+</ul>
+
+<h2>Podcasts / Videos</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://www.youtube.com/watch?v=ZVv_KBK-PJI" target="_blank" rel="noopener">
+      DAMIAN ANFILE: "The Mongols are the greatest empire in world history"
+    </a> | VREAU SĂ ȘTIU
+  </li>
+  <li>
+    <a href="https://www.youtube.com/watch?v=3eEhruOZXHA" target="_blank" rel="noopener">
+      The Mongol Empire: The Golden Horde
+    </a> | History Junkie
+  </li>
+  <li>
+    <a href="https://www.youtube.com/watch?v=d4vROzoKElU" target="_blank" rel="noopener">
+      Battle of Kulikovo 1380 – Rus-Mongol Wars DOCUMENTARY
+    </a> | Kings and Generals
+  </li>
+  <li>
+    <a href="https://www.youtube.com/watch?v=y95sYUkQJuA" target="_blank" rel="noopener">
+      Rise of Timur – War against Toqtamish – MONGOL INVASIONS DOCUMENTARY
+    </a> | Kings and Generals
+  </li>
+</ul>
+
+<h2>Articles</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://ro.wikipedia.org/wiki/Hoarda_de_Aur" target="_blank" rel="noopener"><strong>Hoarda de aur</strong></a> – Wikipedia
+  </li>
+  <li>
+    <a href="https://www.britannica.com/place/Mongol-empire/The-Golden-Horde" target="_blank" rel="noopener"><strong>The Golden Horde</strong></a> – Britannica
+  </li>
+  <li>
+    <a href="https://historia.ro/sectiune/general/hoarda-mongola-de-la-gurile-dunarii-569892.html" target="_blank" rel="noopener"><strong>The Mongol Horde at the Mouths of the Danube</strong></a> – Historia
+  </li>
+</ul>
+
+<h2>Quotes</h2>
+<ul class="rec-list">
+  <li>
+    <strong>“Power is not given, it is taken.”</strong>
+    <br><em>Power is not given, it is taken.</em>
+  </li>
+  <li>
+    <strong>“He who cannot submit to authority cannot be a leader.”</strong>
+    <br><em>He who cannot submit to authority cannot be a leader. – attributed to Genghis Khan</em>
+  </li>
+  <li>
+    <strong>“The Tatars are coming!”</strong>
+    <br><em>The Tatars are coming! – Traditional Romanian saying</em>
+  </li>
+  <li>
+    <strong>“The Mongols made the world smaller.”</strong>
+    <br><em>The Mongols made the world smaller.</em>
+  </li>
+  <li>
+    <strong>“The greatest happiness is to scatter your enemy.”</strong>
+    <br><em>The greatest happiness is to scatter your enemy. – attributed to Genghis Khan</em>
+  </li>
+  <li>
+    <strong>“The Mongol invasions depopulated such vast tracts of land that they reduced atmospheric CO₂ enough to be measurable centuries later.”</strong>
+    <br><em>The Mongol invasions depopulated so much land that they reduced atmospheric CO₂, measurable even centuries later.</em>
+  </li>
+</ul>
+
+<h2>Key Figures</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://en.wikipedia.org/wiki/Batu_Khan" target="_blank" rel="noopener">Batu Khan</a>
+  </li>
+  <li>
+    <a href="https://en.wikipedia.org/wiki/%C3%96zbeg_Khan" target="_blank" rel="noopener">Öz Beg Khan</a>
+  </li>
+  <li>
+    <a href="https://en.wikipedia.org/wiki/Mamai" target="_blank" rel="noopener">Mamai</a>
+  </li>
+  <li>
+    <a href="https://en.wikipedia.org/wiki/Charles_J._Halperin" target="_blank" rel="noopener">Charles J. Halperin</a>
+  </li>
+  <li>
+    <a href="https://en.wikipedia.org/wiki/George_Vernadsky" target="_blank" rel="noopener">George Vernadsky</a>
+  </li>
+  <li>
+    <a href="https://damiananfile.ro/" target="_blank" rel="noopener">Damian Anfile</a>
+  </li>
+</ul>
+
+--recomandari-de--
+<h2>Empfohlene Bücher</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://www.goodreads.com/book/show/40718726-genghis-khan-and-the-making-of-the-modern-world" target="_blank" rel="noopener">
+      Dschingis Khan und die Entstehung der modernen Welt
+    </a> – Jack Weatherford
+  </li>
+  <li>
+    <a href="https://www.goodreads.com/book/show/718607.The_Mongol_Art_of_War" target="_blank" rel="noopener">
+      Die Mongolische Kriegskunst
+    </a> – Timothy May
+  </li>
+  <li>
+    <a href="https://www.goodreads.com/book/show/2341973.A_History_of_Russia_Vol_3" target="_blank" rel="noopener">
+      Geschichte Russlands, Band 3
+    </a> – George Vernadsky
+  </li>
+  <li>
+    <a href="https://www.goodreads.com/book/show/706951.Russia_and_the_Golden_Horde" target="_blank" rel="noopener">
+      Russland und die Goldene Horde
+    </a> – Charles J. Halperin
+  </li>
+  <li>
+    <a href="https://www.goodreads.com/en/book/show/32073312-the-mongols-and-the-islamic-world" target="_blank" rel="noopener">
+      Die Mongolen und die islamische Welt
+    </a> – Peter Jackson
+  </li>
+</ul>
+
+<h2>Filme</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://www.imdb.com/title/tt2331066/" target="_blank" rel="noopener">
+      The Horde (Orda)
+    </a> (2012)
+  </li>
+  <li>
+    <a href="https://www.imdb.com/title/tt0043593/" target="_blank" rel="noopener">
+      Die Goldene Horde
+    </a> (1951)
+  </li>
+  <li>
+    <a href="https://www.imdb.com/title/tt0416044/" target="_blank" rel="noopener">
+      Mongol: Der Aufstieg von Dschingis Khan
+    </a> (2007)
+  </li>
+</ul>
+
+<h2>Podcasts / Videos</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://www.youtube.com/watch?v=ZVv_KBK-PJI" target="_blank" rel="noopener">
+      DAMIAN ANFILE: „Die Mongolen sind das größte Imperium der Weltgeschichte“
+    </a> | VREAU SĂ ȘTIU
+  </li>
+  <li>
+    <a href="https://www.youtube.com/watch?v=3eEhruOZXHA" target="_blank" rel="noopener">
+      Das Mongolenreich: Die Goldene Horde
+    </a> | History Junkie
+  </li>
+  <li>
+    <a href="https://www.youtube.com/watch?v=d4vROzoKElU" target="_blank" rel="noopener">
+      Schlacht von Kulikowo 1380 – Rus-Mongolische Kriege DOKU
+    </a> | Kings and Generals
+  </li>
+  <li>
+    <a href="https://www.youtube.com/watch?v=y95sYUkQJuA" target="_blank" rel="noopener">
+      Aufstieg von Timur – Krieg gegen Toqtamish – MONGOLO INVASIONEN DOKU
+    </a> | Kings and Generals
+  </li>
+</ul>
+
+<h2>Artikel</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://ro.wikipedia.org/wiki/Hoarda_de_Aur" target="_blank" rel="noopener"><strong>Hoarda de aur</strong></a> – Wikipedia (RO)
+  </li>
+  <li>
+    <a href="https://www.britannica.com/place/Mongol-empire/The-Golden-Horde" target="_blank" rel="noopener"><strong>Die Goldene Horde</strong></a> – Britannica
+  </li>
+  <li>
+    <a href="https://historia.ro/sectiune/general/hoarda-mongola-de-la-gurile-dunarii-569892.html" target="_blank" rel="noopener"><strong>Die Mongolenhorde an der Donaumündung</strong></a> – Historia
+  </li>
+</ul>
+
+<h2>Zitate</h2>
+<ul class="rec-list">
+  <li>
+    <strong>„Macht wird nicht gegeben, sie wird genommen.”</strong>
+    <br><em>Macht wird nicht gegeben, sie wird genommen.</em>
+  </li>
+  <li>
+    <strong>„Wer sich Autorität nicht unterwerfen kann, kann kein Anführer sein.”</strong>
+    <br><em>Wer sich Autorität nicht unterwerfen kann, kann kein Anführer sein. – zugeschrieben Dschingis Khan</em>
+  </li>
+  <li>
+    <strong>„Die Tataren kommen!”</strong>
+    <br><em>Die Tataren kommen! – Traditioneller rumänischer Ausruf</em>
+  </li>
+  <li>
+    <strong>„Die Mongolen haben die Welt kleiner gemacht.”</strong>
+    <br><em>Die Mongolen haben die Welt kleiner gemacht.</em>
+  </li>
+  <li>
+    <strong>„Das größte Glück ist es, den Feind zu zerstreuen.”</strong>
+    <br><em>Das größte Glück ist es, den Feind zu zerstreuen. – zugeschrieben Dschingis Khan</em>
+  </li>
+  <li>
+    <strong>„Die mongolischen Invasionen entvölkerten so große Landstriche, dass sie den atmosphärischen CO₂-Gehalt messbar verringerten.”</strong>
+    <br><em>Die mongolischen Invasionen entvölkerten so viele Gebiete, dass der atmosphärische CO₂-Gehalt selbst Jahrhunderte später messbar niedriger war.</em>
+  </li>
+</ul>
+
+<h2>Persönlichkeiten</h2>
+<ul class="rec-list">
+  <li>
+    <a href="https://en.wikipedia.org/wiki/Batu_Khan" target="_blank" rel="noopener">Batu Khan</a>
+  </li>
+  <li>
+    <a href="https://en.wikipedia.org/wiki/%C3%96zbeg_Khan" target="_blank" rel="noopener">Öz Beg Khan</a>
+  </li>
+  <li>
+    <a href="https://en.wikipedia.org/wiki/Mamai" target="_blank" rel="noopener">Mamai</a>
+  </li>
+  <li>
+    <a href="https://en.wikipedia.org/wiki/Charles_J._Halperin" target="_blank" rel="noopener">Charles J. Halperin</a>
+  </li>
+  <li>
+    <a href="https://en.wikipedia.org/wiki/George_Vernadsky" target="_blank" rel="noopener">George Vernadsky</a>
+  </li>
+  <li>
+    <a href="https://damiananfile.ro/" target="_blank" rel="noopener">Damian Anfile</a>
+  </li>
+</ul>
+
+--bibliografie-ro--
 <ol class="fancy-list">
   <li>Ciocîltan, V., <i>Mongolii și Marea Neagră în secolele XIII–XIV. Contribuția cinghizhanizilor la transformarea bazinului pontic în placă turnantă a comerțului euroasiatic</i>, București, 1998.</li>
   <li>Ciucălău, Daniel, <i>Hoarda de Aur și spațiul nord dunărean la începutul statalității românești</i>, revista „Acta Moldaviae Septentrionalis”, numerele VII–VIII.</li>
@@ -251,12 +566,43 @@ De asemenea, intervenția imperiului otoman a marcat o schimbare, iar în cele d
   <li>Video hosting: <a class="gold-link" href="https://file.garden/" target="_blank">file.garden</a></li>
 </ol>
 
+--bibliografie-en--
+<ol class="fancy-list">
+  <li>Ciocîltan, V., <i>The Mongols and the Black Sea in the 13th–14th Centuries. The Contribution of the Genghisids to Transforming the Pontic Basin into a Hub of Eurasian Trade</i>, Bucharest, 1998.</li>
+  <li>Ciucălău, Daniel, <i>The Golden Horde and the North Danube Region at the Dawn of Romanian Statehood</i>, “Acta Moldaviae Septentrionalis”, issues VII–VIII.</li>
+  <li>Gonta, Alexandru I., <i>The Romanians and the Golden Horde 1241–1502</i>, Demiurg Publishing, 2010.</li>
+  <li>Grekov, B.D., Iakubovskii, A.I., <i>The Golden Horde and Its Decline</i>, State Scientific Literature Publishing House, 1953.</li>
+  <li>Lemerle, P., <i>History of Byzantium</i>, Bucharest, 1998.</li>
+  <li>Sacerdoteanu, Aurelian, <i>The Great Tatar Invasion and Southeastern Europe</i>, Demiurg Publishing, 2010.</li>
+  <li>Vernadsky, George, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953.</li>
+  <li>Images © HistoryMaps</li>
+  <li>Video: <a class="gold-link" href="https://youtu.be/3eEhruOZXHA" target="_blank">Golden Horde – History and Myths, YouTube</a></li>
+  <li>Video: <a class="gold-link" href="https://youtu.be/d4vROzoKElU" target="_blank">Battle of Kulikovo, YouTube</a></li>
+  <li>Video: <a class="gold-link" href="https://youtu.be/y95sYUkQJuA" target="_blank">Battle of the Terek River, YouTube</a></li>
+  <li>Video hosting: <a class="gold-link" href="https://file.garden/" target="_blank">file.garden</a></li>
+</ol>
 
---note--
+--bibliografie-de--
+<ol class="fancy-list">
+  <li>Ciocîltan, V., <i>Die Mongolen und das Schwarze Meer im 13.–14. Jahrhundert. Der Beitrag der Dschingisiden zur Umwandlung des Pontischen Beckens in einen Knotenpunkt des eurasischen Handels</i>, Bukarest, 1998.</li>
+  <li>Ciucălău, Daniel, <i>Die Goldene Horde und der Nord-Donauraum am Beginn der rumänischen Staatlichkeit</i>, „Acta Moldaviae Septentrionalis“, Hefte VII–VIII.</li>
+  <li>Gonta, Alexandru I., <i>Die Rumänen und die Goldene Horde 1241–1502</i>, Demiurg Verlag, 2010.</li>
+  <li>Grekov, B.D., Iakubovskii, A.I., <i>Die Goldene Horde und ihr Niedergang</i>, Verlag für Wissenschaftliche Literatur, 1953.</li>
+  <li>Lemerle, P., <i>Geschichte von Byzanz</i>, Bukarest, 1998.</li>
+  <li>Sacerdoteanu, Aurelian, <i>Die große tatarische Invasion und Südosteuropa</i>, Demiurg Verlag, 2010.</li>
+  <li>Vernadsky, George, Karpovich, M., <i>Die Mongolen und Russland</i>, Yale University Press, 1953.</li>
+  <li>Bilder © HistoryMaps</li>
+  <li>Video: <a class="gold-link" href="https://youtu.be/3eEhruOZXHA" target="_blank">Goldene Horde – Geschichte und Mythen, YouTube</a></li>
+  <li>Video: <a class="gold-link" href="https://youtu.be/d4vROzoKElU" target="_blank">Schlacht von Kulikowo, YouTube</a></li>
+  <li>Video: <a class="gold-link" href="https://youtu.be/y95sYUkQJuA" target="_blank">Schlacht am Fluss Terek, YouTube</a></li>
+  <li>Video-Hosting: <a class="gold-link" href="https://file.garden/" target="_blank">file.garden</a></li>
+</ol>
+
+--note-ro--
 <ol class="fancy-list">
   <li id="note-1">George Vernadsky, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953, p.109</li>
-  <li id="note-2">Daniel Ciucălău, <i>Hoarda de Aur și spațiul nord dunărean...</i>, p. 34</li>
-  <li id="note-3">Aurelian Sacerdoteanu, <i>Marea invazie...</i>, Editura Demiurg, 2010, p. 97</li>
+  <li id="note-2">Daniel Ciucălău, <i>Hoarda de Aur și spațiul nord dunărean...</i>, p.34</li>
+  <li id="note-3">Aurelian Sacerdoteanu, <i>Marea invazie...</i>, Editura Demiurg, 2010, p.97</li>
   <li id="note-4">P. Lemerle, <i>Istoria Bizanțului</i>, București, 1998, p.126</li>
   <li id="note-5">Daniel Ciucălău, op.cit., p.78</li>
   <li id="note-6">V. Ciocîltan, <i>Mongolii și Marea Neagră...</i>, București, 1998, p.123</li>
@@ -264,9 +610,44 @@ De asemenea, intervenția imperiului otoman a marcat o schimbare, iar în cele d
   <li id="note-8">Gonta, Alexandru I., <i>Romanii si Hoarda de Aur 1241-1502</i>, Editura Demiurg, 2010, p.210</li>
   <li id="note-9">Aurelian Sacerdoteanu, op. cit., p.177</li>
   <li id="note-10">Ibidem, p.181</li>
-  <li id="note-11">B. D. Grecov și A.I. Iacubovschi, <i>Hoarda de Aur și decăderea ei</i>, 1953, p.221</li>
+  <li id="note-11">B. D. Grekov și A.I. Iacubovschi, <i>Hoarda de Aur și decăderea ei</i>, 1953, p.221</li>
   <li id="note-12">Ibidem, p.241</li>
   <li id="note-13">Daniel Ciucălău, op.cit., p.178</li>
   <li id="note-14">Ibidem, p.211</li>
 </ol>
 
+--note-en--
+<ol class="fancy-list">
+  <li id="note-1">George Vernadsky, Karpovich, M., <i>The Mongols and Russia</i>, Yale University Press, 1953, p.109</li>
+  <li id="note-2">Daniel Ciucălău, <i>The Golden Horde and the North Danube Region...</i>, p.34</li>
+  <li id="note-3">Aurelian Sacerdoteanu, <i>The Great Invasion...</i>, Demiurg Publishing, 2010, p.97</li>
+  <li id="note-4">P. Lemerle, <i>History of Byzantium</i>, Bucharest, 1998, p.126</li>
+  <li id="note-5">Daniel Ciucălău, op.cit., p.78</li>
+  <li id="note-6">V. Ciocîltan, <i>The Mongols and the Black Sea...</i>, Bucharest, 1998, p.123</li>
+  <li id="note-7">Ibid., p.179</li>
+  <li id="note-8">Gonta, Alexandru I., <i>The Romanians and the Golden Horde 1241-1502</i>, Demiurg Publishing, 2010, p.210</li>
+  <li id="note-9">Aurelian Sacerdoteanu, op. cit., p.177</li>
+  <li id="note-10">Ibid., p.181</li>
+  <li id="note-11">B.D. Grekov and A.I. Iakubovskii, <i>The Golden Horde and Its Decline</i>, 1953, p.221</li>
+  <li id="note-12">Ibid., p.241</li>
+  <li id="note-13">Daniel Ciucălău, op.cit., p.178</li>
+  <li id="note-14">Ibid., p.211</li>
+</ol>
+
+--note-de--
+<ol class="fancy-list">
+  <li id="note-1">George Vernadsky, Karpovich, M., <i>Die Mongolen und Russland</i>, Yale University Press, 1953, S.109</li>
+  <li id="note-2">Daniel Ciucălău, <i>Die Goldene Horde und der Nord-Donauraum...</i>, S.34</li>
+  <li id="note-3">Aurelian Sacerdoteanu, <i>Die große Invasion...</i>, Demiurg Verlag, 2010, S.97</li>
+  <li id="note-4">P. Lemerle, <i>Geschichte von Byzanz</i>, Bukarest, 1998, S.126</li>
+  <li id="note-5">Daniel Ciucălău, a.a.O., S.78</li>
+  <li id="note-6">V. Ciocîltan, <i>Die Mongolen und das Schwarze Meer...</i>, Bukarest, 1998, S.123</li>
+  <li id="note-7">Ebenda, S.179</li>
+  <li id="note-8">Gonta, Alexandru I., <i>Die Rumänen und die Goldene Horde 1241-1502</i>, Demiurg Verlag, 2010, S.210</li>
+  <li id="note-9">Aurelian Sacerdoteanu, a.a.O., S.177</li>
+  <li id="note-10">Ebenda, S.181</li>
+  <li id="note-11">B.D. Grekov und A.I. Iakubovskii, <i>Die Goldene Horde und ihr Niedergang</i>, 1953, S.221</li>
+  <li id="note-12">Ebenda, S.241</li>
+  <li id="note-13">Daniel Ciucălău, a.a.O., S.178</li>
+  <li id="note-14">Ebenda, S.211</li>
+</ol>

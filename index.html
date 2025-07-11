@@ -15,43 +15,43 @@
 
   <!-- === MOBILE RIBBON NAV (mobile only) === -->
 <nav id="mobileRibbon" class="mobile-ribbon">
-  <button id="mobileTocBtn" class="mobile-ribbon-btn" aria-label="Cuprins">
+<button id="mobileTocBtn" class="mobile-ribbon-btn" aria-label="Cuprins">
     <!-- Bookmark SVG (TOC) -->
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="26" height="26"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg>
-    <span class="mobile-ribbon-label">Cuprins</span>
+  <span class="mobile-ribbon-label" data-i18n="toc">Cuprins</span>
   </button>
   <button id="mobileSettingsBtn" class="mobile-ribbon-btn" aria-label="Setări">
-    <!-- Unicode gear -->
-    <span style="font-size:1.45em; vertical-align:middle; margin-right:2px;">⚙</span>
-    <span class="mobile-ribbon-label">Setări</span>
-  </button>
-  <button id="mobileMapBtn" class="mobile-ribbon-btn" aria-label="Hartă">
+  <span style="font-size:1.45em; vertical-align:middle; margin-right:2px;">⚙</span>
+  <span class="mobile-ribbon-label" data-i18n="settings">Setări</span>
+</button>
+<button id="mobileMapBtn" class="mobile-ribbon-btn" aria-label="Hartă">
     <!-- Map SVG -->
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="26" height="26"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" /></svg>
-    <span class="mobile-ribbon-label">Hartă</span>
-  </button>
-  <!-- DROPDOWN -->
-  <div id="mobileTocDropdown" class="mobile-toc-dropdown">
-    <a href="#acasa">Acasă</a>
-    <a href="#prolog">1206 – Prolog</a>
-    <a href="#kulikovo">1380 – Kulikovo</a>
-    <a href="#kalka">1381 – Kalka</a>
-    <a href="#tokhtamysh">1381 – Tokhtamysh</a>
-    <a href="#moscova">1382 – Moscova</a>
-    <a href="#razboi">1386 – Caucaz</a>
-    <a href="#kondurcha">1391 – Kondurcha</a>
-    <a href="#terek">1395 – Terek</a>
-    <a href="#vorskla">1399 – Vorskla</a>
-    <a href="#declin">1406 – Declinul</a>
-    <a href="#dezintegrare">1419 – Dezintegrare</a>
-    <a href="#lipnic">1470 – Lipnic</a>
-    <a href="#sfarsit">1480 – Sfârșitul</a>
-    <a href="#ultimul">1502 – Ultimul Khan</a>
-    <a href="#recomandari">Recomandări</a>
-    <a href="#galerie">Galerie</a>
-    <a href="#bibliografie">Bibliografie</a>
-    <a href="#note">Note</a>
-  </div>
+  <span class="mobile-ribbon-label" data-i18n="map">Hartă</span>
+</button>
+<!-- === Mobile TOC Dropdown === -->
+<div id="mobileTocDropdown" class="mobile-toc-dropdown">
+  <a href="#acasa" data-i18n="toc_acasa">Acasă</a>
+  <a href="#prolog" data-i18n="toc_prolog">1206 – Prolog</a>
+  <a href="#kulikovo" data-i18n="toc_kulikovo">1380 – Kulikovo</a>
+  <a href="#kalka" data-i18n="toc_kalka">1381 – Kalka</a>
+  <a href="#tokhtamysh" data-i18n="toc_tokhtamysh">1381 – Tokhtamysh</a>
+  <a href="#moscova" data-i18n="toc_moscova">1382 – Moscova</a>
+  <a href="#razboi" data-i18n="toc_razboi">1386 – Caucaz</a>
+  <a href="#kondurcha" data-i18n="toc_kondurcha">1391 – Kondurcha</a>
+  <a href="#terek" data-i18n="toc_terek">1395 – Terek</a>
+  <a href="#vorskla" data-i18n="toc_vorskla">1399 – Vorskla</a>
+  <a href="#declin" data-i18n="toc_declin">1406 – Declinul</a>
+  <a href="#dezintegrare" data-i18n="toc_dezintegrare">1419 – Dezintegrare</a>
+  <a href="#lipnic" data-i18n="toc_lipnic">1470 – Lipnic</a>
+  <a href="#sfarsit" data-i18n="toc_sfarsit">1480 – Sfârșitul</a>
+  <a href="#ultimul" data-i18n="toc_ultimul">1502 – Ultimul Khan</a>
+  <a href="#recomandari" data-i18n="toc_recomandari">Recomandări</a>
+  <a href="#galerie" data-i18n="toc_galerie">Galerie</a>
+  <a href="#bibliografie" data-i18n="toc_bibliografie">Bibliografie</a>
+  <a href="#note" data-i18n="toc_note">Note</a>
+</div>
+
 </nav>
 
   <div id="sidebarHoverZone"></div>
@@ -65,29 +65,32 @@
   <div class="sidebar" id="sidebar">
     <div class="sidebar-top">
       <button id="sidebarCloseBtn" class="sidebar-close-btn close-btn" aria-label="Închide bara laterală">&times;</button>
-      <button class="menu-btn" id="sidebarSettings">⚙ Setări</button>
-      <button class="menu-btn dropbtn" id="sidebarToc">Cuprins</button>
-      <div class="dropdown-content" id="tocDropdown">
-        <a href="#acasa" data-loc="acasa">Acasă</a>
-        <a href="#prolog" data-loc="prolog">1206 – Prolog</a>
-        <a href="#kulikovo" data-loc="kulikovo">1380 – Kulikovo</a>
-        <a href="#kalka" data-loc="kalka">1381 – Kalka</a>
-        <a href="#tokhtamysh" data-loc="tokhtamysh">1381 – Tokhtamysh</a>
-        <a href="#moscova" data-loc="moscova">1382 – Moscova</a>
-        <a href="#razboi" data-loc="razboi">1386 – Caucaz</a>
-        <a href="#kondurcha" data-loc="kondurcha">1391 – Kondurcha</a>
-        <a href="#terek" data-loc="terek">1395 – Terek</a>
-        <a href="#vorskla" data-loc="vorskla">1399 – Vorskla</a>
-        <a href="#declin" data-loc="declin">1406 – Declinul</a>
-        <a href="#dezintegrare" data-loc="dezintegrare">1419 – Dezintegrare</a>
-        <a href="#lipnic" data-loc="lipnic">1470 – Lipnic</a>
-        <a href="#sfarsit" data-loc="sfarsit">1480 – Sfârșitul</a>
-        <a href="#ultimul" data-loc="ultimul">1502 – Ultimul Khan</a>
-        <a href="#recomandari" data-loc="recomandari">Recomandări</a>
-        <a href="#galerie" data-loc="galerie">Galerie</a>
-        <a href="#bibliografie" data-loc="bibliografie">Bibliografie</a>
-        <a href="#note" data-loc="note">Note</a>
-      </div>
+<button class="menu-btn" id="sidebarSettings"><span data-i18n="settings">Setări</span></button>
+<button class="menu-btn dropbtn" id="sidebarToc"><span data-i18n="toc">Cuprins</span></button>
+
+<!-- === Desktop TOC (Sidebar) === -->
+<div class="dropdown-content" id="tocDropdown">
+  <a href="#acasa" data-loc="acasa" data-i18n="toc_acasa">Acasă</a>
+  <a href="#prolog" data-loc="prolog" data-i18n="toc_prolog">1206 – Prolog</a>
+  <a href="#kulikovo" data-loc="kulikovo" data-i18n="toc_kulikovo">1380 – Kulikovo</a>
+  <a href="#kalka" data-loc="kalka" data-i18n="toc_kalka">1381 – Kalka</a>
+  <a href="#tokhtamysh" data-loc="tokhtamysh" data-i18n="toc_tokhtamysh">1381 – Tokhtamysh</a>
+  <a href="#moscova" data-loc="moscova" data-i18n="toc_moscova">1382 – Moscova</a>
+  <a href="#razboi" data-loc="razboi" data-i18n="toc_razboi">1386 – Caucaz</a>
+  <a href="#kondurcha" data-loc="kondurcha" data-i18n="toc_kondurcha">1391 – Kondurcha</a>
+  <a href="#terek" data-loc="terek" data-i18n="toc_terek">1395 – Terek</a>
+  <a href="#vorskla" data-loc="vorskla" data-i18n="toc_vorskla">1399 – Vorskla</a>
+  <a href="#declin" data-loc="declin" data-i18n="toc_declin">1406 – Declinul</a>
+  <a href="#dezintegrare" data-loc="dezintegrare" data-i18n="toc_dezintegrare">1419 – Dezintegrare</a>
+  <a href="#lipnic" data-loc="lipnic" data-i18n="toc_lipnic">1470 – Lipnic</a>
+  <a href="#sfarsit" data-loc="sfarsit" data-i18n="toc_sfarsit">1480 – Sfârșitul</a>
+  <a href="#ultimul" data-loc="ultimul" data-i18n="toc_ultimul">1502 – Ultimul Khan</a>
+  <a href="#recomandari" data-loc="recomandari" data-i18n="toc_recomandari">Recomandări</a>
+  <a href="#galerie" data-loc="galerie" data-i18n="toc_galerie">Galerie</a>
+  <a href="#bibliografie" data-loc="bibliografie" data-i18n="toc_bibliografie">Bibliografie</a>
+  <a href="#note" data-loc="note" data-i18n="toc_note">Note</a>
+</div>
+
     </div>
     <div class="sidebar-map">
       <div id="map"></div>
@@ -100,7 +103,7 @@
     <div class="container">
       <section id="top"></section>
       <h3>1380 – 1502</h3>
-      <h2 class="title-centered" style="font-size: 48px; text-align: center; font-weight: bold;">HOARDA DE AUR</h2>
+      <h2 class="title-centered" data-i18n="main_title" style="font-size: 48px; text-align: center; font-weight: bold;">HOARDA DE AUR</h2>
       <hr class="separator thick" />
       <h2 id="declin-title" class="title-centered" style="font-size: 36px; text-align: center; font-weight: bold;">– DECLINUL –</h2>
       <hr class="separator" />
@@ -108,331 +111,369 @@
 
       <div class="text-section">
 
-        <!-- === Acasă (Landing & Main Video) === -->
-        <section id="acasa">
-          <div class="video-section">
-            <button class="btn toggleVideo">Arată Video</button>
-            <div class="videoContainer" style="display: none; margin-top: 20px;">
-              <video id="hoardaVideo" width="560" height="315" controls poster="assets/acasa.jpg" style="border-radius:12px; background:transparent;">
-                <source src="https://file.garden/aEmeFmK7YhOgwAtX/acasa.mp4" type="video/mp4">
-                Browserul tău nu suportă video HTML5.
-              </video>
-            </div>
-          </div>
-          <div class="section-content" id="principal">
-            <p>Textul din secțiunea principală se va actualiza din text.txt.</p>
-          </div>
-        </section>
+<!-- === Acasă (Landing & Main Video) === -->
+<section id="acasa">
+  <div class="video-section">
+    <button class="btn toggleVideo" data-i18n="video_show">Arată Video</button>
+    <div class="videoContainer" style="display: none; margin-top: 20px;">
+      <video id="hoardaVideo" width="560" height="315" controls poster="assets/acasa.jpg" style="border-radius:12px; background:transparent;">
+        <source src="https://file.garden/aEmeFmK7YhOgwAtX/acasa.mp4" type="video/mp4">
+        <span data-i18n="video_no_html5">Browserul tău nu suportă video HTML5.</span>
+      </video>
+    </div>
+  </div>
+  <div class="section-content" id="principal">
+    <p><!-- text din text.txt --></p>
+  </div>
+</section>
 
-        <!-- === Prolog === -->
-        <section id="prolog">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Prolog</span></h1>
-            <p class="info">18 August 1206, Mongolia</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Imagine Prolog" />
-          <div class="section-content">
-            <p>Textul pentru Prolog se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Prolog === -->
+<section id="prolog">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="prolog_title">Prolog</span></h1>
+    <p class="info" data-i18n="prolog_info">18 August 1206, Mongolia</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Imagine Prolog" />
+  <div class="section-content">
+    <p><!-- text din text.txt --></p>
+  </div>
+</section>
 
-        <!-- === Kulikovo (with video) === -->
-        <section id="kulikovo">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Punct de cotitură: Bătălia de la Kulikovo</span></h1>
-            <p class="info">8 Septembrie 1380, Râul Don, Rusia</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo" />
-          <div class="video-section">
-            <button class="btn toggleVideo">Arată Video</button>
-            <div class="videoContainer" style="display: none; margin-top: 20px;">
-              <video width="560" height="315" controls poster="assets/kulikovo.jpg" style="border-radius:12px; background:#111;">
-                <source src="https://file.garden/aEmeFmK7YhOgwAtX/kulikovo.mp4" type="video/mp4">
-                Browserul tău nu suportă video HTML5.
-              </video>
-            </div>
-          </div>
-          <div class="section-content">
-            <p>Textul pentru Kulikovo se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Kulikovo (with video) === -->
+<section id="kulikovo">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="kulikovo_title">Punct de cotitură: Bătălia de la Kulikovo</span></h1>
+    <p class="info" data-i18n="kulikovo_info">8 Septembrie 1380, Râul Don, Rusia</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo" />
+  <div class="video-section">
+    <button class="btn toggleVideo" data-i18n="video_show">Arată Video</button>
+    <div class="videoContainer" style="display: none; margin-top: 20px;">
+      <video width="560" height="315" controls poster="assets/kulikovo.jpg" style="border-radius:12px; background:#111;">
+        <source src="https://file.garden/aEmeFmK7YhOgwAtX/kulikovo.mp4" type="video/mp4">
+        <span data-i18n="video_no_html5">Browserul tău nu suportă video HTML5.</span>
+      </video>
+    </div>
+  </div>
+  <div class="section-content">
+    <p><!-- text din text.txt --></p>
+  </div>
+</section>
 
-        <!-- === Kalka === -->
-        <section id="kalka">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Bătălia de pe râul Kalka</span></h1>
-            <p class="info">1 Ianuarie 1381, Râul Kalka, Ucraina</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/75/eb/08/75eb08d0087dd0246e9a6228d9864349.jpg" alt="Bătălia de pe râul Kalka" />
-          <div class="section-content">
-            <p>Textul pentru Kalka se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Kalka === -->
+<section id="kalka">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="kalka_title">Bătălia de pe râul Kalka</span></h1>
+    <p class="info" data-i18n="kalka_info">1 Ianuarie 1381, Râul Kalka, Ucraina</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/75/eb/08/75eb08d0087dd0246e9a6228d9864349.jpg" alt="Bătălia de pe râul Kalka" />
+  <div class="section-content">
+    <p><!-- text din text.txt --></p>
+  </div>
+</section>
 
-        <!-- === Tokhtamysh === -->
-        <section id="tokhtamysh">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Tokhtamysh: restaurarea puterii</span></h1>
-            <p class="info">2 Ianuarie 1381, Rusia</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/22/bc/3d/22bc3d0d11e16438139c5f20cdeb83e3.jpg" alt="Tokhtamysh" />
-          <div class="section-content">
-            <p>Textul pentru Tokhtamysh se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Tokhtamysh === -->
+<section id="tokhtamysh">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="tokhtamysh_title">Tokhtamysh: restaurarea puterii</span></h1>
+    <p class="info" data-i18n="tokhtamysh_info">2 Ianuarie 1381, Rusia</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/22/bc/3d/22bc3d0d11e16438139c5f20cdeb83e3.jpg" alt="Tokhtamysh" />
+  <div class="section-content">
+    <p><!-- text din text.txt --></p>
+  </div>
+</section>
 
-        <!-- === Moscova === -->
-        <section id="moscova">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Asediul Moscovei</span></h1>
-            <p class="info">23 August 1382, Rusia</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg" alt="Asediul Moscovei" />
-          <div class="section-content">
-            <p>Textul pentru Moscova se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Moscova === -->
+<section id="moscova">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="moscova_title">Asediul Moscovei</span></h1>
+    <p class="info" data-i18n="moscova_info">23 August 1382, Rusia</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg" alt="Asediul Moscovei" />
+  <div class="section-content">
+    <p><!-- text din text.txt --></p>
+  </div>
+</section>
 
-        <!-- === Razboi === -->
-        <section id="razboi">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Războiul Tokhtamysh–Timur</span></h1>
-            <p class="info">1 Ianuarie 1386, Munții Caucaz</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg" alt="Războiul Tokhtamysh–Timur" />
-          <div class="section-content">
-            <p>Textul pentru Război se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Razboi === -->
+<section id="razboi">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="razboi_title">Războiul Tokhtamysh–Timur</span></h1>
+    <p class="info" data-i18n="razboi_info">1 Ianuarie 1386, Munții Caucaz</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg" alt="Războiul Tokhtamysh–Timur" />
+  <div class="section-content">
+    <p><!-- text din text.txt --></p>
+  </div>
+</section>
 
-        <!-- === Kondurcha === -->
-        <section id="kondurcha">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Bătălia de pe râul Kondurcha</span></h1>
-            <p class="info">18 Iunie 1391, Bulgaria</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg" alt="Bătălia de pe râul Kondurcha" />
-          <div class="section-content">
-            <p>Textul pentru Kondurcha se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Kondurcha === -->
+<section id="kondurcha">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="kondurcha_title">Bătălia de pe râul Kondurcha</span></h1>
+    <p class="info" data-i18n="kondurcha_info">18 Iunie 1391, Bulgaria</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg" alt="Bătălia de pe râul Kondurcha" />
+  <div class="section-content">
+    <p><!-- text din text.txt --></p>
+  </div>
+</section>
 
-        <!-- === Terek (with video) === -->
-        <section id="terek">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Bătălia de pe râul Terek</span></h1>
-            <p class="info">15 Aprilie 1395</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Bătălia de pe râul Terek" />
-          <div class="video-section">
-            <button class="btn toggleVideo">Arată Video</button>
-            <div class="videoContainer" style="display: none; margin-top: 20px;">
-              <video width="560" height="315" controls poster="assets/terek.jpg" style="border-radius:12px; background:#111;">
-                <source src="https://file.garden/aEmeFmK7YhOgwAtX/terek.mp4" type="video/mp4">
-                Browserul tău nu suportă video HTML5.
-              </video>
-            </div>
-          </div>
-          <div class="section-content">
-            <p>Textul pentru Terek se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Moscova === -->
+<section id="moscova">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="moscova_title">Asediul Moscovei</span></h1>
+    <p class="info" data-i18n="moscova_info">23 August 1382, Rusia</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg" alt="Asediul Moscovei" />
+  <div class="section-content">
+    <p data-i18n="moscova_text">Textul pentru Moscova se va încărca din text.txt.</p>
+  </div>
+</section>
 
-        <!-- === Vorskla === -->
-        <section id="vorskla">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Bătălia de pe râul Vorskla</span></h1>
-            <p class="info">12 August 1399</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg/1200px-Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg" alt="Bătălia de pe râul Vorskla" />
-          <div class="section-content">
-            <p>Textul pentru Vorskla se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Razboi === -->
+<section id="razboi">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="razboi_title">Războiul Tokhtamysh–Timur</span></h1>
+    <p class="info" data-i18n="razboi_info">1 Ianuarie 1386, Munții Caucaz</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg" alt="Războiul Tokhtamysh–Timur" />
+  <div class="section-content">
+    <p data-i18n="razboi_text">Textul pentru Război se va încărca din text.txt.</p>
+  </div>
+</section>
 
-        <!-- === Declin === -->
-        <section id="declin">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Declinul Hoardei De Aur</span></h1>
-            <p class="info">1 Ianuarie 1406</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/2f/98/4f/2f984ff45f253bf89b54762b19c42963.jpg" alt="Declinul Hoardei De Aur" />
-          <div class="section-content">
-            <p>Textul pentru Declin se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Kondurcha === -->
+<section id="kondurcha">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="kondurcha_title">Bătălia de pe râul Kondurcha</span></h1>
+    <p class="info" data-i18n="kondurcha_info">18 Iunie 1391, Bulgaria</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg" alt="Bătălia de pe râul Kondurcha" />
+  <div class="section-content">
+    <p data-i18n="kondurcha_text">Textul pentru Kondurcha se va încărca din text.txt.</p>
+  </div>
+</section>
 
-        <!-- === Dezintegrare === -->
-        <section id="dezintegrare">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Dezintegrare</span></h1>
-            <p class="info">1 Ianuarie 1419</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/e0/e4/48/e0e4489cb34e87d437d213a843b1b181.jpg" alt="Dezintegrare" />
-          <div class="section-content">
-            <p>Textul pentru Dezintegrare se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Terek (with video) === -->
+<section id="terek">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="terek_title">Bătălia de pe râul Terek</span></h1>
+    <p class="info" data-i18n="terek_info">15 Aprilie 1395</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Bătălia de pe râul Terek" />
+  <div class="video-section">
+    <button class="btn toggleVideo" data-i18n="toggleVideoBtn_show">Arată Video</button>
+    <div class="videoContainer" style="display: none; margin-top: 20px;">
+      <video width="560" height="315" controls poster="assets/terek.jpg" style="border-radius:12px; background:#111;">
+        <source src="https://file.garden/aEmeFmK7YhOgwAtX/terek.mp4" type="video/mp4">
+        Browserul tău nu suportă video HTML5.
+      </video>
+    </div>
+  </div>
+  <div class="section-content">
+    <p data-i18n="terek_text">Textul pentru Terek se va încărca din text.txt.</p>
+  </div>
+</section>
 
-        <!-- === Lipnic === -->
-        <section id="lipnic">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Bătălia de la Lipnic</span></h1>
-            <p class="info">20 August 1470</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/7b/b7/2c/7bb72cdef6c1b832ccd5e09b0f8e0d0d.jpg" alt="Bătălia de la Lipnic" />
-          <div class="section-content">
-            <p>Textul pentru Lipnic se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Vorskla === -->
+<section id="vorskla">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="vorskla_title">Bătălia de pe râul Vorskla</span></h1>
+    <p class="info" data-i18n="vorskla_info">12 August 1399</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg/1200px-Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg" alt="Bătălia de pe râul Vorskla" data-i18n-alt="vorskla_alt" />
+  <div class="section-content">
+    <p data-i18n="vorskla_text">Textul pentru Vorskla se va încărca din text.txt.</p>
+  </div>
+</section>
 
-        <!-- === Sfarsit === -->
-        <section id="sfarsit">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Sfârșitul asupririi mongole</span></h1>
-            <p class="info">8 August 1480, Râul Ugra</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/96/93/b5/9693b53bf3b5d7549c5e017e44a05ea3.jpg" alt="Sfârșitul asupririi mongole" />
-          <div class="section-content">
-            <p>Textul pentru Sfârșit se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Declin === -->
+<section id="declin">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="declin_title">Declinul Hoardei De Aur</span></h1>
+    <p class="info" data-i18n="declin_info">1 Ianuarie 1406</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/2f/98/4f/2f984ff45f253bf89b54762b19c42963.jpg" alt="Declinul Hoardei De Aur" data-i18n-alt="declin_alt" />
+  <div class="section-content">
+    <p data-i18n="declin_text">Textul pentru Declin se va încărca din text.txt.</p>
+  </div>
+</section>
 
-        <!-- === Ultimul Khan === -->
-        <section id="ultimul">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Ultimul Khan</span></h1>
-            <p class="info">1 Ianuarie 1502, Kaunas</p>
-          </div>
-          <hr class="separator" />
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/e9/3e/ff/e93effe31b883e7df9ee30992543283b.jpg" alt="Ultimul Khan" />
-          <div class="section-content">
-            <p>Textul pentru Ultimul Khan se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Dezintegrare === -->
+<section id="dezintegrare">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="dezintegrare_title">Dezintegrare</span></h1>
+    <p class="info" data-i18n="dezintegrare_info">1 Ianuarie 1419</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/e0/e4/48/e0e4489cb34e87d437d213a843b1b181.jpg" alt="Dezintegrare" data-i18n-alt="dezintegrare_alt" />
+  <div class="section-content">
+    <p data-i18n="dezintegrare_text">Textul pentru Dezintegrare se va încărca din text.txt.</p>
+  </div>
+</section>
 
-        <!-- === Recomandari === -->
-        <section id="recomandari">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Recomandări</span></h1>
-          </div>
-          <div class="section-content">
-            <p>Conținutul recomandărilor va fi încărcat din text.txt.</p>
-          </div>
-        </section>
+<!-- === Lipnic === -->
+<section id="lipnic">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="lipnic_title">Bătălia de la Lipnic</span></h1>
+    <p class="info" data-i18n="lipnic_info">20 August 1470</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/7b/b7/2c/7bb72cdef6c1b832ccd5e09b0f8e0d0d.jpg" alt="Bătălia de la Lipnic" data-i18n-alt="lipnic_alt" />
+  <div class="section-content">
+    <p data-i18n="lipnic_text">Textul pentru Lipnic se va încărca din text.txt.</p>
+  </div>
+</section>
 
-        <!-- === Galerie === -->
-        <section id="galerie">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Galerie</span></h1>
-          </div>
-          <div class="section-content">
-            <div class="gallery-grid">
-              <!-- ...repeat for all images as in your original code... -->
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/d3/9a/b3/d39ab39b644184525387f82753585ec0.jpg" alt="Hoarda de Aur" class="popup-enabled" />
-                <div class="gallery-caption">Hoarda de Aur</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Prolog" class="popup-enabled" />
-                <div class="gallery-caption">Prolog</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo" class="popup-enabled" />
-                <div class="gallery-caption">Bătălia de la Kulikovo</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/75/eb/08/75eb08d0087dd0246e9a6228d9864349.jpg" alt="Bătălia de pe râul Kalka" class="popup-enabled" />
-                <div class="gallery-caption">Bătălia de pe râul Kalka</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/22/bc/3d/22bc3d0d11e16438139c5f20cdeb83e3.jpg" alt="Tokhtamysh" class="popup-enabled" />
-                <div class="gallery-caption">Tokhtamysh</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg" alt="Asediul Moscovei" class="popup-enabled" />
-                <div class="gallery-caption">Asediul Moscovei</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg" alt="Războiul Tokhtamysh–Timur" class="popup-enabled" />
-                <div class="gallery-caption">Războiul Tokhtamysh–Timur</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg" alt="Bătălia de pe râul Kondurcha" class="popup-enabled" />
-                <div class="gallery-caption">Bătălia de pe râul Kondurcha</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Bătălia de pe râul Terek" class="popup-enabled" />
-                <div class="gallery-caption">Bătălia de pe râul Terek</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg/1200px-Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg" alt="Bătălia de pe râul Vorskla" class="popup-enabled" />
-                <div class="gallery-caption">Bătălia de pe râul Vorskla</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/2f/98/4f/2f984ff45f253bf89b54762b19c42963.jpg" alt="Declinul Hoardei De Aur" class="popup-enabled" />
-                <div class="gallery-caption">Declinul Hoardei De Aur</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/e0/e4/48/e0e4489cb34e87d437d213a843b1b181.jpg" alt="Dezintegrare" class="popup-enabled" />
-                <div class="gallery-caption">Dezintegrare</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/7b/b7/2c/7bb72cdef6c1b832ccd5e09b0f8e0d0d.jpg" alt="Bătălia de la Lipnic" class="popup-enabled" />
-                <div class="gallery-caption">Bătălia de la Lipnic</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/96/93/b5/9693b53bf3b5d7549c5e017e44a05ea3.jpg" alt="Sfârșitul asupririi mongole" class="popup-enabled" />
-                <div class="gallery-caption">Sfârșitul asupririi mongole</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/e9/3e/ff/e93effe31b883e7df9ee30992543283b.jpg" alt="Ultimul Khan" class="popup-enabled" />
-                <div class="gallery-caption">Ultimul Khan</div>
-              </div>
-              <div class="gallery-item">
-                <img src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Bibliografie" class="popup-enabled" />
-                <div class="gallery-caption">Bibliografie</div>
-              </div>
-            </div>
-          </div>
-        </section>
+<!-- === Sfarsit === -->
+<section id="sfarsit">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="sfarsit_title">Sfârșitul asupririi mongole</span></h1>
+    <p class="info" data-i18n="sfarsit_info">8 August 1480, Râul Ugra</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/96/93/b5/9693b53bf3b5d7549c5e017e44a05ea3.jpg" alt="Sfârșitul asupririi mongole" data-i18n-alt="sfarsit_alt" />
+  <div class="section-content">
+    <p data-i18n="sfarsit_text">Textul pentru Sfârșit se va încărca din text.txt.</p>
+  </div>
+</section>
 
-        <!-- === Bibliografie === -->
-        <section id="bibliografie">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Bibliografie</span></h1>
-          </div>
-          <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Bibliografie" />
-          <div class="section-content">
-            <p>Textul pentru Bibliografie se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Ultimul Khan === -->
+<section id="ultimul">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="ultimul_title">Ultimul Khan</span></h1>
+    <p class="info" data-i18n="ultimul_info">1 Ianuarie 1502, Kaunas</p>
+  </div>
+  <hr class="separator" />
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/e9/3e/ff/e93effe31b883e7df9ee30992543283b.jpg" alt="Ultimul Khan" data-i18n-alt="ultimul_alt" />
+  <div class="section-content">
+    <p data-i18n="ultimul_text">Textul pentru Ultimul Khan se va încărca din text.txt.</p>
+  </div>
+</section>
 
-        <!-- === Note === -->
-        <section id="note">
-          <div class="section-header flex-header">
-            <h1><span class="title-text">Note</span></h1>
-          </div>
-          <div class="section-content">
-            <p>Textul pentru Note se va încărca din text.txt.</p>
-          </div>
-        </section>
+<!-- === Recomandari === -->
+<section id="recomandari">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="recomandari_title">Recomandări</span></h1>
+  </div>
+  <div class="section-content">
+    <p data-i18n="recomandari_text">Conținutul recomandărilor va fi încărcat din text.txt.</p>
+  </div>
+</section>
+
+
+<!-- === Galerie === -->
+<section id="galerie">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="galerie_title">Galerie</span></h1>
+  </div>
+  <div class="section-content">
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/d3/9a/b3/d39ab39b644184525387f82753585ec0.jpg" alt="Hoarda de Aur" class="popup-enabled" data-i18n-alt="galerie_hoarda_alt" />
+        <div class="gallery-caption" data-i18n="galerie_hoarda_caption">Hoarda de Aur</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Prolog" class="popup-enabled" data-i18n-alt="galerie_prolog_alt" />
+        <div class="gallery-caption" data-i18n="galerie_prolog_caption">Prolog</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/ca/d5/38/cad538136c58daf3f5ea9f30c079e139.jpg" alt="Bătălia de la Kulikovo" class="popup-enabled" data-i18n-alt="galerie_kulikovo_alt" />
+        <div class="gallery-caption" data-i18n="galerie_kulikovo_caption">Bătălia de la Kulikovo</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/75/eb/08/75eb08d0087dd0246e9a6228d9864349.jpg" alt="Bătălia de pe râul Kalka" class="popup-enabled" data-i18n-alt="galerie_kalka_alt" />
+        <div class="gallery-caption" data-i18n="galerie_kalka_caption">Bătălia de pe râul Kalka</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/22/bc/3d/22bc3d0d11e16438139c5f20cdeb83e3.jpg" alt="Tokhtamysh" class="popup-enabled" data-i18n-alt="galerie_tokhtamysh_alt" />
+        <div class="gallery-caption" data-i18n="galerie_tokhtamysh_caption">Tokhtamysh</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/90/1f/de/901fdeecf8ce507d52b6c30c7a759906.jpg" alt="Asediul Moscovei" class="popup-enabled" data-i18n-alt="galerie_moscova_alt" />
+        <div class="gallery-caption" data-i18n="galerie_moscova_caption">Asediul Moscovei</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/55/4c/3b/554c3b12c17d9ed665d7c9049c8de91e.jpg" alt="Războiul Tokhtamysh–Timur" class="popup-enabled" data-i18n-alt="galerie_razboi_alt" />
+        <div class="gallery-caption" data-i18n="galerie_razboi_caption">Războiul Tokhtamysh–Timur</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/1c/44/74/1c447453b312bd02928d21d4478bfed1.jpg" alt="Bătălia de pe râul Kondurcha" class="popup-enabled" data-i18n-alt="galerie_kondurcha_alt" />
+        <div class="gallery-caption" data-i18n="galerie_kondurcha_caption">Bătălia de pe râul Kondurcha</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/b7/d0/d8/b7d0d864ab1039921a8a92d83fa9d6ea.jpg" alt="Bătălia de pe râul Terek" class="popup-enabled" data-i18n-alt="galerie_terek_alt" />
+        <div class="gallery-caption" data-i18n="galerie_terek_caption">Bătălia de pe râul Terek</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg/1200px-Facial_Chronicle_-_b.11%2C_p.421_-_Battle_at_Vorskla.jpg" alt="Bătălia de pe râul Vorskla" class="popup-enabled" data-i18n-alt="galerie_vorskla_alt" />
+        <div class="gallery-caption" data-i18n="galerie_vorskla_caption">Bătălia de pe râul Vorskla</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/2f/98/4f/2f984ff45f253bf89b54762b19c42963.jpg" alt="Declinul Hoardei De Aur" class="popup-enabled" data-i18n-alt="galerie_declin_alt" />
+        <div class="gallery-caption" data-i18n="galerie_declin_caption">Declinul Hoardei De Aur</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/e0/e4/48/e0e4489cb34e87d437d213a843b1b181.jpg" alt="Dezintegrare" class="popup-enabled" data-i18n-alt="galerie_dezintegrare_alt" />
+        <div class="gallery-caption" data-i18n="galerie_dezintegrare_caption">Dezintegrare</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/7b/b7/2c/7bb72cdef6c1b832ccd5e09b0f8e0d0d.jpg" alt="Bătălia de la Lipnic" class="popup-enabled" data-i18n-alt="galerie_lipnic_alt" />
+        <div class="gallery-caption" data-i18n="galerie_lipnic_caption">Bătălia de la Lipnic</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/96/93/b5/9693b53bf3b5d7549c5e017e44a05ea3.jpg" alt="Sfârșitul asupririi mongole" class="popup-enabled" data-i18n-alt="galerie_sfarsit_alt" />
+        <div class="gallery-caption" data-i18n="galerie_sfarsit_caption">Sfârșitul asupririi mongole</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/e9/3e/ff/e93effe31b883e7df9ee30992543283b.jpg" alt="Ultimul Khan" class="popup-enabled" data-i18n-alt="galerie_ultimul_alt" />
+        <div class="gallery-caption" data-i18n="galerie_ultimul_caption">Ultimul Khan</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Bibliografie" class="popup-enabled" data-i18n-alt="galerie_bibliografie_alt" />
+        <div class="gallery-caption" data-i18n="galerie_bibliografie_caption">Bibliografie</div>
       </div>
     </div>
   </div>
+</section>
+
+
+<!-- === Bibliografie === -->
+<section id="bibliografie">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="bibliografie_title">Bibliografie</span></h1>
+  </div>
+  <img class="centered-image popup-enabled" src="https://i.pinimg.com/1200x/fd/f1/dd/fdf1dd9a2b01739621698673a658bd43.jpg" alt="Bibliografie" data-i18n-alt="bibliografie_alt" />
+  <div class="section-content">
+    <p data-i18n="bibliografie_text">Textul pentru Bibliografie se va încărca din text.txt.</p>
+  </div>
+</section>
+
+<!-- === Note === -->
+<section id="note">
+  <div class="section-header flex-header">
+    <h1><span class="title-text" data-i18n="note_title">Note</span></h1>
+  </div>
+  <div class="section-content">
+    <p data-i18n="note_text">Textul pentru Note se va încărca din text.txt.</p>
+  </div>
+</section>
+
 
   <!-- === Image Popup Modal === -->
   <div id="imagePopup" class="popup" style="display:none;">
@@ -448,71 +489,86 @@
       <span class="bar"></span>
     </button>
     <div class="fab-actions" id="fabActions">
-      <button class="fab-action" id="fabTop" aria-label="Sus">↑</button>
-      <button class="fab-action" id="fabLast" aria-label="Înapoi">←</button>
-      <button class="fab-action" id="fabSettings" aria-label="Setări">⚙</button>
-      <button class="fab-action" id="fabMeniu" aria-label="Meniu">≡</button>
+<button class="fab-action" id="fabTop" aria-label="Sus" data-i18n-aria="up">↑</button>
+<button class="fab-action" id="fabLast" aria-label="Înapoi" data-i18n-aria="back">←</button>
+<button class="fab-action" id="fabSettings" aria-label="Setări" data-i18n-aria="settings">⚙</button>
+<button class="fab-action" id="fabMeniu" aria-label="Meniu" data-i18n-aria="menu">≡</button>
+
     </div>
   </div>
 
-  <!-- === Settings Popup Modal === -->
-  <div id="settingsOverlay" class="modal-overlay">
-    <div id="settingsPopup" class="settings-popup" tabindex="-1">
-      <span id="closeSettingsBtn" class="close-btn">&times;</span>
-      <h2 tabindex="0">Setări</h2>
-      <div class="settings-content">
-        <div class="settings-labels column-1">
-  <div class="settings-group">
-    <label class="settings-label" for="contrastToggle">Contrast ridicat</label>
-    <input type="checkbox" id="contrastToggle" class="settings-checkbox" />
-    <span class="settings-toggle"></span>
-  </div>
-  <div class="settings-group">
-    <label class="settings-label" for="themeToggle">Mod întunecat</label>
-    <input type="checkbox" id="themeToggle" class="settings-checkbox" />
-    <span class="settings-toggle"></span>
-  </div>
-  <div class="settings-group">
-    <label class="settings-label" for="debugToggle">Show Debug Panel</label>
-    <input type="checkbox" id="debugToggle" class="settings-checkbox" />
-    <span class="settings-toggle"></span>
-  </div>
-  <div class="settings-group">
-    <label class="settings-label" for="particlesToggle">Show Particles</label>
-    <input type="checkbox" id="particlesToggle" class="settings-checkbox" />
-    <span class="settings-toggle"></span>
-  </div>
-  <div class="settings-group">
-    <label class="settings-label" for="videoPlaybackSelect">Video</label>
-    <select id="videoPlaybackSelect" class="settings-dropdown" name="videoPlayback">
-      <option value="play">Rulează în fundal</option>
-      <option value="pause">Oprește</option>
-      <option value="pip">Picture in Picture</option>
-    </select>
+<!-- === Settings Popup Modal === -->
+<div id="settingsOverlay" class="modal-overlay">
+  <div id="settingsPopup" class="settings-popup" tabindex="-1">
+    <span id="closeSettingsBtn" class="close-btn">&times;</span>
+    <h2 tabindex="0" data-i18n="settings">Setări</h2>
+    <div class="settings-content">
+      <div class="settings-labels column-1">
+        <div class="settings-group">
+          <label class="settings-label" for="contrastToggle" data-i18n="high_contrast">Contrast ridicat</label>
+          <input type="checkbox" id="contrastToggle" class="settings-checkbox" />
+          <span class="settings-toggle"></span>
+        </div>
+        <div class="settings-group">
+          <label class="settings-label" for="themeToggle" data-i18n="dark_mode">Mod întunecat</label>
+          <input type="checkbox" id="themeToggle" class="settings-checkbox" />
+          <span class="settings-toggle"></span>
+        </div>
+        <div class="settings-group">
+          <label class="settings-label" for="debugToggle" data-i18n="debug_panel">Arată panou debug</label>
+          <input type="checkbox" id="debugToggle" class="settings-checkbox" />
+          <span class="settings-toggle"></span>
+        </div>
+        <div class="settings-group">
+          <label class="settings-label" for="particlesToggle" data-i18n="particles">Arată particule</label>
+          <input type="checkbox" id="particlesToggle" class="settings-checkbox" />
+          <span class="settings-toggle"></span>
+        </div>
+        <div class="settings-group">
+          <label class="settings-label" for="videoPlaybackSelect" data-i18n="video">Video</label>
+<select id="videoPlaybackSelect" class="settings-dropdown" name="videoPlayback">
+  <option value="play" data-i18n="video_play">Rulează în fundal</option>
+  <option value="pause" data-i18n="video_pause">Oprește</option>
+  <option value="pip" data-i18n="video_pip">Picture in Picture</option>
+</select>
+
+        </div>
+      </div>
+      <div class="settings-labels column-2">
+        <div class="settings-group">
+<label class="settings-label" for="lang-dropdown" data-i18n="language">Limba</label>
+<select id="lang-dropdown" class="settings-dropdown" name="lang-dropdown">
+  <option value="ro">Română</option>
+  <option value="en">English</option>
+  <option value="de">Deutsch</option>
+</select>
+
+        </div>
+        <div class="settings-group">
+          <label class="settings-label" for="dyslexiaToggle" data-i18n="dyslexia">Mod Dislexie</label>
+          <input type="checkbox" id="dyslexiaToggle" class="settings-checkbox" />
+          <span class="settings-toggle"></span>
+        </div>
+        <div class="settings-group">
+          <label class="settings-label" for="sidebarOpenToggle" data-i18n="sidebar_open">Meniu deschis</label>
+          <input type="checkbox" id="sidebarOpenToggle" class="settings-checkbox" />
+          <span class="settings-toggle"></span>
+        </div>
+        <div class="settings-group">
+          <label class="settings-label" for="fontStyleSelect" data-i18n="font_style">Stil font</label>
+<select id="fontStyleSelect" class="settings-dropdown" name="fontStyle">
+  <option value="font-default" data-i18n="font_standard">Standard</option>
+  <option value="font-dyslexia" data-i18n="font_dyslexia">Dislexie</option>
+  <option value="font-readable" data-i18n="font_readable">Lizibil</option>
+</select>
+
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<div class="settings-labels column-2">
-  <div class="settings-group">
-    <label class="settings-label" for="dyslexiaToggle">Mod Dislexie</label>
-    <input type="checkbox" id="dyslexiaToggle" class="settings-checkbox" />
-    <span class="settings-toggle"></span>
-  </div>
-  <div class="settings-group">
-    <label class="settings-label" for="sidebarOpenToggle">Sidebar deschis</label>
-    <input type="checkbox" id="sidebarOpenToggle" class="settings-checkbox" />
-    <span class="settings-toggle"></span>
-  </div>
-  <div class="settings-group">
-    <label class="settings-label" for="fontStyleSelect">Stil font</label>
-    <select id="fontStyleSelect" class="settings-dropdown" name="fontStyle">
-      <option value="font-default">Standard</option>
-      <option value="font-dyslexia">Dislexie</option>
-      <option value="font-readable">Lizibil</option>
-    </select>
-  </div>
-  <!-- Add an empty group for visual balance if you want: -->
-  <div class="settings-group" style="opacity:0;pointer-events:none;"><!-- Filler --></div>
-</div>
+
+
 
 
       </div>
@@ -558,5 +614,6 @@
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="scripts.js"></script>
+  <script src="translate.js"></script>
 </body>
 </html>

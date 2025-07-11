@@ -575,36 +575,6 @@ img.centered-image {
               0 0 0 2.5px var(--color-bg, #fff) inset;
 }
 
-/* Refresh button (⟳) */
-.leaflet-control-refresh {
-  background: #fff !important;
-  border: 1px solid #111 !important;
-  border-radius: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin-top: -1px;
-  transition: background 0.18s, border 0.18s;
-}
-.leaflet-control-refresh span {
-  color: #111 !important;
-  font-size: 1.5em;
-  font-weight: bold;
-  line-height: 1;
-  pointer-events: none;
-}
-.leaflet-control-refresh:hover {
-  background: #f4f4f4 !important;
-  border-color: #111 !important;
-}
-.leaflet-control-refresh:hover span {
-  color: #111 !important;
-}
-
 /* Marker tinting (Mongol red accent) */
 .leaflet-marker-icon {
   filter: invert(23%) sepia(85%) saturate(5000%) hue-rotate(-12deg) brightness(1.13);
@@ -1115,26 +1085,7 @@ body.dark-mode .videoContainer {
   transform: translateX(-50%);
 }
 
-/* Close button */
-.close-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 2rem;
-  background: transparent;
-  border: none;
-  color: var(--color-accent);
-  cursor: pointer;
-  font-weight: bold;
-  line-height: 1;
-  transition: color 0.2s ease;
-  z-index: 2;
-}
-.close-btn:hover,
-.close-btn:focus {
-  color: var(--color-accent-hover);
-  outline: none;
-}
+
 
 .settings-content {
   display: grid;
@@ -2012,36 +1963,7 @@ body.dark-mode .videoContainer {
 }
 
 /* Mobile Map Close Button (same style as refresh) */
-#mobileMapHolder .map-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 32px;
-  height: 32px;
-  background: #fff !important;
-  color: #111 !important;
-  border: 1.5px solid #111 !important;
-  border-radius: 8px;
-  font-size: 1.6em;
-  font-weight: bold;
-  line-height: 1;
-  cursor: pointer;
-  z-index: 2020;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px #0002;
-  transition: background 0.18s, color 0.15s, border-color 0.15s;
-  opacity: 0.96;
-  padding: 0;
-}
-#mobileMapHolder .map-close-btn:active,
-#mobileMapHolder .map-close-btn:hover {
-  background: #faf8f7 !important;
-  color: var(--color-accent) !important;
-  border-color: var(--color-accent) !important;
-  opacity: 1;
-}
+
 
 @media (max-width: 900px) {
   #fabMeniu {
@@ -2089,4 +2011,59 @@ body.dark-mode .videoContainer {
     overflow-x: hidden;
     box-sizing: border-box;
   }
+}
+
+.fab-actions .fab-action {
+  display: none;
+}
+.fab-container.active .fab-actions .fab-action {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+@media (max-width: 900px) {
+  .mobile-ribbon-btn.active,
+  .mobile-ribbon-btn.selected,
+  .mobile-ribbon-btn:active,
+  .mobile-ribbon-btn:focus {
+    background: none !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  .mobile-ribbon-btn {
+    background: none !important;
+    color: white!important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mobile map: custom close & refresh controls to match built-in Leaflet controls */
+.leaflet-control-closemap,
+.leaflet-control-refreshmap {
+  background: #fff !important;
+  color: #222 !important;               /* Black icon/text */
+  border-radius: 4px !important;        /* Subtle corners */
+  border: 1.5px solid #bbb !important;  /* Soft grey outline */
+  box-shadow: 0 1px 2px #0001;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px;
+  opacity: 1;
+  font-size: 1.3em;
+  font-weight: bold;
+  transition: background 0.13s, color 0.11s, border-color 0.13s;
+}
+
+.leaflet-control-closemap:hover,
+.leaflet-control-refreshmap:hover {
+  background: #ededed !important;   /* Just a faint grey */
+  color: #222 !important;           /* Always black icon/text */
+  border-color: #bbb !important;    /* Border stays grey */
 }

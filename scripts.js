@@ -611,15 +611,26 @@ function initMap() {
   }
 
   // Sidebar TOC link logic
-  function updateActiveLink(activeId) {
-    document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
-      if (link.dataset.loc === activeId) {
-        link.classList.add("active-link");
-      } else {
-        link.classList.remove("active-link");
-      }
-    });
-  }
+function updateActiveLink(activeId) {
+  // Desktop (sidebar) TOC
+  document.querySelectorAll(".dropdown-content a[data-loc]").forEach(link => {
+    if (link.dataset.loc === activeId) {
+      link.classList.add("active-link");
+    } else {
+      link.classList.remove("active-link");
+    }
+  });
+  // Mobile TOC: uses href (not data-loc)
+  document.querySelectorAll("#mobileTocDropdown a").forEach(link => {
+    const linkTarget = link.getAttribute("href")?.replace(/^#/, "");
+    if (linkTarget === activeId) {
+      link.classList.add("active-link");
+    } else {
+      link.classList.remove("active-link");
+    }
+  });
+}
+
   window.updateActiveLink = updateActiveLink;
 
   // Handle TOC clicks
@@ -1817,6 +1828,11 @@ function setupMobileRibbon() {
     tocBtn.onclick = function(e) {
       e.stopPropagation();
       tocDropdown.classList.toggle('open');
+      // --- NEW: close settings modal if open (on mobile only) ---
+      if (window.innerWidth <= 900 && settingsOverlay) {
+        settingsOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }
     };
     // Clicking anywhere else closes the dropdown
     document.addEventListener('click', function(e) {
@@ -1852,6 +1868,10 @@ function setupMobileRibbon() {
       e.stopPropagation();
       settingsOverlay.style.display = 'flex';
       document.body.style.overflow = 'hidden';
+      // --- NEW: close TOC dropdown if open (on mobile only) ---
+      if (window.innerWidth <= 900 && tocDropdown) {
+        tocDropdown.classList.remove('open');
+      }
     };
     // Close on clicking overlay background or X
     settingsOverlay.onclick = function(e) {

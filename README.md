@@ -16,6 +16,9 @@ TBA
 
 ## Changelog
 
+**1.0.17**
+- suport multi-lingvistic
+
 **1.0.16**
 - implementare meniu specific mobil & funcții
 - reiterare funcții butoane dispozitiv mobil

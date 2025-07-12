@@ -18,6 +18,7 @@ TBA
 
 **1.0.17**
 - suport multi-lingvistic
+- rescriere text
 
 **1.0.16**
 - implementare meniu specific mobil & funcții

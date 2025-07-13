@@ -17,7 +17,7 @@ let particlesVisible = true;
 const TEXT_SECTIONS = [
   "acasa", "prolog", "kulikovo", "kalka", "tokhtamysh", "moscova", "razboi",
   "kondurcha", "terek", "vorskla", "declin", "dezintegrare", "lipnic", "sfarsit", "ultimul",
-  "recomandari", "bibliografie", "note"
+  "recomandari", "bibliografie", "note", "quiz"
 ];
 
 // MAP LOCATIONS
@@ -40,7 +40,8 @@ const locations = {
   note:         { coords: [44, 41]},
   recomandari:  { coords: [44, 41]},
   galerie:      { coords: [44, 41]},
-  bibliografie: { coords: [44,      41]},
+  bibliografie: { coords: [44, 41]},
+  quiz: { coords: [44, 41]},
 };
 
 if ('scrollRestoration' in history) {
@@ -527,7 +528,7 @@ function initImagePopups() {
 }
 
 const NO_MAP_SECTIONS = [
-  "principal", "recomandari", "galerie", "bibliografie", "note"
+  "principal", "recomandari", "galerie", "bibliografie", "note", "quiz"
 ];
 
 /* LEAFLET MAP (with TOC sync) */
@@ -1922,6 +1923,660 @@ function ensureMapCloseBtn() {
   };
   mapHolder.appendChild(btn);
 }
+
+const quizQuestions = [
+  // 1. SINGLE CHOICE
+  {
+    id: 'founder',
+    type: 'single',
+    question: {
+      ro: "Cine a fost fondatorul Hoardei de Aur?",
+      en: "Who was the founder of the Golden Horde?",
+      de: "Wer war der Gründer der Goldenen Horde?"
+    },
+    options: {
+      ro: ["Uzbeg Han", "Batu Han", "Mamai", "Tokhtamysh"],
+      en: ["Uzbeg Khan", "Batu Khan", "Mamai", "Tokhtamysh"],
+      de: ["Usbek Khan", "Batu Khan", "Mamai", "Tokhtamysh"]
+    },
+    correct: [1],
+    explanation: {
+      ro: "Batu Han a fondat Hoarda de Aur după moartea lui Ginghis Han.",
+      en: "Batu Khan founded the Golden Horde after Genghis Khan's death.",
+      de: "Batu Khan gründete die Goldene Horde nach dem Tod von Dschingis Khan."
+    }
+  },
+  // 2. MULTIPLE SELECT (TRICKY/NOT)
+  {
+    id: 'not_territory',
+    type: 'multi',
+    question: {
+      ro: "Care din următoarele NU a făcut parte din teritoriul Hoardei de Aur la apogeu?",
+      en: "Which of the following was NOT part of the Golden Horde's territory at its peak?",
+      de: "Welches der folgenden Gebiete gehörte NICHT zum Territorium der Goldenen Horde auf ihrem Höhepunkt?"
+    },
+    options: {
+      ro: ["Siberia", "Europa de Est", "Asia Centrală", "Japonia", "Munții Urali"],
+      en: ["Siberia", "Eastern Europe", "Central Asia", "Japan", "Ural Mountains"],
+      de: ["Sibirien", "Osteuropa", "Zentralasien", "Japan", "Uralgebirge"]
+    },
+    correct: [3], // Japan
+    explanation: {
+      ro: "Hoarda de Aur nu a controlat niciodată Japonia.",
+      en: "The Golden Horde never controlled Japan.",
+      de: "Die Goldene Horde kontrollierte niemals Japan."
+    }
+  },
+  // 3. DROPDOWN
+  {
+    id: 'lipnic',
+    type: 'dropdown',
+    question: {
+      ro: "Bătălia de la Lipnic (1470) a fost importantă pentru că:",
+      en: "The Battle of Lipnic (1470) was significant because:",
+      de: "Die Schlacht bei Lipnic (1470) war wichtig, weil:"
+    },
+    options: {
+      ro: [
+        "Mongolii au cucerit Moscova",
+        "Moldovenii au oprit incursiunile tătarilor",
+        "Timur l-a învins pe Tokhtamysh",
+        "A marcat sfârșitul Hoardei de Aur"
+      ],
+      en: [
+        "The Mongols conquered Moscow",
+        "Moldavians stopped Tatar raids",
+        "Timur defeated Tokhtamysh",
+        "It marked the end of the Golden Horde"
+      ],
+      de: [
+        "Die Mongolen eroberten Moskau",
+        "Die Moldauer stoppten tatarische Überfälle",
+        "Timur besiegte Tokhtamysh",
+        "Es markierte das Ende der Goldenen Horde"
+      ]
+    },
+    correct: [1],
+    explanation: {
+      ro: "Victoria moldovenilor a oprit pentru o perioadă incursiunile tătărești.",
+      en: "The Moldavian victory halted Tatar raids for a time.",
+      de: "Der moldauische Sieg stoppte die tatarischen Überfälle für eine Zeit."
+    }
+  },
+  // 4. TRUE/FALSE
+  {
+    id: 'tokhtamysh_unite',
+    type: 'tf',
+    question: {
+      ro: "Adevărat sau fals: Tokhtamysh a fost primul han după două decenii care a condus ambele jumătăți ale Hoardei de Aur.",
+      en: "True or False: Tokhtamysh was the first khan in over two decades to rule both halves of the Golden Horde.",
+      de: "Wahr oder falsch: Tokhtamysh war der erste Khan seit über zwanzig Jahren, der beide Hälften der Goldenen Horde regierte."
+    },
+    correct: true,
+    explanation: {
+      ro: "Tokhtamysh a reunificat aripa estică și vestică a Hoardei.",
+      en: "Tokhtamysh reunited both the eastern and western wings of the Horde.",
+      de: "Tokhtamysh vereinigte den östlichen und westlichen Flügel der Horde."
+    }
+  },
+  // 5. MULTIPLE SELECT
+  {
+    id: 'timur_consequence',
+    type: 'multi',
+    question: {
+      ro: "Selectează toate consecințele războaielor lui Timur împotriva Hoardei de Aur:",
+      en: "Select all that were consequences of Timur's wars against the Golden Horde:",
+      de: "Wähle alle Konsequenzen der Kriege von Timur gegen die Goldene Horde aus:"
+    },
+    options: {
+      ro: ["Fragmentarea Hoardei de Aur", "Declinul puterii mongole", "Ascensiunea lui Tokhtamysh", "Victoria de la Lipnic"],
+      en: ["The fragmentation of the Golden Horde", "The decline of Mongol power", "The rise of Tokhtamysh", "Victory at Lipnic"],
+      de: ["Fragmentierung der Goldenen Horde", "Niedergang der mongolischen Macht", "Aufstieg von Tokhtamysh", "Sieg bei Lipnic"]
+    },
+    correct: [0,1],
+    explanation: {
+      ro: "Războaiele cu Timur au dus la fragmentare și declinul Hoardei.",
+      en: "Timur's wars caused the fragmentation and decline of the Horde.",
+      de: "Timurs Kriege führten zur Fragmentierung und zum Niedergang der Horde."
+    }
+  },
+  // 6. SINGLE CHOICE (TRICKY)
+  {
+    id: 'not_successor',
+    type: 'single',
+    question: {
+      ro: "Care dintre următoarele NU a fost un hanat apărut pe ruinele Hoardei de Aur?",
+      en: "Which of the following was NOT a khanate that emerged after the Golden Horde's disintegration?",
+      de: "Welches der folgenden war KEIN Nachfolgestaat der Goldenen Horde?"
+    },
+    options: {
+      ro: ["Hanatul Crimeei", "Hanatul Kazanului", "Hanatul Astrahanului", "Ilhanatul"],
+      en: ["Crimean Khanate", "Kazan Khanate", "Astrakhan Khanate", "Ilkhanate"],
+      de: ["Krim-Khanat", "Kasan-Khanat", "Astrachan-Khanat", "Ilchanat"]
+    },
+    correct: [3],
+    explanation: {
+      ro: "Ilhanatul a fost un stat separat, nu succesor al Hoardei de Aur.",
+      en: "The Ilkhanate was a separate state, not a successor of the Golden Horde.",
+      de: "Das Ilchanat war ein separater Staat, nicht Nachfolger der Goldenen Horde."
+    }
+  },
+  // 7. DROPDOWN
+  {
+    id: 'great_stand_river',
+    type: 'dropdown',
+    question: {
+      ro: "Pe ce râu a avut loc Marea Înfruntare de pe Ugra din 1480?",
+      en: "On which river did the Great Stand of 1480 take place?",
+      de: "An welchem Fluss fand das Große Stehen von 1480 statt?"
+    },
+    options: {
+      ro: ["Don", "Ugra", "Volga", "Dniepr"],
+      en: ["Don", "Ugra", "Volga", "Dnieper"],
+      de: ["Don", "Ugra", "Wolga", "Dnepr"]
+    },
+    correct: [1],
+    explanation: {
+      ro: "Marea Înfruntare de pe Ugra a avut loc pe râul Ugra.",
+      en: "The Great Stand was on the Ugra River.",
+      de: "Das Große Stehen fand an der Ugra statt."
+    }
+  },
+  // 8. TRUE/FALSE (TRICKY)
+  {
+    id: 'ilkhanate_tf',
+    type: 'tf',
+    question: {
+      ro: "Adevărat sau fals: Ilhanatul a fost creat pe ruinele Hoardei de Aur.",
+      en: "True or False: The Ilkhanate was created on the ruins of the Golden Horde.",
+      de: "Wahr oder falsch: Das Ilchanat entstand auf den Trümmern der Goldenen Horde."
+    },
+    correct: false,
+    explanation: {
+      ro: "Ilhanatul a fost o altă ramură mongolă, nu un stat succesor.",
+      en: "The Ilkhanate was a separate Mongol branch, not a successor.",
+      de: "Das Ilchanat war ein separater Zweig der Mongolen, kein Nachfolger."
+    }
+  },
+  // 9. SHORT TEXT
+  {
+    id: 'khan_exile',
+    type: 'text',
+    question: {
+      ro: "Numește hanul care și-a pierdut autoritatea după invaziile lui Timur și a murit în exil.",
+      en: "Name the khan who lost his authority after Timur's invasions and died in exile.",
+      de: "Nenne den Khan, der nach den Invasionen von Timur seine Macht verlor und im Exil starb."
+    },
+    correct: ["Tokhtamysh", "Tokhtamish", "Toqtamish", "Toqtamysh"],
+    explanation: {
+      ro: "Tokhtamysh a murit în exil după înfrângere.",
+      en: "Tokhtamysh died in exile after defeat.",
+      de: "Tokhtamysh starb nach seiner Niederlage im Exil."
+    }
+  },
+  // 10. MULTIPLE SELECT
+  {
+    id: 'battles_defeat',
+    type: 'multi',
+    question: {
+      ro: "Care din următoarele bătălii au fost pierdute de Hoarda de Aur?",
+      en: "Which of the following battles were defeats for the Golden Horde?",
+      de: "Welche der folgenden Schlachten waren Niederlagen für die Goldene Horde?"
+    },
+    options: {
+      ro: ["Kulikovo", "Kalka (1381)", "Terek", "Lipnic"],
+      en: ["Kulikovo", "Kalka (1381)", "Terek", "Lipnic"],
+      de: ["Kulikowo", "Kalka (1381)", "Terek", "Lipnic"]
+    },
+    correct: [0,2,3],
+    explanation: {
+      ro: "Kulikovo, Terek și Lipnic au fost înfrângeri.",
+      en: "Kulikovo, Terek, and Lipnic were defeats.",
+      de: "Kulikowo, Terek und Lipnic waren Niederlagen."
+    }
+  },
+  // 11. DRAG AND DROP ORDER
+  {
+    id: 'event_order',
+    type: 'order',
+    question: {
+      ro: "Pune în ordine cronologică: fondarea Hoardei de Aur, bătălia de la Kulikovo, invazia lui Timur, dispariția Marii Hoarde.",
+      en: "Arrange in order: founding of the Golden Horde, Battle of Kulikovo, Timur's invasion, disappearance of the Great Horde.",
+      de: "Ordne chronologisch: Gründung der Goldenen Horde, Schlacht bei Kulikowo, Invasion Timurs, Verschwinden der Großen Horde."
+    },
+    options: {
+      ro: [
+        "Fondarea Hoardei de Aur",
+        "Bătălia de la Kulikovo",
+        "Invazia lui Timur",
+        "Dispariția Marii Hoarde"
+      ],
+      en: [
+        "Founding of the Golden Horde",
+        "Battle of Kulikovo",
+        "Timur's invasion",
+        "Disappearance of the Great Horde"
+      ],
+      de: [
+        "Gründung der Goldenen Horde",
+        "Schlacht bei Kulikowo",
+        "Invasion Timurs",
+        "Verschwinden der Großen Horde"
+      ]
+    },
+    correct: [0,1,2,3],
+    explanation: {
+      ro: "Ordinea corectă: fondare, Kulikovo, Timur, dispariție.",
+      en: "Correct order: founding, Kulikovo, Timur, disappearance.",
+      de: "Richtige Reihenfolge: Gründung, Kulikowo, Timur, Verschwinden."
+    }
+  },
+  // 12. SHORT TEXT
+  {
+    id: 'successor_khanate',
+    type: 'text',
+    question: {
+      ro: "Numește un hanat succesor al Hoardei de Aur.",
+      en: "Name one successor khanate of the Golden Horde.",
+      de: "Nenne ein Nachfolgekhanat der Goldenen Horde."
+    },
+    correct: [
+      "Crimeea", "Crimean", "Crimean Khanate", "Hanatul Crimeei",
+      "Kazan", "Kazan Khanate", "Hanatul Kazanului",
+      "Astrakhan", "Astrakhan Khanate", "Hanatul Astrahanului"
+    ],
+    explanation: {
+      ro: "Crimeea, Kazan, Astrahan sunt hanate succesoare.",
+      en: "Crimean, Kazan, Astrakhan are all successor khanates.",
+      de: "Krim, Kasan, Astrachan sind Nachfolgekhanate."
+    }
+  }
+];
+
+(function () {
+  // --- STATE ---
+  const quizContent = document.getElementById('quiz-content');
+  if (!quizContent) return;
+  quizContent.style.minHeight = "390px";
+  quizContent.style.maxWidth = "530px";
+  quizContent.style.margin = "auto";
+  quizContent.style.boxSizing = "border-box";
+
+  // --- TRANSLATION HELPERS ---
+  function t(key, fallback = "") {
+    const lang = typeof getCurrentLanguage === 'function' ? getCurrentLanguage() : 'ro';
+    if (window.translations && window.translations[lang] && window.translations[lang][key]) {
+      return window.translations[lang][key];
+    }
+    return fallback || key;
+  }
+  function td(dict) {
+    const lang = typeof getCurrentLanguage === 'function' ? getCurrentLanguage() : 'ro';
+    return dict[lang] || dict['en'] || Object.values(dict)[0] || '';
+  }
+
+  // --- ICONS ---
+  const ICON_TICK = `<span style="color:#6fda44;font-size:1.2em;vertical-align:-2px;">&#10004;</span>`;
+  const ICON_X    = `<span style="color:#ea4040;font-size:1.2em;vertical-align:-2px;">&#10006;</span>`;
+
+  // --- QUIZ STATE ---
+  let quizState = {
+    started: false,
+    current: 0,
+    answered: 0,
+    correct: 0,
+    answers: Array(quizQuestions.length).fill(null),
+    showResults: false
+  };
+
+  // --- QUIZ RENDERERS ---
+  function renderStart() {
+    quizContent.innerHTML = `
+      <h2 style="text-align:center;" data-i18n="quiz_start">${t('quiz_start','Start Quiz')}</h2>
+      <div class="section-info" style="text-align:center;font-family:var(--font-accent);font-style:italic;font-size:1.06em;margin-bottom:1.15em;opacity:0.76;">
+        ${quizQuestions.length} ${t('quiz_questions','questions')}
+      </div>
+      <button class="btn" id="quizStartBtn" style="display:block;margin:auto;">${t('quiz_start_btn','Start Quiz')}</button>
+    `;
+    document.getElementById('quizStartBtn').onclick = () => {
+      quizState = {
+        started: true,
+        current: 0,
+        answered: 0,
+        correct: 0,
+        answers: Array(quizQuestions.length).fill(null),
+        showResults: false
+      };
+      renderQuiz();
+    };
+  }
+
+  function renderQuiz() {
+    if (quizState.showResults) return renderResults();
+    const q = quizQuestions[quizState.current];
+    let content = `<div class="quiz-question" style="margin-bottom:1em;">
+      <b>${quizState.current + 1}.</b> ${td(q.question)}
+    </div>
+    <form id="quizForm" autocomplete="off" style="min-height:190px;">`;
+
+    // Options rendering by type
+    if (q.type === 'single') {
+      (q.options[getCurrentLanguage()] || q.options['en']).forEach((opt, idx) => {
+        content += `
+          <label class="quiz-opt" data-idx="${idx}" style="display:block;cursor:pointer;padding:6px 0;">
+            <input type="radio" name="answer" value="${idx}" style="margin-right:7px;vertical-align:-2px;">
+            <span>${opt}</span>
+          </label>
+        `;
+      });
+    }
+    if (q.type === 'multi') {
+      (q.options[getCurrentLanguage()] || q.options['en']).forEach((opt, idx) => {
+        content += `
+          <label class="quiz-opt" data-idx="${idx}" style="display:block;cursor:pointer;padding:6px 0;">
+            <input type="checkbox" name="answer" value="${idx}" style="margin-right:7px;vertical-align:-2px;">
+            <span>${opt}</span>
+          </label>
+        `;
+      });
+    }
+    if (q.type === 'dropdown') {
+      content += `<select name="answer" style="width:99%;padding:8px;font-size:1.09em;margin-bottom:0.5em;">
+        <option value="" disabled selected>${t('quiz_select','Select...')}</option>`;
+      (q.options[getCurrentLanguage()] || q.options['en']).forEach((opt, idx) => {
+        content += `<option value="${idx}">${opt}</option>`;
+      });
+      content += `</select>`;
+    }
+    if (q.type === 'tf') {
+      content += `
+        <label class="quiz-opt" data-idx="true" style="display:block;cursor:pointer;padding:6px 0;">
+          <input type="radio" name="answer" value="true" style="margin-right:7px;vertical-align:-2px;">
+          <span>${t('quiz_true','True')}</span>
+        </label>
+        <label class="quiz-opt" data-idx="false" style="display:block;cursor:pointer;padding:6px 0;">
+          <input type="radio" name="answer" value="false" style="margin-right:7px;vertical-align:-2px;">
+          <span>${t('quiz_false','False')}</span>
+        </label>
+      `;
+    }
+    if (q.type === 'text') {
+      content += `<input type="text" name="answer" style="width:98%;padding:8px;font-size:1.1em;" autocomplete="off" placeholder="${t('quiz_input','Answer...')}" />`;
+    }
+    if (q.type === 'order') {
+      const opts = q.options[getCurrentLanguage()] || q.options['en'];
+      let currentOrder = quizState.answers[quizState.current];
+      if (!currentOrder) {
+        currentOrder = opts.map((_, i) => i).sort(() => Math.random() - 0.5);
+        quizState.answers[quizState.current] = currentOrder;
+      }
+      content += `<ul id="dragOrder" style="list-style:none;padding:0;">`;
+      currentOrder.forEach(idx => {
+        content += `<li draggable="true" data-idx="${idx}" class="quiz-draggable" style="background:#23252a;padding:0.5em 1em;margin-bottom:8px;cursor:move;border-radius:9px;">${opts[idx]}</li>`;
+      });
+      content += `</ul><div style="font-size:0.93em;opacity:0.7;">${t('quiz_drag','Drag to reorder.')}</div>`;
+    }
+
+    content += `<div style="margin-top:1.5em;">
+      <button type="submit" class="btn quiz-check-btn" id="quizCheckBtn">${t('quiz_answer_check','Check Answer')}</button>
+    </div>
+    </form>
+    <div class="quiz-stats" style="margin-top:1.5em;opacity:0.7;">
+      <span><b>${quizState.answered}</b> / ${quizQuestions.length} ${t('quiz_answered','answered')}</span>
+      | <span><b>${quizState.correct}</b> / ${quizState.answered || 1} ${t('quiz_correct_cnt','correct')}</span>
+    </div>`;
+
+    quizContent.innerHTML = content;
+    if (q.type === 'order') enableDragOrder();
+
+    document.getElementById('quizForm').onsubmit = function (e) {
+      e.preventDefault();
+      let userAnswer = null;
+      if (q.type === 'single' || q.type === 'dropdown') {
+        userAnswer = Number(this.elements['answer'].value);
+      } else if (q.type === 'multi') {
+        userAnswer = Array.from(this.elements['answer']).filter(x => x.checked).map(x => Number(x.value));
+      } else if (q.type === 'tf') {
+        userAnswer = (this.elements['answer'].value === 'true');
+      } else if (q.type === 'text') {
+        userAnswer = this.elements['answer'].value.trim();
+      } else if (q.type === 'order') {
+        userAnswer = Array.from(document.querySelectorAll('#dragOrder li')).map(li => Number(li.dataset.idx));
+      }
+      showInlineFeedback(q, userAnswer);
+    };
+  }
+
+  function showInlineFeedback(q, userAnswer) {
+    const lang = getCurrentLanguage();
+    let correct = false;
+    if (q.type === 'single' || q.type === 'dropdown') {
+      correct = q.correct.includes(Number(userAnswer));
+    } else if (q.type === 'multi') {
+      const correctSet = new Set(q.correct);
+      const userSet = new Set(userAnswer);
+      correct = userSet.size === correctSet.size && [...userSet].every(x => correctSet.has(x));
+    } else if (q.type === 'tf') {
+      correct = Boolean(userAnswer) === Boolean(q.correct);
+    } else if (q.type === 'text') {
+      const normalized = x => (x + "").toLowerCase().replace(/[^a-zăâîșțöäüß\- ]/gi,'').trim();
+      correct = q.correct.some(ans => normalized(ans) === normalized(userAnswer));
+    } else if (q.type === 'order') {
+      correct = JSON.stringify(userAnswer) === JSON.stringify(q.correct);
+    }
+    if (quizState.answers[quizState.current] === null) quizState.answered++;
+    quizState.answers[quizState.current] = { val: userAnswer, correct };
+    if (correct) quizState.correct++;
+
+    // Mark visually (same as your logic)
+    // ... all the per-type visual feedback from your original code (can be copied as is) ...
+
+    // --- Mark answers visually ---
+    if (['single', 'dropdown'].includes(q.type)) {
+      const optionsEls = quizContent.querySelectorAll('.quiz-opt');
+      optionsEls.forEach(optEl => {
+        const idx = optEl.getAttribute('data-idx');
+        if (Array.isArray(q.correct) && (q.correct.includes(Number(idx)) || q.correct.includes(idx))) {
+          optEl.style.background = '#253a23';
+          optEl.style.color = '#6fda44';
+          if (!optEl.innerHTML.includes(ICON_TICK)) optEl.innerHTML += ICON_TICK;
+        }
+        if (!correct && String(idx) === String(userAnswer)) {
+          optEl.style.background = '#3a2323';
+          optEl.style.color = '#ea4040';
+          if (!optEl.innerHTML.includes(ICON_X)) optEl.innerHTML += ICON_X;
+        }
+      });
+      if (q.type === 'dropdown') {
+        const sel = quizContent.querySelector('select[name="answer"]');
+        if (sel) {
+          if (correct) {
+            sel.style.background = '#253a23';
+            sel.style.color = '#6fda44';
+          } else {
+            sel.style.background = '#3a2323';
+            sel.style.color = '#ea4040';
+            // Show correct answer below
+            let correctIdx = Array.isArray(q.correct) ? q.correct[0] : q.correct;
+            let opts = q.options[lang] || q.options['en'];
+            let correctDiv = document.createElement('div');
+            correctDiv.style.color = "#5dd96c";
+            correctDiv.style.fontSize = "0.98em";
+            correctDiv.style.marginTop = "0.6em";
+            correctDiv.innerHTML = `<b>${t('quiz_right','Correct:')}</b> ${opts[correctIdx]}`;
+            sel.parentNode.appendChild(correctDiv);
+          }
+        }
+      }
+    }
+
+    if (q.type === 'tf') {
+      const optionsEls = quizContent.querySelectorAll('.quiz-opt');
+      optionsEls.forEach(optEl => {
+        const idx = optEl.getAttribute('data-idx');
+        const isCorrect = String(q.correct) === idx;
+        if (isCorrect) {
+          optEl.style.background = '#253a23';
+          optEl.style.color = '#6fda44';
+          if (!optEl.innerHTML.includes(ICON_TICK)) optEl.innerHTML += ICON_TICK;
+        }
+        if (!correct && String(idx) === String(userAnswer)) {
+          optEl.style.background = '#3a2323';
+          optEl.style.color = '#ea4040';
+          if (!optEl.innerHTML.includes(ICON_X)) optEl.innerHTML += ICON_X;
+        }
+      });
+    }
+    if (q.type === 'multi') {
+      const optionsEls = quizContent.querySelectorAll('.quiz-opt');
+      const selected = Array.isArray(userAnswer) ? userAnswer : [];
+      optionsEls.forEach(optEl => {
+        const idx = Number(optEl.getAttribute('data-idx'));
+        if (q.correct.includes(idx)) {
+          optEl.style.background = '#253a23';
+          optEl.style.color = '#6fda44';
+          if (!optEl.innerHTML.includes(ICON_TICK)) optEl.innerHTML += ICON_TICK;
+        }
+        if (selected.includes(idx) && !q.correct.includes(idx)) {
+          optEl.style.background = '#3a2323';
+          optEl.style.color = '#ea4040';
+          if (!optEl.innerHTML.includes(ICON_X)) optEl.innerHTML += ICON_X;
+        }
+      });
+    }
+    if (q.type === 'text') {
+      const inp = quizContent.querySelector('input[name="answer"]');
+      inp.style.background = correct ? '#253a23' : '#3a2323';
+      inp.style.color = correct ? '#6fda44' : '#ea4040';
+      inp.value = inp.value + ' ' + (correct ? '✔️' : '✖️');
+      if (!correct) {
+        let correctStr = Array.isArray(q.correct) ? q.correct[0] : q.correct;
+        let correctDiv = document.createElement('div');
+        correctDiv.style.color = "#5dd96c";
+        correctDiv.style.fontSize = "0.98em";
+        correctDiv.style.marginTop = "0.6em";
+        correctDiv.innerHTML = `<b>${t('quiz_right','Correct:')}</b> ${correctStr}`;
+        inp.parentNode.appendChild(correctDiv);
+      }
+    }
+    if (q.type === 'order') {
+      const lis = quizContent.querySelectorAll('#dragOrder li');
+      if (correct) {
+        lis.forEach(li => { li.style.background = '#253a23'; li.style.color = '#6fda44'; });
+        lis[0].innerHTML += ICON_TICK;
+      } else {
+        lis.forEach(li => { li.style.background = '#3a2323'; li.style.color = '#ea4040'; });
+        lis[0].innerHTML += ICON_X;
+        const langOrder = q.options[lang] || q.options['en'];
+        let correctText = q.correct.map(idx => langOrder[idx]).join(' → ');
+        let correctDiv = document.createElement('div');
+        correctDiv.style.color = "#5dd96c";
+        correctDiv.style.fontSize = "0.98em";
+        correctDiv.style.marginTop = "0.6em";
+        correctDiv.innerHTML = `<b>${t('quiz_order','Correct order:')}</b> ${correctText}`;
+        lis[lis.length - 1].parentNode.appendChild(correctDiv);
+      }
+    }
+
+    // Explanation
+    let exp = q.explanation && (q.explanation[lang] || q.explanation['en']) || "";
+    let explEl = document.createElement('div');
+    explEl.style.marginTop = "1em";
+    explEl.style.opacity = "0.87";
+    explEl.style.fontSize = "1.05em";
+    explEl.innerHTML = exp;
+    quizContent.querySelector('form').appendChild(explEl);
+
+    // SEPARATOR
+    let sep = document.createElement('hr');
+    sep.className = 'quiz-separator';
+    sep.style.margin = "2em 0 0.7em 0";
+    sep.style.opacity = "0.30";
+    quizContent.querySelector('form').appendChild(sep);
+
+    // Disable all inputs
+    quizContent.querySelectorAll('input, select, button').forEach(inp => inp.disabled = true);
+
+    // Animated timer bar
+    let bar = document.createElement('div');
+    bar.className = "quiz-progress-timer";
+    bar.innerHTML = `<div class="quiz-progress-bar"></div>`;
+    quizContent.querySelector('form').appendChild(bar);
+
+    setTimeout(() => {
+      if (quizState.current + 1 < quizQuestions.length) {
+        quizState.current++;
+        renderQuiz();
+      } else {
+        quizState.showResults = true;
+        renderResults();
+      }
+    }, 2000);
+  }
+
+  function renderResults() {
+    const total = quizQuestions.length;
+    const correct = quizState.correct;
+    quizContent.innerHTML = `
+      <h2 style="font-size:2em;margin-bottom:0.6em;" data-i18n="quiz_result">${t('quiz_result','Result')}</h2>
+      <div style="font-size:1.5em;margin-bottom:1em;"><b>${correct}</b> / ${total} ${t('quiz_correct','correct')}</div>
+      <div style="margin-bottom:1.5em;">${t('quiz_try_text','Want to try again?')}</div>
+      <button class="btn" id="quizRestartBtn">${t('quiz_try_again','Retry')}</button>
+    `;
+    document.getElementById('quizRestartBtn').onclick = () => {
+      quizState = {
+        started: false,
+        current: 0,
+        answered: 0,
+        correct: 0,
+        answers: Array(quizQuestions.length).fill(null),
+        showResults: false
+      };
+      renderQuiz();
+    };
+  }
+
+  function enableDragOrder() {
+    let dragSrcEl = null;
+    const list = document.getElementById('dragOrder');
+    if (!list) return;
+    list.querySelectorAll('li').forEach(li => {
+      li.ondragstart = function (e) {
+        dragSrcEl = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', this.dataset.idx);
+        this.style.opacity = '0.3';
+      };
+      li.ondragend = function () {
+        this.style.opacity = '1';
+      };
+      li.ondragover = function (e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        return false;
+      };
+      li.ondrop = function (e) {
+        e.stopPropagation();
+        if (dragSrcEl !== this) {
+          const parent = this.parentNode;
+          parent.insertBefore(dragSrcEl, this.nextSibling);
+        }
+        return false;
+      };
+    });
+  }
+
+  // --- API FOR TRANSLATE.JS ---
+  window._quizApi = {
+    quizState,
+    renderQuiz,
+    renderStart
+  };
+
+  // Initial render
+  renderStart();
+
+})();
 
 
 // ----------- MAIN BOOTSTRAP -----------

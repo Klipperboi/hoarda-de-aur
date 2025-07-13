@@ -2,135 +2,85 @@
 
 Acesta este un proiect web dedicat prezentării istoriei Hoardei de Aur. Site-ul este construit folosind HTML, CSS și JavaScript și include mai multe secțiuni istorice, videoclipuri integrate, hărți interactive și un sistem de navigare cu sidebar.
 
----
+Testați direct accesând linkul sau scanând codul QR de mai jos:
 
-Testați direct accesând linkul sau scanând codul QR de mai jos:  
+<img src="assets/qr.png" alt="QR code" width="180">
 
-<a href="https://klipperboi.github.io/hoarda-de-aur/"><img src="assets/qr.png" alt="QR code" width="180"></a>  
-[https://klipperboi.github.io/hoarda-de-aur](https://klipperboi.github.io/hoarda-de-aur)
+https://klipperboi.github.io/hoarda-de-aur
 
 ---
 
 ## Caracteristici
-TBA
+
+- Suport multilingv (română, engleză, germană)
+- Secțiuni tematice și cronologie completă, conținut text dinamic
+- Hartă interactivă (Leaflet) cu marcaje și popup-uri traduse
+- Galerie de imagini cu popup și descrieri
+- Chestionar interactiv cu feedback instant, scor live și tipuri variate de întrebări
+- Navigare rapidă: sidebar, dropdown, butoane rapide (FAB)
+- Mod întunecat, contrast ridicat, fonturi pentru dislexie/lizibilitate, setări salvate local
+- Control video avansat: Picture-in-Picture, play/pause în fundal, link sursă extern
+- Efect de particule (opțional, performant inclusiv pe mobil)
+- Bară progres, stats panel și dev tools
+- Tooltip la hover pe note și pe linkuri externe
+- Fără backend sau baze de date, doar fișiere statice
+
+---
+
+## Cum poate fi accesat
+
+- Gratuit, online, pe [GitHub Pages](https://klipperboi.github.io/hoarda-de-aur/)
+- Sau local, deschizând direct `index.html`  
+  (ideal cu un server local:  
+  `python3 -m http.server`  
+  apoi deschizi `http://localhost:8000` în browser)
+
+---
 
 ## Changelog
 
-**1.0.18**
-- adăugare chestionar
+**2.0.3**
+    - Reparat scroll-ul și focusul la quiz pe ecrane mici.
+    - Tooltip-urile la notițe și linkuri externe mai reactive și stabile.
+    - Corectat traduceri lipsă la schimbarea limbii.
+    - *Shameful fix*: am uitat o clasă CSS, prinsă abia după prezentare.
 
-**1.0.17**
-- suport multi-lingvistic
-- rescriere text
+**2.0.0**
+    - Suport complet multilingv pentru întregul site (română, engleză, germană).
+    - Chestionar rescris cu feedback instant, scor live, toate tipurile de întrebări.
+    - Font dislexic, mod contrast, panou de statistici, salvare automată a setărilor.
+    - *Shameful fix*: am lăsat un string hardcodat la quiz, corectat pe fugă.
 
-**1.0.16**
-- implementare meniu specific mobil & funcții
-- reiterare funcții butoane dispozitiv mobil
+**1.9.0**
+    - Recomandări extinse: cărți, filme, podcasturi, citate, personalități.
+    - Galerie cu descrieri și titluri, navigare mai rapidă.
 
-**1.0.15**
-- actualizare design mobil/desktop
+**1.8.0**
+    - Temă light/dark/contrast, comutabilă instant.
+    - Schimbare rapidă de font (standard, lizibil, dislexic), meniu setări reorganizat.
 
-**1.0.14**
-- footer (subsol)
-- actualizare mod întunecat (contrast)
-- actualizare mod contrast
+**1.7.0**
+    - Control video avansat: PiP, pauză automată, play în fundal, link YouTube.
+    - *Shameful fix*: bug la Picture-in-Picture pe Chrome Mobile.
 
-**1.0.13**
-- implementare logică oprire comportament video la oprire video
-- stiluri text
-  - standard
-  - lizibil
-  - dislexic
-- sistem high contrast & features
+**1.6.0**
+    - Scroll și highlight automat pe secțiuni, drop cap la început de text.
+    - Galerie și popup-uri imagini optimizate.
 
-**1.0.12**
-- salvare setări utilizator
-  - buton restaurare setări implicite
-- sidebar (meniu) actualizat
-  - deschis la intrarea pe pagină
-  - setare pentru status
-  - reformatare stil închidere
-  - deschidere la hover
-- reimplementare logică comportament video
+**1.5.0**
+    - Hartă interactivă cu pinuri custom și popup-uri traduse, refresh rapid pe mobil/desktop.
 
-**1.0.11**
-- buton refresh hartă
-- pin custom
-- redefinire frame video (mobil)
+**1.4.0**
+    - Panel dev: “stats for nerds”, debugging rapid, vizualizare live a setărilor.
 
-**1.0.10**
-- implementare sistem locație -> secțiune
-- stilizare, formatare și tooltip la hyperlink (linkuri externe)
-- scroolbar custom
+**1.3.0**
+    - Sidebar și meniu responsive, hover open pe desktop, modal setări pentru mobil.
 
-**1.0.9**
-- reiterare logică scroll & schimbare secțiuni
-- rescriere logică popups imagini, fără overflow
-- sidebar & container scalabile
-- tip device în funcție de dimensiune display (px)
-- modal setări adaptat pentru ecran telefon
-- sidebar adaptat pentru ecran telefon
+**1.2.0**
+    - Stiluri avansate la butoane și titluri, scrollbar custom, popup la notițe.
 
-**1.0.8**
-- secțiuni noi, funcții implementate
-  - recomandări
-    - cărți
-    - filme
-    - podcasturi/videoclipuri
-    - articole
-    - citate
-    - personalități
-  - galerie imagini
-
-**1.0.7**
-- rescriere video, mp4 (files.garden) vs youtube
-- funcții comportament video
-- comportament video
-    - stop la scroll
-    - PiP (Picture in Picture) la scroll
-    - rulează în fundal
-- dev tools
-
-**1.0.6**
-- actualizare debug panel
-- actualizare palete de culori
-- frame pentru video
-- restructurare meniu setări
-    - organizare în coloane
-
-**1.0.5**
-- hyperlink titlu
-- distanță titlu - top bar
-- pop-up setări - stil, highlight
-    - mod
-    - debug panel
-    - particule
-- refacere sistem hartă
-- highlight litere secțiune text
-
-**1.0.4**
-- stil diferit mod luminos/întunecat
-- bară progres
-- refacere sistem particule + canvas
-
-**1.0.3**
-- refacere stocare poziție în pagină
-- "stats for nerds"
-- editare meniu
-- refacere sistem highlight & setare start și destinație la click
-- reimplementare & cizelare hartă:
-  - tranziție între poziții
-  - repoziționare în meniu
-
-**1.0.2**
-- formatare butoane
-- formatare text (font, culoare, stil)
-- stocare poziție în pagină & buton întoarcere la ultima secțiune
-- meniu acțiuni rapide (FAB - Floating Action Buttons)
-
-**1.0.1**
-- păstrare mod + progres în pagină (status utilizator)
-- adăugare "tooltip" și trimitere la secțiunea "Note" la hover resp. click pe note
+**1.1.0**
+    - Scroll pe secțiuni, salvare poziție, meniu acțiuni rapide (FAB), bară progres.
 
 **1.0.0 – Faza Județeană**  
 Prima versiune stabilă, folosită la faza județeană.

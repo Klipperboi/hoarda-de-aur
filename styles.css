@@ -2075,3 +2075,32 @@ body.dark-mode .videoContainer {
     display: none !important;
   }
 }
+
+.quiz-progress-timer {
+  width: 100%;
+  height: 4px;
+  background: #23252a;
+  border-radius: 2px;
+  margin-top: 1.2em;
+  overflow: hidden;
+  position: relative;
+}
+.quiz-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #e8b347 0%, #eac96b 100%);
+  width: 100%;
+  transform: translateX(0%);
+  animation: quizProgressAnim 2s linear forwards;
+}
+@keyframes quizProgressAnim {
+  from { transform: translateX(-100%);}
+  to   { transform: translateX(0);}
+}
+
+#mobileTocDropdown {
+  max-height: 68vh;
+  overflow-y: auto;
+  /* Optional extras for mobile touch */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}

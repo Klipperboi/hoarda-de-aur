@@ -64,6 +64,8 @@ const translations = {
     ultimul_title: "Ultimul Khan",
     ultimul_info: "1 Ianuarie 1502, Kaunas",
     recomandari_title: "Recomandări",
+    toc_quiz: "Chestionar",
+    quiz_title: "Chestionar",
     galerie_title: "Galerie",
     bibliografie_title: "Bibliografie",
     note_title: "Note",
@@ -149,7 +151,31 @@ const translations = {
     fab_top_aria: "Sus",
     fab_last_aria: "Înapoi",
     fab_settings_aria: "Setări",
-    fab_menu_aria: "Meniu"
+    fab_menu_aria: "Meniu",
+
+    quiz_start: "Începe Quiz-ul",
+quiz_questions: "întrebări",
+quiz_start_btn: "Start Quiz",
+quiz_next: "Următoarea",
+quiz_finish: "Finalizare",
+quiz_check: "Verifică răspunsul",
+quiz_result: "Rezultat",
+quiz_score: "corecte",
+quiz_try_again: "Reîncepe",
+quiz_try_text: "Vrei să încerci din nou?",
+quiz_retry: "Reîncepe",
+quiz_correct: "Corect!",
+quiz_wrong: "Greșit!",
+quiz_answered: "răspunsuri",
+quiz_correct_cnt: "corecte",
+quiz_drag: "Trage în ordine corectă.",
+quiz_select: "Alege...",
+quiz_true: "Adevărat",
+quiz_false: "Fals",
+quiz_order: "Ordine corectă:",
+quiz_right: "Corect:",
+quiz_input: "Răspuns...",
+quiz_answer_check:"Verifică răspunsul",
   },
 
   en: {
@@ -276,6 +302,9 @@ const translations = {
     toc_galerie: "Gallery",
     toc_bibliografie: "Bibliography",
     toc_note: "Notes",
+    toc_quiz: "Quiz",
+    quiz_title: "Quiz",
+
 
     // Map entries
     map_acasa: "Home",
@@ -299,7 +328,31 @@ const translations = {
     fab_top_aria: "Top",
     fab_last_aria: "Back",
     fab_settings_aria: "Settings",
-    fab_menu_aria: "Menu"
+    fab_menu_aria: "Menu",
+quiz_start: "Start Quiz",
+quiz_questions: "questions",
+quiz_start_btn: "Start Quiz",
+quiz_next: "Next",
+quiz_finish: "Finish",
+quiz_check: "Check Answer",
+quiz_result: "Result",
+quiz_score: "correct",
+quiz_try_again: "Retry",
+quiz_try_text: "Want to try again?",
+quiz_retry: "Retry",
+quiz_correct: "Correct!",
+quiz_wrong: "Wrong!",
+quiz_answered: "answered",
+quiz_correct_cnt: "correct",
+quiz_drag: "Drag to reorder.",
+quiz_select: "Select...",
+quiz_true: "True",
+quiz_false: "False",
+quiz_order: "Correct order:",
+quiz_right: "Correct:",
+quiz_input: "Answer...",
+quiz_answer_check:"Check Answer",
+
   },
 
   de: {
@@ -425,6 +478,9 @@ const translations = {
     toc_galerie: "Galerie",
     toc_bibliografie: "Bibliographie",
     toc_note: "Anmerkungen",
+    toc_quiz: "Quiz",
+    quiz_title: "Quiz",
+
 
     // Map entries
     map_acasa: "Startseite",
@@ -448,14 +504,39 @@ const translations = {
     fab_top_aria: "Oben",
     fab_last_aria: "Zurück",
     fab_settings_aria: "Einstellungen",
-    fab_menu_aria: "Menü"
+    fab_menu_aria: "Menü",
+quiz_start: "Quiz starten",
+quiz_questions: "Fragen",
+quiz_start_btn: "Quiz starten",
+quiz_next: "Weiter",
+quiz_finish: "Fertigstellen",
+quiz_check: "Antwort prüfen",
+quiz_result: "Ergebnis",
+quiz_score: "richtig",
+quiz_try_again: "Nochmal",
+quiz_try_text: "Möchten Sie es noch einmal versuchen?",
+quiz_retry: "Nochmal",
+quiz_correct: "Richtig!",
+quiz_wrong: "Falsch!",
+quiz_answered: "Antworten",
+quiz_correct_cnt: "korrekt",
+quiz_drag: "Ziehen Sie die Einträge in die richtige Reihenfolge.",
+quiz_select: "Wähle...",
+quiz_true: "Wahr",
+quiz_false: "Falsch",
+quiz_order: "Richtige Reihenfolge:",
+quiz_right: "Richtig:",
+quiz_input: "Antwort...",
+quiz_answer_check:"Antwort prüfen",
+
   }
 };
 
+// 1. Update all static UI texts and ARIA labels
 function updateStaticUiTexts() {
   const currentLang = getCurrentLanguage();
 
-  // Translate all data-i18n
+  // All labels with data-i18n
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (translations[currentLang] && translations[currentLang][key]) {
@@ -490,7 +571,7 @@ function updateStaticUiTexts() {
     fabMeniu.title = translations[currentLang].fab_menu_aria;
   }
 
-  // Set page <title> dynamically, just project name, fallback if missing
+  // Set page <title>
   document.title = translations[currentLang]?.page_title || "Hoarda de Aur";
 }
 
@@ -498,7 +579,7 @@ function updateStaticUiTexts() {
 function setLanguage(lang) {
   localStorage.setItem('uiLang', lang);
 
-  // All static labels with data-i18n
+  // All static labels
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (translations[lang] && translations[lang][key]) {
@@ -526,9 +607,20 @@ function setLanguage(lang) {
       opts[2].text = translations[lang].font_readable;
     }
   }
-    if (window.updateMapPopups) window.updateMapPopups();
-    if (window.initTextSections) window.initTextSections();
-    updateStaticUiTexts();
+  if (window.updateMapPopups) window.updateMapPopups();
+  if (window.initTextSections) window.initTextSections();
+  updateStaticUiTexts();
+
+  // --- QUIZ: Live re-render on language switch ---
+  if (window._quizApi) {
+    // If quiz started, rerender the current screen (question/results)
+    if (window._quizApi.quizState && window._quizApi.quizState.started) {
+      window._quizApi.renderQuiz();
+    } else {
+      // If quiz not started, rerender the start screen
+      window._quizApi.renderStart && window._quizApi.renderStart();
+    }
+  }
 }
 
 // 3. On page load and on dropdown change
@@ -544,11 +636,12 @@ document.addEventListener('DOMContentLoaded', function() {
   setLanguage(savedLang);
 });
 
-// (Optional utility)
+// 4. Utility: get current language (safe fallback)
 function getCurrentLanguage() {
   return localStorage.getItem('uiLang') || 'ro';
 }
 
-// Expose if you want to call from other scripts
+// --- Expose globally! ---
+window.translations = translations;
 window.setLanguage = setLanguage;
 window.getCurrentLanguage = getCurrentLanguage;

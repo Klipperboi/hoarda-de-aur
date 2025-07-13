@@ -16,6 +16,9 @@ TBA
 
 ## Changelog
 
+**1.0.18**
+- adăugare chestionar
+
 **1.0.17**
 - suport multi-lingvistic
 - rescriere text

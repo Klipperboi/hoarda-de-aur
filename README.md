@@ -1,6 +1,6 @@
 # Hoarda de Aur
 
-Acesta este un proiect web dedicat prezentării istoriei Hoardei de Aur. Site-ul este construit folosind HTML, CSS și JavaScript și include mai multe secțiuni istorice, videoclipuri integrate, hărți interactive și un sistem de navigare cu sidebar.
+Hoarda de Aur este o aplicație web interactivă, construită cu HTML, CSS și JavaScript, ce prezintă istoria Hoardei de Aur printr-o interfață modulară și responsivă. Platforma oferă secțiuni dinamice cu încărcare multi-lingvă, navigare avansată (sidebar/cuprins), hărți interactive sincronizate cu conținutul, integrare video YouTube, efecte vizuale personalizabile (inclusiv particule și mod întunecat/luminos), suport pentru fonturi accesibile și un sistem de setări adaptiv pentru desktop și mobil. Toate funcționalitățile sunt gestionate client-side, cu sincronizare automată între secțiuni, hartă și progres, și extensibilitate pentru viitoare module interactive (quiz, galerie, etc.).
 
 ---
 
